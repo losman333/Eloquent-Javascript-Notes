@@ -26,7 +26,22 @@
 /* 
 Being able to pass functions values to other function is a usefull aspect of Javascript
 
-Array provide useful highe-methods test
+Arrays provide useful higher-order methods
+
+    forEach to loop over the elements in an array
+
+    filter return a new array containgin only the elements
+    in an array
+
+    map
+
+    reduce
+
+    some
+
+    findIndex
+
+
 
 */
 
