@@ -26,7 +26,7 @@
 /* 
 Being able to pass functions values to other function is a usefull aspect of Javascript
 
-Array provide useful highe-methods
+Array provide useful highe-methods test
 
 */
 
