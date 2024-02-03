@@ -1,5 +1,7 @@
 // Abstraction //
 
+
+
 //Abstraction Repetition//
 
 //Higher Order Functions //
@@ -19,6 +21,14 @@
 // Recognizing test //
 
 // Summary //
+
+// Being able to pass function values to other function values is a very usefull features//
+/* 
+Being able to pass functions values to other function is a usefull aspect of Javascript
+
+Array provide useful highe-methods
+
+*/
 
 // Excercises //
 
