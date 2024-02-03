@@ -47,3 +47,9 @@ Arrays provide useful higher-order methods
 
 // Excercises //
 
+
+/* flatten */
+
+//Your own loop
+
+/* dominant writing direction */
