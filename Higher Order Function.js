@@ -13,8 +13,38 @@
 
 
 //Abstraction Repetition//
+/**
+ * common for program to use a loop
+ */
 
+for (let i = 0; i < 10; i++) {
+    console.log(i)
+}
 
+/**
+ * abtract "Doing something N times as a function"
+ * a function that calls console.log N times
+ */
+
+function repeatLog(n){
+    for (let i = 0; i < n; i++) {
+        console.log(i);
+    }
+}
+
+/**
+ * to do something other than logging numbers
+ * doing something represented as a function
+ * functions are just values
+ * pass action as a function value
+ */
+function repeat(n, action) {
+    for (let i = 0; i < n; i++) {
+        action(i);
+    }
+}
+
+repeat(3, console.log);
 //Higher Order Functions //
 
 //Script dataset//
