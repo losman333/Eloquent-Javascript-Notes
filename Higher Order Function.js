@@ -45,15 +45,113 @@ function repeat(n, action) {
 }
 
 repeat(3, console.log);
-//Higher Order Functions //
+
+/**
+ * pg 130
+ * Don't pass a predifined function to repeat
+ * create a function value on the spot instead  
+ */
+
+let labels = [];
+/** written like a for loop */
+repeat(5, i => {
+    /* body written as a function value
+    wrapped in the parentheses of the call to repeat
+    has to be closed with the closing brace and closing
+    parenthesis
+    */
+    labels.push('Unit ${i + 1}');
+    //where body is a single small expression you could also omit the 
+    //braces and write loop on a single line
+});
+console.log(labels);
+
+Higher Order Functions
+
+/** 
+ * what is a high order function?
+ * 
+ * functions that operate on other functions
+ * by taking as arguements or returning them
+ * 
+ * reason for using them?
+ * allows you to abstract over actions not just values.
+ * come in several forms.
+ * 
+ * you can have funtions that create functions
+ */
+function greaterThan(n) {
+    return m => m > n;
+}
+let greaterThan10 = greaterThan(10);
+console.log(greaterThan10(11));
+
+/** functions that change other functions
+ * 
+ */
+
+function noisy(f) {
+    return (..args) => {
+        console.log("calling with", args);
+        let result = f(...args);
+        console.log("called with", args, ", returned", result);
+        return result;
+    };
+}
+noisy(Math.min)(3, 2, 1);
+
+/**
+ * functions that provide new types of control flow
+ */
+
+function unless(test, then) {
+    if (!test) then();
+}
+
+repeat(3, n => {
+    unless(n % 2 == 1, () => {
+        console.log(n, "is even");
+    });
+});
+
+/**
+ * A built-in array method, forEach 
+ * provides li a for loop as a higher-order func
+ */
+
+["A", "B"].forEach(1 => console.log)
 
 //Script dataset//
+/** Where are higher-order functions good to use
+ * 
+ * Data processing
+ * 
+ * This chapter will use a data set about scripts Lating
+ * cyrillic, or Arabic
+ * 
+ * Unicode assigns number to each character in written language
+ * most characters are associated with a specific script
+ * standard contains 140 different scripts-81 still used 59 historic
+ * 
+ *the bindings contain an array of objects which describes a script
+ */
 
 //Filtering Arrays//
 
+/**
+ * to find script in data set that are still in use
+ */
 //transforming with map//
 
+/**
+ * map method transforms an array by applying a function to all
+ * its elements and building a new array from returned values.
+ */
+
 // summarizing with reduce //
+/**
+ * 
+ */
 
 // Composability //
 
