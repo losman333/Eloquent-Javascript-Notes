@@ -17,9 +17,15 @@
  * common for program to use a loop
  */
 
+<<<<<<< HEAD
+
+
+//Higher Order Functions //
+=======
 for (let i = 0; i < 10; i++) {
     console.log(i)
 }
+>>>>>>> 6b34f1eafb4fb8a26513c6ff88b23a73da5a6cb7
 
 /**
  * abtract "Doing something N times as a function"
@@ -165,8 +171,25 @@ repeat(3, n => {
 /* 
 Being able to pass functions values to other function is a usefull aspect of Javascript
 
+<<<<<<< HEAD
+Array provide useful highe-methods methods 
+=======
 Arrays provide useful higher-order methods
+>>>>>>> 6b34f1eafb4fb8a26513c6ff88b23a73da5a6cb7
 
+<<<<<<< HEAD
+filter method?
+
+combine all elements of an array?
+
+How to transform arrays?
+
+sume method tests an element?
+
+find index finds?
+
+
+=======
     forEach to loop over the elements in an array
 
     filter return a new array containgin only the elements
@@ -182,10 +205,15 @@ Arrays provide useful higher-order methods
 
 
 
+>>>>>>> 6b34f1eafb4fb8a26513c6ff88b23a73da5a6cb7
 */
 
 // Excercises //
+// flattening //
+/* use reduce with concat to flatten an array into single array that has all the elements of the original arrays */
 
+<<<<<<< HEAD
+=======
 
 
 
@@ -231,3 +259,5 @@ write a function that computes the dominant writing direction in a string of tex
 use characterScript
 and countBy functions
 */
+
+>>>>>>> 6b34f1eafb4fb8a26513c6ff88b23a73da5a6cb7
