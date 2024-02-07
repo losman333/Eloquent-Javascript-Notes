@@ -152,11 +152,36 @@ repeat(3, n => {
 /**
  * map method transforms an array by applying a function to all
  * its elements and building a new array from returned values.
+ * new array will have same length as input array
+ * content will have been mapped to a new form by the function
  */
+
+function map(array, transform) {
+    let mapped = [];
+
+    for (let element of array) {
+        mappe.push(transform(element));
+    }
+    return mapped;
+}
 
 // summarizing with reduce //
 /**
+ * compute a single value from array
  * 
+ * summing a collection of numbers is an instance of this
+ * ex finding a script with the most characters
+ * 
+ * what is reduce?
+ * 
+ * a higher order operation that represents a pattern
+ * 
+ * returns a single value element after traversing an array
+ * 
+ * builds a value by repeatedly taking a single element from 
+ * the array and combining it with the current value
+ * 
+ * parameters array, combining function and a start value
  */
 
 // Composability //
@@ -171,13 +196,8 @@ repeat(3, n => {
 /* 
 Being able to pass functions values to other function is a usefull aspect of Javascript
 
-<<<<<<< HEAD
 Array provide useful highe-methods methods 
-=======
-Arrays provide useful higher-order methods
->>>>>>> 6b34f1eafb4fb8a26513c6ff88b23a73da5a6cb7
 
-<<<<<<< HEAD
 filter method?
 
 combine all elements of an array?
@@ -189,23 +209,6 @@ sume method tests an element?
 find index finds?
 
 
-=======
-    forEach to loop over the elements in an array
-
-    filter return a new array containgin only the elements
-    in an array
-
-    map
-
-    reduce
-
-    some
-
-    findIndex
-
-
-
->>>>>>> 6b34f1eafb4fb8a26513c6ff88b23a73da5a6cb7
 */
 
 // Excercises //
