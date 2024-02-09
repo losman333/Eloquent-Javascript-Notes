@@ -162,11 +162,12 @@ function map(array, transform) {
     let mapped = [];
 
     for (let element of array) {
-        map.push(transform(element));
+        mapped.push(transform(element));
     }
     return mapped;
 }
-
+let rtlScripts =  SCRIPTS.filter(s => s.direction == "rtl");
+console.log(map(rtlScripts, s = > s.name));
 // summarizing with reduce //
 /**
  * compute a single value from array
