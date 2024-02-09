@@ -147,6 +147,8 @@ repeat(3, n => {
 /**
  * to find script in data set that are still in use
  */
+
+
 //transforming with map//
 
 /**
@@ -160,7 +162,7 @@ function map(array, transform) {
     let mapped = [];
 
     for (let element of array) {
-        mappe.push(transform(element));
+        map.push(transform(element));
     }
     return mapped;
 }
@@ -215,8 +217,6 @@ find index finds?
 // flattening //
 /* use reduce with concat to flatten an array into single array that has all the elements of the original arrays */
 
-<<<<<<< HEAD
-=======
 
 
 
@@ -263,4 +263,3 @@ use characterScript
 and countBy functions
 */
 
->>>>>>> 6b34f1eafb4fb8a26513c6ff88b23a73da5a6cb7
