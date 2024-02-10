@@ -187,6 +187,15 @@ console.log(map(rtlScripts, s => s.name));
  * parameters array, combining function and a start value
  */
 
+function reduce(array, cobine, start) {
+    let current = start;
+    for (let element of array) {
+        current = combine(current, element);
+    }
+    return current;
+}
+console.log(reduce([1, 2, 3, 4], (a, b) => a + b, 0));
+
 // Composability //
 
 // Strings and character codes //
