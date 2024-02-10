@@ -333,6 +333,11 @@ function countBy(items, groupName) {
     for (let item of items) {
       let name = groupName(item);
       // a function that computes a group name for a given element
+      /**
+       * finds first value for which given function returns true
+       * like indexOf returns -1 when no element found.
+       */
+
       let known = counts.findIndex(c => c.name == name);
       if (known == -1) {
         counts.push({name, count: 1});
@@ -345,16 +350,47 @@ function countBy(items, groupName) {
 /**
  * each names a group and tells number of elements
  */
+
  console.log(countBy([1, 2, 3, 4, 5], n => n > 2));
  // → [{name: false, count: 2}, {name: true, count: 3}]
 
 // what is charCodeAt method??
 //gives a code unit, not full character code
 
-
-
+/**
+ * function first counts characters by name
+ * using characterScript to assign them a name
+ * falling back to the string "none" for 
+ * characters that arent' part of any script
+ */
 
 // Recognizing test //
+function textScripts(text) {
+    let scripts = countBy(text, char => {
+        let script = characterScript(char.codePointAt(0));
+        return script ? script.name : "none";
+        // filter drops the entry for none from resulting array since
+    }).filter(({name}) => name != "none");
+      /**
+     * to compute percentages total number of characters
+     * use reduce
+     */
+    let total = scripts.reduce((n, {count}) => + count, 0);
+    // if no characters are found function returns a specif string
+    if (total == 0) return "No scripts found";
+
+  /**
+   * transforms counting entries into readable strings with map a
+   * combines them with join
+   */
+    return scripts.map(({name, count}) => {
+        return `${Math.round(count * 100 / total)}% ${name}`;
+    }).join(", ");
+}
+
+console.log(textScripts('英国的狗说"woof", 俄罗斯的狗说"тяв"')) ;
+// → 61% Han, 22% Latin, 17% Cyrillic
+
 
 // Summary //
 
