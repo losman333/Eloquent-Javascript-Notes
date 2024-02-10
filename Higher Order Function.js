@@ -326,6 +326,27 @@ console.log(horseShoe.codePointAt(0));
  * one or two code units
  * */ 
 
+//countBy function expects a collection
+function countBy(items, groupName) {
+    let counts = [];
+
+    for (let item of items) {
+      let name = groupName(item);
+      // a function that computes a group name for a given element
+      let known = counts.findIndex(c => c.name == name);
+      if (known == -1) {
+        counts.push({name, count: 1});
+      } else {
+        counts[known].count++;
+      }
+ }
+    return counts;
+  }
+/**
+ * each names a group and tells number of elements
+ */
+ console.log(countBy([1, 2, 3, 4, 5], n => n > 2));
+ // → [{name: false, count: 2}, {name: true, count: 3}]
 
 // what is charCodeAt method??
 //gives a code unit, not full character code
