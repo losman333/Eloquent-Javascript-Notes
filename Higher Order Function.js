@@ -194,7 +194,18 @@ function reduce(array, combine, start) {
     }
     return current;
 }
-console.log(reduce([1, 2, 3, 4], (a, b) => a + b, 0));  ad
+console.log(reduce([1, 2, 3, 4], (a, b) => a + b, 0));  
+
+console.log([1, 2, 3, 4].reduce((a, b) => a + b));
+
+// to reduce twice to find script with most characters//
+
+function characterCount(script) {
+    return script.ranges.reduce((count, [from, to]) => {
+        return count + (to - from);
+
+    }, 0);
+}
 
 
 // Composability //
