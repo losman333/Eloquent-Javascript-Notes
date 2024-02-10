@@ -289,6 +289,50 @@ function characterScript(code) {
 }
 
 console.log(characterScript(121));
+
+// how to get character codes in a string//
+
+/**
+ * strings are encoded as a sequence of 16-bit 
+ * numbers called code units
+ * 
+ * Unicode character wsa initially supposed to fit within 
+ * such a unit which gives 65,000 characters
+ * neet to use more memory per character
+ * 
+ * UTF-16 the format used by JS was invented
+ * describes most common characters using a single 16-bit 
+ * code unit but uses a pair of two such units for others
+ * 
+ * What will happen if your language doesn't use two-unit characters
+ * 
+ * if a program is written with less common chinese characters will break
+ * 
+ * what are the drawbacks of using utf-16 
+ * getting string length and accessing their content
+ * using square brackets, deal only with code units 
+ */
+// Two emoji characters, horse and shoe
+let horseShoe = "🐴👟"; console.log(horseShoe.length);
+// → 4
+console.log(horseShoe[0]);
+// → (Invalid half-character) 
+console.log(horseShoe.charCodeAt(0)); 
+// → 55357 (Code of the half-character) 
+console.log(horseShoe.codePointAt(0));
+/** codePointAt method = give a full Unicode character 
+ * to run over all characters in a string
+ * need to deal with the question of whether a character takes 
+ * one or two code units
+ * */ 
+
+
+// what is charCodeAt method??
+//gives a code unit, not full character code
+
+
+
+
 // Recognizing test //
 
 // Summary //
