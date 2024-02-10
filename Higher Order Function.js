@@ -236,7 +236,7 @@ function average(array) {
 }
 
 console.log(Math.round(average)(
-    SCRIPTS.filter(s => s.lving).map(s => s.year)));
+    SCRIPTS.filter(s => !s.living).map(s => s.year)));
 
 console.log(Math.round(average(SCRIPTS.filter(s => !s.living).map(s => s.year))));
 
@@ -256,9 +256,39 @@ for (let scripts of Scripts) {
 }
 console.log(Math.round(total / count));
 
+// //
+
 //compose operations /
+
 // Strings and character codes //
 
+/**
+ * a use of the data set is figuring out what script a piece of text is using
+ * each script has an array of character code ranges
+ * associated with it
+ * 
+ * given a character code we could use a 
+ * fuction to find corresponding script
+ */
+
+function characterScript(code) {
+    for(let script of SCRIPTS) {
+        /**
+         * some method is another higher-order function
+         * takes a test function 
+         * tells whether that function returns for any
+         * of the elements in the arrays
+         */
+        if( scripts.ranges.some(([from, to]) => {
+
+        })) {
+            return script;
+        }
+    }
+    return null;
+}
+
+console.log(characterScript(121));
 // Recognizing test //
 
 // Summary //
