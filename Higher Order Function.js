@@ -194,7 +194,7 @@ function reduce(array, combine, start) {
     }
     return current;
 }
-console.log(reduce([1, 2, 3, 4], (a, b) => a + b, 0)); 
+console.log(reduce([1, 2, 3, 4], (a, b) => a + b, 0));  ad
 
 
 // Composability //
