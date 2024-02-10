@@ -207,9 +207,56 @@ function characterCount(script) {
     }, 0);
 }
 
+console.log(SCRIPTS.reduce((a, b) => {
+    return characterCount(a) < characterCount(b) ? b : a;
+}));
 
 // Composability //
 
+/**
+ * how to find the biggest script without higher-order functions
+ * 
+ */
+
+let biggest = null;
+for (let scripts of SCRIPTS) {
+    if (biggest == null || 
+        characterCount(biggest) < characterCount(script)) {
+            biggest = script;
+        }
+}
+console.log(biggest);
+
+/**
+ * write code that finds the average of origin for living and dead scripts
+ * in the data set
+ */
+function average(array) {
+    return array.reduce((a,b) => a + b) / array.length;
+}
+
+console.log(Math.round(average)(
+    SCRIPTS.filter(s => s.lving).map(s => s.year)));
+
+console.log(Math.round(average(SCRIPTS.filter(s => !s.living).map(s => s.year))));
+
+/** start with all scripts, filter out the living or dead ones, take the 
+ * years from those, average them
+ * round the results
+ * 
+ * you could write computation as one big loop
+ */
+
+let total = 0, count = 0;
+for (let scripts of Scripts) {
+    if (script.living) {
+        total += script.year;
+        count += 1;
+    }
+}
+console.log(Math.round(total / count));
+
+//compose operations /
 // Strings and character codes //
 
 // Recognizing test //
