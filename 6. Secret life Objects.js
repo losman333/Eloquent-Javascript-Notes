@@ -1,7 +1,13 @@
 
 // Encapsulation
 
-// Methods
+/** Core idea in JS is to divide programs
+ * into smaller pieces
+ * make each responsible for managing its not
+ * 
+ */
+
+// Methods f
 
 // Prototypes
 
