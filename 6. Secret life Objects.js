@@ -96,7 +96,8 @@ function normalize() {
 // Prototypes
 
 let empty = {}; console.log(empty.toString);
- // → function toString()...{} console.log(empty.toString()); 
+ // → function toString()...{} 
+ console.log(empty.toString()); 
  // → [object Object]
 
 /**
@@ -119,6 +120,22 @@ Object.prototype);
 // → true 
 console.log(Object.getPrototypeOf(Object.prototype));
 // → null
+
+/**
+ * Many objects don't directly have Object.prototype
+ * as a prototype
+ * instead has another object that provides 
+ * a different set of default props 
+ * 
+ * functions derive from Function.prototype, 
+ * arrays derrive from Array.prototype
+ */
+
+console.log(Object.getPrototypeOf(Math.max) ==
+Function.prototype);
+// → true console.log(Object.getPrototypeOf([]) ==
+Array.prototype);
+// → true
 
 /**
  * Object.getPrototypeOf returns the prototype of an object.
