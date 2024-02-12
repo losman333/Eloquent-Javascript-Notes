@@ -98,7 +98,7 @@ function normalize() {
 let empty = {}; console.log(empty.toString);
  // → function toString()...{} console.log(empty.toString()); 
  // → [object Object]
- 
+
 /**
  * objects have their own set of properties objects also have prototypes
  * 
@@ -111,27 +111,112 @@ let empty = {}; console.log(empty.toString);
  * its prototype will be
  * searched for the property, then prototype
  * 
+ * Object.prototype is the entity behind all objects
+ */
+
+console.log(Object.getPrototypeOf({}) ==
+Object.prototype);
+// → true 
+console.log(Object.getPrototypeOf(Object.prototype));
+// → null
+
+/**
+ * Object.getPrototypeOf returns the prototype of an object.
  */
 
 // Classes
 
+/**
+ * class defines shape of an object 
+ * what methods and properties it has
+ * such an object is called in instance of a class
+ */
+
 // Class Notation
+
+/**
+ * class keyword starts a class declaration
+ * which can define a constructor and a set of methods
+ * in a single place
+ */
+
+/**
+ * class declarations only allow methods-properties that hold
+ * functions to be added to the prototype
+ */
+
+/**
+ * like function class can be used both in statements and expressions
+ */
+
 
 // Overriding derived properties
 
+/**
+ * when you add a property to an object
+ * property is added to the object itself
+ * property is hidden behind objects own property
+ * if already a property with the same name in the prototype
+ */
+
 // Maps
+
+/**
+ * a map (noun) is a data structure that associates values keys
+ * with other values
+ */
 
 // Polymorphism
 
+/**
+ * when a piece of code written to work with objects
+ * have a certain interface-ex toString method-
+ * any kind of object that happens to support this interface
+ * can be plugged into the code - called polymorphism
+ */
+
 // Symbols
+
+/**
+ * symbols are values created with the Symbol function
+ */
+
 
 // Iterator Interface
 
+/**
+ * an object that provides a second interface, iterator 
+ * when object named with Symbol.iterator symbol is called
+ */
+
 // Getters, Settings, Statics
+
+/**
+ * properties that are accessed directly that hide method calls
+ * and are defined by writing get in front of the method name
+ */
+
+/**
+ * a property written for an object used to set the values 
+ * called a setter
+ */
+
 
 // Inheritance
 
+/**
+ * a prototype the derives from the old prototype 
+ * ( prorpeties and behaviors from old classes )
+ * 
+ * but adss a new definition for the set method
+ */
+
 // Instanceof Operator
+
+/**
+ * instanceOF a binary operator used to know whether an object was derived 
+ * from specific class
+ */
 
 // Summary
 
