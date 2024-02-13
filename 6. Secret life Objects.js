@@ -133,12 +133,37 @@ console.log(Object.getPrototypeOf(Object.prototype));
 
 console.log(Object.getPrototypeOf(Math.max) ==
 Function.prototype);
-// → true console.log(Object.getPrototypeOf([]) ==
+// → true 
+console.log(Object.getPrototypeOf([]) ==
 Array.prototype);
 // → true
 
 /**
+ * 
  * Object.getPrototypeOf returns the prototype of an object.
+ * provides methods like toString
+ * 
+ * use Object.create to create an object with specific
+ * prototype
+ */
+
+let protoRabbit = {
+    //speak(line) is a shorthand way of defning a method
+    // creates a property speak and gives it a function as its value
+    speak(line) {
+        console.log(`The ${this.type} rabbit says '${line}'`);
+    }
+};
+//proto rabbit is a container for properties shared by rabbilts
+let killRabbit = Object.create(protoRabbit);
+//killer rabbit uses shared properties from prototype 
+killerRabbit.type = "killer";
+killerRabbit.speak("SKREE!");
+// the killer rabbit says 'Skree!'
+
+/**
+ * 
+ * contains properties theat apply to itself
  */
 
 // Classes
@@ -152,11 +177,23 @@ Array.prototype);
 // Class Notation
 
 /**
+ * prototypes are a take on oo concept called classes
  * class keyword starts a class declaration
  * which can define a constructor and a set of methods
  * in a single place
+ * 
+ * Instance of a class has to make an object that derives from the 
+ * proper prototype has to have properties
+ * 
+ * constructer creates an instance of a class with proper prototype
+ * with properties of a class
  */
 
+function makeRabbit(type) {
+    let rabbit = Object.create(protoRabbit);
+    rabbit.type = type;
+    return rabbit;
+} 
 /**
  * class declarations only allow methods-properties that hold
  * functions to be added to the prototype
