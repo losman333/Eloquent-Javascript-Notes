@@ -235,6 +235,8 @@ let weirdRabbit = new Rabbit("weird");
  * functions to be added to the prototype
  */
 
+console.log(Object.getPrototypeOf(weirdRabbit) ==
+            Rabbit.prototype);
 /**
  * like function class can be used both in statements and expressions
  */
