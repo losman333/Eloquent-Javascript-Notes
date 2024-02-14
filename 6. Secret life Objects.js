@@ -194,6 +194,42 @@ function makeRabbit(type) {
     rabbit.type = type;
     return rabbit;
 } 
+
+/**
+ * if you put the keyword new in front of function call the 
+ * function is treated as a constructer
+ * oject with the right prototype is created bound to this 
+ * in the function and returend at the end of the function 
+ */
+
+function Rabbit(type) {
+    this.type = type;
+}
+Rabbit.prototype.speak = function(line) {
+    console.log(`The ${this.type} rabbit says '${line}'`);
+};
+
+let weirdRabbit = new Rabbit("weird");
+
+/**
+ * constructors and all functions get a property
+ * named prototype which holds a plain empty
+ * object that derives Object.prototype
+ * 
+ * you can overwrite with new object or add
+ * properties to it
+ * 
+ * Names of Constructers are capitalized 
+ * 
+ * the way prototype is associate with constructer 
+ * ( through prototype property )
+ * vs objects have a prototype
+ * (with Object.getPrototypeOf)
+ * 
+ * prototype of constructor is Function constructors are functions
+ * prototype property holds the prototype property used 
+ * for instances created through it
+ */
 /**
  * class declarations only allow methods-properties that hold
  * functions to be added to the prototype
