@@ -188,6 +188,17 @@ killerRabbit.speak("SKREE!");
  * constructer creates an instance of a class with proper prototype
  * with properties of a class
  */
+class Rabbit {
+    constructor(type) {
+        this.type = type;
+    }
+    speak(line) {
+        console.log(`${this.type} rabbit says '${line}'`);
+    }
+}
+
+let killerRabbit = new Rabbit("killer");
+let blackRabbit = new Rabbit("black")
 
 function makeRabbit(type) {
     let rabbit = Object.create(protoRabbit);
@@ -237,6 +248,9 @@ let weirdRabbit = new Rabbit("weird");
 
 console.log(Object.getPrototypeOf(weirdRabbit) ==
             Rabbit.prototype);
+// true
+console.log(Object.getPrototypeOf(weirdRabbit) ==
+            Rabbit.prototype);
 /**
  * like function class can be used both in statements and expressions
  */
@@ -251,26 +265,150 @@ console.log(Object.getPrototypeOf(weirdRabbit) ==
  * if already a property with the same name in the prototype
  */
 
+Rabbit.prototype.teeth = "small";
+console.log(killerRabbit.teeth);
+// small
+killerRabbit.teeth = "long, sharp, and bloody";
+console.log(killerRabbit.teeth);
+// long, sharp, and bloody
+console.log(blackRabbit.teeth);
+//small
+console.log(Rabbit.prototype.teeth);
+
+/**
+ * Overriding properties can be used to express
+ * exceptional properties in the instances
+ * of a more generic class of objects
+ * 
+ * also used to give the standard function and 
+ * array prototypes a different toString method
+ * than basic object prototype
+ */
+
+console.log(Array.prototype.toString ==
+            Object.prototype.toString);
+// false
+console.log([1, 2].toString());
+// 1, 2   
+
+/** call ing toSTring on an array gives a result
+ * similar to calling .join (", ")
+ * puts commas between the values in the array
+ * Directly calling Object.prototype.toString
+ * with a string produces a different string.
+ * function simply puts the word object and the 
+ * name of type betwee square brackets
+ * 
+ */
+
+console.log(Object.prototype.toString.call([1, 2]));
+// [object Array]
+
+
 // Maps
 
 /**
  * a map (noun) is a data structure that associates values keys
  * with other values
+ * 
+ * used to map names to ages
  */
 
+let ages = {
+    Boris: 39,
+    Lian: 22,
+    Julian: 62
+};
+
+console.log(`Júlia is ${ages["Júlia"]}`);
+// → Júlia is 62
+console.log("Is Jack's age known?", "Jack" in ages); 
+// → Is Jack's age known? false
+console.log("Is toString's age known?", "toString" in ages); 
+// → Is toString's age known? true
+
+/**
+ * pass null to Object.create
+ */
+
+console.log("toString" in Object.create(null));
+// false
+
+/**
+ * objects keys can't be converted to strings
+ * can't use object as a map
+ * 
+ * class Map stores a mapping and allows any type of keys
+ */
+
+let ages = new Map();
+ages.set("Borris", 39);
+ages.set("Ling", 22);
+ages.set("Julia", 62);
+
+console.log('Julia is ${ages.get("Julia")}');
+// Julia is 62
+console.log("Is Jack's age known?", ages.has("Jack"));
+// Is Jack's age known? false
+console.log(ages.has("toString"));
+
+/**Object.keys returns only an objects own keys not 
+ * those in the prototype
+ * 
+ * use hasOwnProperty method as alternative to the in operator 
+ * which ignores the objects prototype
+ * 
+*/
+
+console.log({x:1}.hasOwnProperty("x"));
+//true
+console.log({x:1}.hasOwnProperty("toString"));
+//false
+
 // Polymorphism
+/**
+ * String function converts value to a string of object
+ * will call toString method on that object to try to 
+ * create a meaningful string from it
+ * 
+ * Some standard prototypes define their own version of
+ * toString to create string with more useful information
+ * instead of just [objecObject]
+ */
+
+Rabbit.prototype.toString = function() {
+    return 'a ${this.type} rabbit';
+};
+
+console.log(String(blackRabbit));
+// a black rabbit
 
 /**
  * when a piece of code written to work with objects
  * have a certain interface-ex toString method-
  * any kind of object that happens to support this interface
  * can be plugged into the code - called polymorphism
+ * can work with values of different shapes as long as they
+ * support the interface it expects
+ * 
+ * for/of loop can loop over serveral kids of data structures
+ * arrays and strings expose a specific interface
+ * which can be added to objects
  */
 
 // Symbols
 
 /**
+ * multiple interfaces can use the same property name
+ * not possible for an object to conform to both
+ * interface and standard use of toString
+ * 
+ * property names are strings but can also be symbols
+ */
+
+/**
  * symbols are values created with the Symbol function
+ * you cant create symbols twice
  */
 
 
