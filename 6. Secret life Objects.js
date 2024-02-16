@@ -411,6 +411,43 @@ console.log(String(blackRabbit));
  * you cant create symbols twice
  */
 
+let sym = Symbol("name");
+console.log(sym == Symbol("name"));
+// false
+Rabbit.prototype[sym] = 55;
+console.log(blackRabbit[sym]);
+
+/**
+ * string you pass to symbol is included when you 
+ * convert to string makes it easier to recognize 
+ * symbol when showing it in the console
+ * symbols suitable for defining interfaces that can
+ * live alongside other properties regardless of names
+ */
+
+const toStringSymbol = Symbol("toString");
+
+Array.prototype[toStringSymbol] = function() {
+    return `${this.length} cm of blue yarn`;
+};
+
+console.log([1, 2].toString());
+// 1, 2
+console.log([1, 2][toStringSymbol]());
+// 2 cm of blue yarn
+
+/**
+ * use square brackets around property names to include symbol
+ * properties in object expressions and classes 
+ * causes property name to be evaluated like square property access 
+ * notation, you can refer to a binding that holds the symbol
+ */
+
+let stringObject = {
+    [toStringSymbol]() { return "a jute rope"}
+};
+console.log(stringObject[toStringSymbol]());
+// a jute rope
 
 // Iterator Interface
 
