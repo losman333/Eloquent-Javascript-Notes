@@ -507,19 +507,26 @@ class Matrix {
  * 
  */
 
+// class tracks progress of iterating over a matrix in its x
+// and y properties
     class MatrixIterator {
         contructor() {
             this.x = 0;
             this.y = 0;
             this.matrix = matrix;
         }
-
+/**
+ * next method starts by checking bottom of matrix has
+ * been reached
+ */
         next() {
             if (this.y == this.matrix.height) return {done: true};
-
+            // creates the object holding current value then
+            // updates its position
             let value = {x: this.x, 
                          y: this.y, 
                          value: this.matrix.get(this.x, this.y)};
+            // moves to next row if necessary
             this.x++;
             if (this.x == this.matrix.width) {
                 this.x = 0;
@@ -528,11 +535,76 @@ class Matrix {
             return {value, done: false};
         }
     }
+
+/**
+ * occaionally use after-the-face prototype manipulation
+ * to add methods
+ * Declare methods directly in the class instead of spliting 
+ * into small pieces
+ */
+
+Matrix.prototype[Symbol.iterator] = function () {
+    return new MatrixIterator(this)
+};
+
+// loop over matrix with for/of
+
+let matrix = new Matrix(2, 2, (x,y) => `value ${x}, ${y}`);
+for (let {x, y, value} of matrix) {
+    console.log(x, y, valule);
+}
+// → 0 0 value 0,0 
+// → 1 0 value 1,0 
+// → 0 1 value 0,1 
+// → 1 1 value 1,1
+
+
 // Getters, Settings, Statics
 
 /**
  * properties that are accessed directly that hide method calls
+ * such methodsh are called getters
  * and are defined by writing get in front of the method name
+ */
+
+let varyingSize = {
+    get size() {
+        return Math.floor(Math.random() * 100);
+    }
+};
+
+console.log(varyingSize.size);
+// 73
+console.log(varyingSize.size);
+// 49
+
+class Temperature {
+    constructor(celsius) {
+        this.celsius = celsius;
+    }
+    get fahrenheit() {
+        return this.celsius * 1.8 + 32;
+    }
+    set fahrenheit(value) {
+        this.celsius = (value - 32) / 1.8;
+    }
+    static fromFahrenheit(value) {
+        return new Temperature((value -32) / 1.8);
+    }
+}
+
+let temp = new Temperature(22);
+console.log(temp.fahrenheit);
+// 71.6
+temp.fahrenheit = 86;
+console.log(temp.celsius);
+// 30
+
+/**
+ * temperature class stores only Celsius in the fahrenheit getter and setter
+ * converts to and from Celsius in fahrenheit getter and setter
+ * 
+ * 
  */
 
 /**
@@ -541,15 +613,51 @@ class Matrix {
  */
 
 
-// Inheritance
-
 /**
  * a prototype the derives from the old prototype 
  * ( prorpeties and behaviors from old classes )
  * 
  * but adss a new definition for the set method
+ * 
+ * properties in constructor functions can be used 
+ * to provide additional ways to create instances
+ * 
+ * inside class declaration methods that have static written before their names
+ * are stored on the constructor
+ * 
+ * Tempeture class allows you to write Temperature.fromFahrenheit(100)
+ * to create a tempertaure using dgress Fahrenheit
  */
 
+// Inheritance
+/**
+ * some matrices are symmetric value stored at x,y
+ * is always the same as that at y, x
+ * inhertiace is properties inheriting behavior from the old class
+ * 
+ * prototype for new class derives from old prototype but 
+ * adds a new defintion for set method
+ */
+
+class SymetricMatrix extends Matrix {
+    constructor (size, element = (x, y) => undefined) {
+        super(size, size, (x, y) => {
+            if (x < y) return element(y,x);
+            else return element(x, y);
+
+        });
+    };
+
+    set(x, y, value) {
+        super.set(x, y, valuel);
+        if (x != y) {
+            super.set(y, x, value);
+        }
+    }
+}
+
+let matrix = new SymmetricMatrix(5, (x, y) => `${x}, ${y}`);
+console.log(matrix.get(2,3));
 // Instanceof Operator
 
 /**
