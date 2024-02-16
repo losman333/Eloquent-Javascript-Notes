@@ -452,10 +452,82 @@ console.log(stringObject[toStringSymbol]());
 // Iterator Interface
 
 /**
+ * when object of for/loop is iterable. Has a method named 
+ * with the Symbol.iterator symbol (a symbol
+ * value defined by language stored as a property of Symbol
+ * function)
+ * 
  * an object that provides a second interface, iterator 
  * when object named with Symbol.iterator symbol is called
+ * 
+ * next, value, done property names are plain strings not
+ * symbols. Only Symbol.iterator likely to be added to
+ * a lof different objects is an actual symbol
+ * 
  */
 
+let okIterator = "OK" [Symbol.iterator]();
+console.log(okIterator.next());
+// {value: "0", done: false}
+console.log(okIterator.next());
+// {value: "K", done: false}
+console.log(okIterator.next());
+
+// two dimensional array
+
+// class stores content in a single array of w x h
+class Matrix {
+    // constructor func takes w, h, and element func to fill values
+    constructor( width, height, element = (x, y) => undefined) {
+        this.width = width;
+        this.height = height;
+        this.content = [];
+
+        for (let y = 0; y < height; y++) {
+            for (let x = 0; x < width; x++) {
+                this.content[y * width + x] = element(x, y);
+
+            }
+        }
+
+    }
+    // get and set method retrieve and update elements in matrix
+    get(x, y){
+        return this.content[y * this.width + x];
+    }
+    set(x, y, value) {
+        this.content[y * this.width + x] = value;
+    }
+}
+
+/**
+ *  looping over a matrix usually interested in position
+ * of elements as well as elements themselves use iterator
+ * to produce objects with x, y and value properties
+ * 
+ */
+
+    class MatrixIterator {
+        contructor() {
+            this.x = 0;
+            this.y = 0;
+            this.matrix = matrix;
+        }
+
+        next() {
+            if (this.y == this.matrix.height) return {done: true};
+
+            let value = {x: this.x, 
+                         y: this.y, 
+                         value: this.matrix.get(this.x, this.y)};
+            this.x++;
+            if (this.x == this.matrix.width) {
+                this.x = 0;
+                this.y++;
+            }
+            return {value, done: false};
+        }
+    }
 // Getters, Settings, Statics
 
 /**
