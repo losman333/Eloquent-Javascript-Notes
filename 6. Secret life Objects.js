@@ -730,7 +730,7 @@ console.log([1] instanceof Array);
 // Exercies
 
 // A Vector Type 
-
+more
 class Vec {
     constructor(x, y) {
       this.x = x;
