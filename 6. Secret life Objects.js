@@ -641,15 +641,18 @@ console.log(temp.celsius);
 
 class SymetricMatrix extends Matrix {
     constructor (size, element = (x, y) => undefined) {
+        // class superclass constructor throught super keyword
+       
         super(size, size, (x, y) => {
             if (x < y) return element(y,x);
             else return element(x, y);
 
         });
     };
-
+    // set method uses supper to call specifc method
+    // from super class
     set(x, y, value) {
-        super.set(x, y, valuel);
+        super.set(x, y, value);
         if (x != y) {
             super.set(y, x, value);
         }
@@ -657,7 +660,28 @@ class SymetricMatrix extends Matrix {
 }
 
 let matrix = new SymmetricMatrix(5, (x, y) => `${x}, ${y}`);
-console.log(matrix.get(2,3));
+console.log(matrix.get(2, 3));
+ /**
+ *  to ensure the matrix is symetrical
+ *  the constructor wraps the element function
+ * to swap the coordintaes for values below diagnoal
+ * 
+ * inside class methods super provides a way to call 
+ * methods defined in the superclass
+ * 
+ * polymorphism, encapsulation used to seperate pieces
+ * of code from eatch
+ * inhertence ties classes together creating more tangle
+ */
+/**
+ * use of the word extends indicates that this shouldn't
+ * be directly based on the default Object prototype
+ * but on some other class
+ * 
+ * superclass
+ * 
+ * 
+ */
 // Instanceof Operator
 
 /**
@@ -665,11 +689,73 @@ console.log(matrix.get(2,3));
  * from specific class
  */
 
+console.log( new SymmetricMatrix(2) instanceof SymmetricMatrix);
+// true
+console.log(new SymmetricMatrix(2) instanceof Matrix);
+// true
+console.log(new matrix(2, 2) instanceof SymmetricMatrix);
+// false
+console.log([1] instanceof Array);
+// true
+
+/**
+ * operator will see through inherited types
+ * SymmetricMatrix is an instance of a Matrix
+ * operator can be applied to standard constructors like Array. 
+ * Almost every object is an instance of Object. 
+ */
 // Summary
 
+/**
+ * prototypes
+ * Object.prototype
+ * constructors start with Capital letter
+ * values in prototypes
+ * class notoation to provide a clear way to define a
+ * constructor and its prototypee
+ * difine getters an setters to secretly call methods
+ * static methods a are stored in class constructor rather than prototype
+ * instanceof operator is an instance of that constructor
+ * specify an interface for an object and tell everybody 
+ * they are suppose to talk to your object only through that interface
+ * rest of the detail are nown encapsulated
+ * 
+ * polymorphism code written to use an interface with any number of
+ * objects that provide the interface
+ * 
+ * implementing multiple classes that differ in details
+ * write new classes as subclasses of existing class
+ * inheriting part of its behavior
+ */
 // Exercies
 
-// A Vector Type
+// A Vector Type 
+
+class Vec {
+    constructor(x, y) {
+      this.x = x;
+      this.y = y;
+    }
+  
+    plus(other) {
+      return new Vec(this.x + other.x, this.y + other.y);
+    }
+  
+    minus(other) {
+      return new Vec(this.x - other.x, this.y - other.y);
+    }
+  
+    get length() {
+      return Math.sqrt(this.x * this.x + this.y * this.y);
+    }
+  }
+  
+  console.log(new Vec(1, 2).plus(new Vec(2, 3)));
+  // → Vec{x: 3, y: 5}
+  console.log(new Vec(1, 2).minus(new Vec(2, 3)));
+  // → Vec{x: -1, y: -1}
+  console.log(new Vec(3, 4).length);
+  // → 5
 
 // Groups
 
