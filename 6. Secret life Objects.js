@@ -730,7 +730,18 @@ console.log([1] instanceof Array);
 // Exercies
 
 // A Vector Type 
-more
+/**
+ * write class that represents vector in two-dimensional space
+ * takes x and y parameters(numbers)
+ * 
+ * give vec prototype two methods, plus and minus that take
+ * another vector as a parameter and return a new vector
+ * that has the sum or difference of two vectors (this and the parameter)
+ * x and y values
+ * 
+ * add getter property length to the prototype that computes the length
+ * of the vector distance of the point (x, y) from origin 0,0
+ */
 class Vec {
     constructor(x, y) {
       this.x = x;
