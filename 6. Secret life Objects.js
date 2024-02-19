@@ -769,7 +769,57 @@ class Vec {
   // → 5
 
 // Groups
+/**
+ * write a class called group
+ * like set has add, delete, and has methods
+ * constructor creates empty group
+ * add adds value to the group only if not a memeber
+ * delete romves arguments from group if a memeber
+ * has returns a Boolean value indicates argument is member of group
+ * 
+ * use === or equivalent such as indexOf to determine whether values 
+ * are the same
+ * give class a static from method that takes iterable object
+ * as arguement and creates a group that contains all values by 
+ * iterating over it
+ */
 
+class Group {
+    constructor() {
+      this.members = [];
+    }
+  
+    add(value) {
+      if (!this.has(value)) {
+        this.members.push(value);
+      }
+    }
+  
+    delete(value) {
+      this.members = this.members.filter(v => v !== value);
+    }
+  
+    has(value) {
+      return this.members.includes(value);
+    }
+  
+    static from(collection) {
+      let group = new Group;
+      for (let value of collection) {
+        group.add(value);
+      }
+      return group;
+    }
+  }
+  
+  let group = Group.from([10, 20]);
+  console.log(group.has(10));
+  // → true
+  console.log(group.has(30));
+  // → false
+  group.add(10);
+  group.delete(10);
+  console.log(group.has(10));
 // Iterable Groups
 
 // Borrowing a method
