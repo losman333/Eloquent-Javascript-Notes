@@ -104,23 +104,45 @@ function runRobot (state, robot, memory) {
  * write static method by adding a property to the constructor
  */ 
 
-VillageState.random = function() {
-    let
-    for () {
-        let address
-        place
+VillageState.random = function(parcelCount = 5) {
+    let = [];
+    for (let i = 0; i < parcelCount; i++) {
+        let address = randomPick(Object.keys(roadGraph));
+        let place
+        // do loop keeps picking new places when equal to the address//
+
         do {
-            place
-            while
-        }
-        parcels
+            place = randomPick(Object.keys(roadGraph));
+        }   while (place == address);
+        
+        parcels.push({place, address});
     }
-    return
-}
-// do loop keeps picking new places when equal to the address//
+    return new VillageState("Post Office", parcels);
+};
+
+runRobot(VillageState.random(), randomRobot); // → Moved to Marketplace
+// → Moved to Town Hall
+// →...
+// → Done in 63 turns
+
 // The Mail Trucks Route
+const mailRoute = [
+    "Alice's House", "Cabin", "Alice's House", "Bob's House", "Town Hall", "Daria's House", "Ernie's House",
+    "Grete's House", "Shop", "Grete's House", "Farm", "Marketplace", "Post Office"
+    ]
+
+// robot keeps route in its memory and drops element every turn
+
+function routeRobot(state, memory) {
+    if (memory.length == 0) {
+        memory = mailRoute;;
+    }
+    return {direction: memory[0], memory: memory.slice(1)};
+}
 
 // Pathfinding
+
+// finding a rout through a graph is a typical search problem
 
 // Exercises
 
