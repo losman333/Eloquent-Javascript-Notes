@@ -209,6 +209,10 @@ function lastElement(array) {
  * once caught do something to address problem and
  * continue running program
  * 
+ * why is it helpful 
+ * error-handling code is necessary only at point where the 
+ * error occurs and at the point where it is handeled
+ * 
  * give an example
  */
 
@@ -220,6 +224,8 @@ function promptDirection(question) {
     // throw used used to raise exception
     throw new Error("Invalid direction: " + result);
     }
+
+    // look functio ignores promptDirection might go wrong
     function look() {
     if (promptDirection("Which way?") == "L") {
     return "a house"; } else {
@@ -227,17 +233,79 @@ function promptDirection(question) {
     }
     // wrap piece of code in a try block
     try {
+    // code in try block causes an exception to be raised
     console.log("You see", look());
     // followd by catch
+    // catch is evaluated name si bound to exception value
     } catch (error) {
+    // use error constructor to create exception value
     console.log("Something went wrong: " + error);
     }
 
+// what is a stack trace
+/**
+ * gather info about call stack that existed
+ * when exception was created
+ * 
+ * stored in stack property
+ */
+
+// whay it's helpful
+/**
+ * tells a function where problem occurred which function made 
+ * the failing call
+ */
+
+// cleaning up after exceptions 
+/**
+ * every action might cause an exception might cause control 
+ * to leave code
+ * 
+ * if code has several side effects exception might prevent
+ * some from taking place
+ * 
+ */
+
+const accounts = {
     
+       a: 100,
+       b: 0,
+       c: 20
+    };
+    function getAccount() {
+    let accountName = prompt("Enter an account name"); 
+    if (!accounts.hasOwnProperty(accountName)) {
+        throw new Error(`No such account: ${accountName}`); 
+    }
+       return accountName;
+     }
+     function transfer(from, amount) {
+       if (accounts[from] < amount) return;
+       accounts[from] -= amount;
+       accounts[getAccount()] += amount;
+    }
 
 
-// cleaning up after exceptions
+    function transfer(from, amount) {
+        if (accounts[from] < amount) return;
+        let progress = 0;
+        try {
+          accounts[from] -= amount;
+          progress = 1;
+          accounts[getAccount()] += amount;
+          progress = 2;
+          // finally code runs code after tryin to run in try block
+        } finally {
+          if (progress == 1) {
+            accounts[from] += amount;
+          }
+     } 
+    
+    }
 
+    /**
+     * finally finally blcoc runs stack continues unwinding
+     */
 // selective catching
 
 // assertions
