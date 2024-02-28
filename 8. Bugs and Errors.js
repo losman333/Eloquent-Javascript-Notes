@@ -295,6 +295,7 @@ const accounts = {
           accounts[getAccount()] += amount;
           progress = 2;
           // finally code runs code after tryin to run in try block
+          // doesn't interfere with exception
         } finally {
           if (progress == 1) {
             accounts[from] += amount;
@@ -308,7 +309,149 @@ const accounts = {
      */
 // selective catching
 
+/**
+ * 
+ * what is the context
+ * 
+ * javascript doesn't provide direct support for selectively 
+ * exceptions
+ * 
+ * what is selective catching
+ * the ability to catch a specific type of exception
+ * 
+ * how does it work
+ * 
+ * define a new type of error and use instanceof to 
+ * indentify it
+ * 
+ * what does it do
+ * 
+ * what is the benefit
+ * 
+ * give an example
+ * 
+ * what are the drawbacks
+ */
+for (;;) {
+    try {
+ let dir = promtDirection("Where?"); // ← typo! console.log("You chose ", dir);
+ break;
+ } catch (e) {
+ console.log("Not a valid direction. Try again.");
+
+    } 
+}
+
+class InputError extends Error {}
+    function promptDirection(question) {
+    let result = prompt(question);
+    if (result.toLowerCase() == "left") return "L";
+    if (result.toLowerCase() == "right") return "R"; 
+    throw new InputError("Invalid direction: " + result);
+}
+
+for (;;) {
+    try {
+    let dir = promptDirection("Where?"); 
+    console.log("You chose ", dir); break;
+    } catch (e) {
+      if (e instanceof InputError) {
+        console.log("Not a valid direction. Try again."); 
+    } else {
+        throw e; 
+        }
+    } 
+
+}
 // assertions
+
+// context
+
+//what are assertions
+/**
+ * checks inside a program to verify something is the way 
+ * its suppose to be
+ * 
+ * not used to handle situations that can come up
+ * in a normal operation  u
+ * 
+ * used to find programmer mistakes
+ * 
+ *
+ */
+
+
+// how do they work
+
+// what are the benifits 
+
+// what are the cons
+
+/**
+ * can be noisy 
+ */
+
+// example
+
+function firstElement(array) {
+    // checks to see if array property exists
+    if (array.length == 0) {
+ throw new Error("firstElement called with []"); }
+    return array[0];
+  }
 
 // summary
 
+class MultiplicatorUnitFailure extends Error {}
+
+function primitiveMultiply(a, b) {
+  if (Math.random() < 0.2) {
+    return a * b;
+  } else {
+    throw new MultiplicatorUnitFailure("Klunk");
+  }
+}
+
+function reliableMultiply(a, b) {
+  for (;;) {
+    try {
+      return primitiveMultiply(a, b);
+    } catch (e) {
+      if (!(e instanceof MultiplicatorUnitFailure))
+        throw e;
+    }
+  }
+}
+
+console.log(reliableMultiply(8, 8));
+// → 64
+
+
+const box = {
+    locked: true,
+    unlock() { this.locked = false; },
+    lock() { this.locked = true;  },
+    _content: [],
+    get content() {
+      if (this.locked) throw new Error("Locked!");
+      return this._content;
+    }
+  };
+  
+  function withBoxUnlocked(body) {
+    let locked = box.locked;
+    if (!locked) {
+      return body();
+    }
+  
+    box.unlock();
+    try {
+      return body();
+    } finally {
+      box.lock();
+    }
+  }
+  
+  withBoxUnlocked(function() {
+    box.content.push("gold piece");
+  });
