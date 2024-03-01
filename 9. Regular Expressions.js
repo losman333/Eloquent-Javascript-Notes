@@ -153,15 +153,63 @@ let eighteenPlus = /eighteen\+/;
 
 // word and string boundries
 
+/**
+ * 
+ * how to enforce a match across the whole string
+ * using caret and $
+ * 
+ * what is a word boundry?
+ * 
+ * does a boundry marker match an actual character?
+ */
+
 // choice patters
 
+/**
+ * how can you tell whether a piece of text contains 
+ * a number followd by a word and a pluarl form
+ */
 // the mechanics of matching
 
+/**
+ * what happens when you use exec or test
+ * 
+ * 
+ * how does reg ex engine treat a regular expressions
+ */
+
 // Backtracking
+/**
+ * what is backtracking
+ * 
+ * where else does backtracking happen
+ * 
+ * when is possible to write reg ex's that will do a 
+ * lot of backtracking
+ */
 
 // the replace method
 
+/**
+ * what is replace method used for
+ * 
+ * what is the benefit of using replace with reg ex
+ * 
+ * how is it possible to pass a function instead of 
+ * string as the second argument to replace
+ */
 // greed
+
+/** how to write a function that removes all comments
+ * from a piece of JavaScript code
+ * 
+ * what does it mean when repetition operators 
+ * are greedy
+ * 
+ * how to make something not greedy
+ * 
+ * what can bugs in regular expressions be traced to
+ */
 
 // dynamically creating RegExp objects
 
