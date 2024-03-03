@@ -243,17 +243,33 @@ console.log(text.replace(regexp, "_$1_"));
  * second argumeent to RegExp constructor contains
  * options for the regular expression
  * 
- * use backslash before any character that has special meaning
+ * use backslash before any character that has special meaning \
  */
 
 let name = "dea+h1[]rd";
 let text = "This dea+h[]rd guy is super annoying.";
-let escaped = name.replace(/[\\[.+*]])
+let escaped = name.replace(/[\\[.+*?(){|^$]/g, "\\$&");
+let regexp = new RegExp("\\b" + escaped + "\\b", "gi");
+
+console.log(text.replace(regexp, "_$&_"));
+
 // what is the purpose of creating regexp objects
+
+
 
 //what is the benefit
 
 // the search method
+
+/**
+ * context 
+ * 
+ * indexOf method on strings cannot be called
+ * with regular expressions
+ * 
+ * search method returns first index on which expressions 
+ * was found or -1 when it wasn't found
+ */
 
 // the lastIndex property
 
