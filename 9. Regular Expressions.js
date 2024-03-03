@@ -213,6 +213,46 @@ let eighteenPlus = /eighteen\+/;
 
 // dynamically creating RegExp objects
 
+// context 
+/**
+ * 
+ * you might not know the pattern you
+ * need to match agains when you 
+ * are writing your code
+ * 
+ * find user name in a piece of text and 
+ * enclose it in uderscore characters to
+ * make it stand out you only know the name
+ * only once the program is actually
+ * running you cant use slash-based notation
+ * 
+ * you can build up a string and use the RegExp 
+ * constructor on that
+ */
+
+let name = "harry";
+let text = "Harry is a suspicious character.";
+// use two backslashes \b boundry markers because we are writing them 
+// in a normal string
+let regexp = new RegExp("\\b(" + name +")\\b", "gi");
+console.log(text.replace(regexp, "_$1_"));
+// _Harry_ is a suspicious character
+
+/**
+ * 
+ * second argumeent to RegExp constructor contains
+ * options for the regular expression
+ * 
+ * use backslash before any character that has special meaning
+ */
+
+let name = "dea+h1[]rd";
+let text = "This dea+h[]rd guy is super annoying.";
+let escaped = name.replace(/[\\[.+*]])
+// what is the purpose of creating regexp objects
+
+//what is the benefit
+
 // the search method
 
 // the lastIndex property
