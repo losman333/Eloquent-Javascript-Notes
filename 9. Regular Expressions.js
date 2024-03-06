@@ -392,6 +392,9 @@ city=Tessaliniki`));
  * seciton object
  * section binding points at the object for the current section
  * 
+ * when a line is a regular propety its stored 
+ * in the current section
+ * when its a section 
  */
 
 // International characters
