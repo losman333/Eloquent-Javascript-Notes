@@ -272,8 +272,127 @@ console.log(text.replace(regexp, "_$&_"));
  */
 
 // the lastIndex property
+/**
+ * regular expressions objects have properties
+ * 
+ * which property contains the string that
+ * expression was created from
+ * 
+ * which property controls where the next 
+ * match will start
+ * 
+ * which circumstances allow regexp match to start
+ * regexp must have global g 
+ * or sticky y option enabled 
+ * match must happen through the exec method
+ * 
+ * 
+ */
+
+let pattern = /y/g;
+pattern.lastIndex = 3;
+let match = pattern.exec("xyzzy");
+console.log(match.index);
+console.log(pattern.lastIndex);
+
+/**
+ * call to exec auto updates lastIndex property to
+ * point after the match
+ * 
+ * lastIndex is set back to zero if no match
+ * found
+ * 
+ * what is the difference between global and stickyh options
+ * 
+ * if sticky is enabled match will succeed only if it 
+ * starts directly at lasIndex
+ * 
+ * global searches where a match can start
+ */
+
+let global = /abc/g;
+console.log(global.exec("xyz abc"));
+["abc"]
+let sticky = /abc/y;
+console.log(sticky.exec("xyz abc"));
+
+/**
+ * how to does global change match method on strings
+ * match will find all matches of pattern in the string 
+ * return an array containing the matched strings
+ * 
+ */
+
+console.log("Banna" .match(/an/g));
+
+// Looping over matches
+
+/**
+ * how can you scan through all occurrences of a pattern 
+ * in a string that gives access to match object
+ * in the loop body
+ */
+
+let input = "a string with 3 numbers in it ... 42 and 88";
+let number = /\b\d+\b/g;
+let match;
+// while perform match at start of each iteration
+// save result in a binding match start of each iteration
+while (match = number.exec(input)) {
+    console.log("found", match[0], "at", match.index);
+}
+// found 3 at 14
+// found 42 at 33
+// found 88 at 40
 
 // Parsing an INI file
+
+/**
+ * convert a string into an object whose prop
+ * hold strings for settings  wrriten before 
+ * first section header and subobjects for
+ * sections witih subobjects holding the sections
+ * 
+ * use split method split file into seperate
+ * lines
+ * 
+ * split method allows a regexp as its argument
+ * 
+ * use a reg exp /\r$\n/ to split in a way
+ * that allows both \n \r\n between lines
+ */
+
+function parseINI(string) {
+    // 
+    let result = {};
+    let section = result;
+    string.split(/\r?\n/).forEach(line => {
+        let match;
+        if (match = line.match(/^(\w+)=(.*)$/)) {
+            section[match[1]] = match[2];
+        } else if (match = line.match(/^\[(.*)\]$/)) {
+            section = result[match[1]] = {};
+        } else if (!/^\s*(;.*)?$/.test(line)) {
+            throw new Error("Line '" + line + "' is not valid. ");
+        }
+    });
+    return result;
+}
+
+console.log(parseINI(`
+name=Vasilis
+[address]
+city=Tessaliniki`));
+// {name: "vasliis", address: {city: "tessalonki"}}
+
+/**
+ * properties at the top stored into the object
+ * 
+ * properties found in sections are stored in a seperate 
+ * seciton object
+ * section binding points at the object for the current section
+ * 
+ */
 
 // International characters
 
