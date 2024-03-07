@@ -394,13 +394,120 @@ city=Tessaliniki`));
  * 
  * when a line is a regular propety its stored 
  * in the current section
- * when its a section 
+ * when its a section header a new section object is created
+ * section is set to point at it
+ * 
+ * ^ and $ makes sure the expression smatches the whole line
+ * 
+ * if (match = string.match(...)) similar to using 
+ * assignment as condition for while can access resulting 
+ * object only iside if statement tests for this 
+ * 
+ * assign the result of the match to a binding and 
+ * immediately use that assignment as the test for the
+ * if statement
+ * 
+ * if not a section header or property function checks whether 
+ * its a comment of an empty line using expression
+ * /^\s*(;.*)?$/
+ * 
+ * part between parentheses will match comment and the ?
+ * makes sure it also matches lines containing white space
+ * whe a line doesn't match any of the expected forms the 
+ * functoin throws an exception
  */
 
 // International characters
 
+/**
+ * JS regexp are rather dumb about characters that
+ * do not appear in the English Langaue " a word character"
+ * is one of the 26 characters in the Latin alphabet
+ * uppercase and lowercase
+ * 
+ * characters compose of two code units behave
+ * strangely
+ */
+
+console.log(/🍎{3}/.test("🍎🍎🍎")); // → false
+console.log(/<.>/.test("<🌹>")); // → false
+console.log(/<.>/u.test("<🌹>")); // → true
+
+/**
+ * first line apple treated as two code units 
+ * three is applied only to the second one. 
+ * dot matches a single code unit
+ * 
+ * add a u option to regexp to make it treat such
+ * characters properly
+ * 
+ * use p\{Properuy=Vlue}
+ * console.log(/\p{Script=Greek}/u.test("α")); 
+ * // → true console.log(/\p{Script=Arabic}/u.test("α")); 
+ * // → false console.log(/\p{Alphabetic}/u.test("α"));
+ * 
+ * // → true console.log(/\p{Alphabetic}/u.test("!")); 
+ * // → false
+ * 
+ * if property name is left off as in \p{Name} 
+ * name is assumed to be either a binary property such as
+ * Alphabetic or a category such as a number
+ */
 // Summary
 
+/**
+ * regexp objects that represent patterns in strings they use
+ * their own langauge to express these patterns
+ * 
+ * 
+ */
+
+/abc/ A sequence of characters
+/[abc]/ Any character from a set of characters /[^abc]/ Any character not in a set of characters /[0-9]/ Any character in a range of characters
+/x+/ One or more occurrences of the pattern x /x+?/ One or more occurrences, nongreedy
+/x*/ Zero or more occurrences
+/x?/ Zero or one occurrence
+/x{2,4}/ Two to four occurrences
+/(abc)/ A group
+/a|b|c/ Any one of several patterns
+/\d/ Any digit character
+/\w/ An alphanumeric character (“word character”) /\s/ Any whitespace character
+/./ Any character except newlines
+/\b/ A word boundary
+/^/ Start of input
+/$/ End of input
+
+/**
+ * regexp has a method test to test whether a given string matches
+ * has method exec that returns an array containing all matched groups
+ * such an array has an index property that indicates where match started
+ * 
+ * strings have a match method to match them agains a regexp and search method
+ * to search for one returning only the starting position
+ * of the match
+ * 
+ * replace method can replace matches of a pttern with 
+ * replacement string or function
+ * 
+ * regexp can have options which are written after closing /
+ * i option makes match case insensitive g option makes exp 
+ * global causes replace method to replace all instances
+ * instead of just the first
+ * 
+ * y option is sticky it wil not search ahead and skip
+ * part of string when looking for a match
+ * 
+ * u option turns on unicode fixes a number of problems
+ * around handlling of characters that take two code units
+ */
+
+
 // Excercises
+
+// REGEXP GOLF
+
+//Quoting Style
+
+// Numbers Again
 
 
