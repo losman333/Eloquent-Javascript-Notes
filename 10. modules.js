@@ -70,9 +70,80 @@ let plusOne = Funtion("n", "return n + 1;");
 console.log(plusOne(4));
 
 // common js
+/**
+ * a commonJS module uses a function called require
+ * when called with module name of dependancy
+ * makes sure the module is loaded and returns its interface
+ * 
+ * modules get own scope, loader wraps the 
+ * module code in a function
+ * 
+ * calls require to access dependencies and put interface in object
+ * bound to exportse
+ * 
+ * Example 
+ * 
+ * date-formatting function uses to packages from NPM--ordinal to 
+ * convert numbers to strings "1st" and "2nd"
+ * date-names to get english names for weekdays and months
+ * exports a single function, formatDate, takes a Date object
+ * and template string
+ */
 
+const ordinal = require("ordinal");
+const{days, months} = require("dates-names");
 
-// ecmaSctipt modules
+exports.formatDate = function(date, forma) {
+    return format.replace (/YYYY|M(MMM)?|Do?|dddd/g, tag => {
+        if(tag == "YYYY") return date.getFullYear();
+        if(tag == "M") return date.getMonth();
+        if(tag == "MMMM") return months[date.getMonth()];
+        if(tag == "D") return date.getDate();
+        if(tag == "Do") return ordinal(date.getDate());
+        if(tag == "dddd") return days[date.getDay()];
+    });
+};
+
+/**
+ * ordinal interface is single function
+ * date-names export object containing multilple things
+ * days and months are arrays of names
+ *
+ * destructuring convienent for adding when 
+ * creatings bindings for imported interfaces
+ * 
+ * modules adds interface function to exports so that
+ * modules depnd on it get access to it
+ * 
+ * const {formatDate} = require("./format-date");
+ * console.log(formatDate(new Date(2017, 9, 13), 
+ *                                  "dddd the Do"));
+ * define require in mininmal form
+ * 
+ * 
+ */
+
+function require(name) {
+    if (!(name in require.cache)) {
+        let code - readFile(name);
+        let module = {exports: {}};
+        require.cache[name] = module;
+        let wrapper = Function("require", exports, "module", code );
+        wrapper(require, modules.exports)
+    }
+    return require.cache[name].exports;
+}
+
+/**
+ * readFile made-up function thate reades a file returns 
+ * content as string
+ * 
+ * require keeps cache of loaded names checks if 
+ * requested module has been loadedo
+ * 
+ * requires reading modules code
+ */
+ // ecmaSctipt modules
 
 // Building and bundling
 
