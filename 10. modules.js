@@ -142,7 +142,25 @@ function require(name) {
  * requested module has been loadedo
  * 
  * requires reading modules code
+ * wraps into a function
+ * 
+ * ordinal package is not a object but a function
+ * 
+ * common js modules create an empty interface object
+ * you can replace with any value by overwritting 
+ * module exports. modules export a single value 
+ * instead of interface object
+ * 
+ * defining require, exports, and module as a parameters
+ * for generated wrapper function loader makes bindings
+ * available in the modules scope 
+ * 
+ * "./" is relative to current modules filename
+ * 
+ * "./format-date"
+ * 
  */
+
  // ecmaSctipt modules
 
 // Building and bundling
