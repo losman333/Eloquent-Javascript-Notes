@@ -165,8 +165,57 @@ function require(name) {
 
 // Building and bundling
 
+/**
+ * bundlers roll programs into single file before published 
+ * to the web
+ */
+
 // module design
 
+/** 
+ * 
+ * module design is ease of use
+ * 
+ * use simple data structure ot
+ * keep modules predictable
+ * 
+ * ease something can be composed with other code
+ * 
+ * an example would be the ini package the module
+ * imitates the standard JSON object by providing
+ * parse and stringify to (write INI file) functions
+ * 
+ * if no function or pacakge to imitate keep modules
+ * predictable by using simple data structures
+ * and doing a single focused thing. Many INI-file
+ * parsing modules on NPM provide a function that 
+ * directly reads such a file from the hard disk.
+ * Makes it impossible to use such modules in browser 
+ * 
+ * focused modules that compute values are applicable 
+ * in a wider range of programs
+ * 
+ * stateful objects are sometimes useful or even
+ * neccessary
+ * Use a function when it's neccessary 
+ * 
+ * to design for composabiliity find out what data strucuters
+ * other people are using and follow their example
+*/
+
 // summary
+
+/**
+ * modules provide structure to bigger progrmas by seperating
+ * code into pieces with clear interfaces and dependencies
+ * interface is part of module that's visible from 
+ * other modules
+ * 
+ * common js provide a module system but js got a built-in
+ * system which coexists uneasily with CommonJS system
+ * 
+ * Package chunk of code that can be distributed on its own
+ * NPM is a repository of JS packages
+ */
 
 // excercises
