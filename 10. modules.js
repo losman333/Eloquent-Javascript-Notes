@@ -93,7 +93,7 @@ console.log(plusOne(4));
 const ordinal = require("ordinal");
 const{days, months} = require("dates-names");
 
-exports.formatDate = function(date, forma) {
+exports.formatDate = function(date, format) {
     return format.replace (/YYYY|M(MMM)?|Do?|dddd/g, tag => {
         if(tag == "YYYY") return date.getFullYear();
         if(tag == "M") return date.getMonth();
@@ -125,7 +125,7 @@ exports.formatDate = function(date, forma) {
 
 function require(name) {
     if (!(name in require.cache)) {
-        let code - readFile(name);
+        let code = readFile(name);
         let module = {exports: {}};
         require.cache[name] = module;
         let wrapper = Function("require", exports, "module", code );
@@ -139,7 +139,7 @@ function require(name) {
  * content as string
  * 
  * require keeps cache of loaded names checks if 
- * requested module has been loadedo
+ * requested module has been loaded
  * 
  * requires reading modules code
  * wraps into a function
@@ -218,4 +218,29 @@ function require(name) {
  * NPM is a repository of JS packages
  */
 
-// excercises
+// excercises  
+
+//Roads Modulel
+/**
+ * 
+ * write a common js module that contain array of roads and 
+ * exports the graph data structure
+ * should depend on module ./graph which exports
+ * a function buildGraph that is used to build a graph
+ * function expects an array of two-element arrays start
+ * and end points of the roads
+ */
+
+
+// Circular Dependencies 
+
+/**
+ * module A depends on module B
+ * bad because you can't make sure 
+ * modules dependencies have loaded before it runs
+ * 
+ * Common JS modules allow a limited form cyclic dependencies
+ * okay as long as modules don't replace default exports object
+ * require supports dependency cycle
+ * 
+ */
