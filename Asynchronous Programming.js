@@ -130,7 +130,7 @@ defineRequestType("note", (nest, content, source, done) => {
  * abstract concepts can be represented by values
  * return object that represents future event
  * 
- * promise async action that may complete a some pintna
+ * promise async action that may complete a some point
  * and produce a value. 
  * 
  * call promise using Promise.resolve
@@ -150,5 +150,136 @@ fifteen.then(value => console.log(`Got ${value}`));
  * called even if you add them after promise has resolved
  * 
  * then method returns another promise resolves value
- * that handler function returns 
+ * that handler function returns
+ * if promised is returned then resolves to its result
+ * 
+ * promies is a device to move values into async reality
+ * promised value might appear some point in the future
+ * 
+ * promise constructor is used to create a promise
+ * constructor expects a function as an arg.
+ * passes it a function that can be resolve the promise
+ * only code that created promise can resolve it
+ * 
+ * promised-based interface for readStorage
  */
+
+function storage(nest, name) {
+    return new Promise(resolve => {
+        nest.readStorage(name, result => resolve(result));
+    });
+}
+
+storage(bigOak, "enemies")
+    .then(value => console.log("Got", value));
+
+/**
+ * promises simlify use asynchro functions
+ * 
+ * take input as arguments and return output
+ * output may not be available yet
+ */
+
+// Failure
+
+/**
+ * problem with callback of async programming
+ * difficult to make sure failures are calledback properly
+ * 
+ * 1 solution first argument ot callback indicate action
+ * failed second contains value produced by action
+ * when successful 
+ * callback function must check the received exception
+ * and make sure any problems including exception 
+ * thrown by functions are caught and given to right function
+ * 
+ * promises resolve action successfully or reject if failed
+ * 
+ * Resolve handlers registered with then called only when action successful
+ * reject action returned by then
+ * when handler throws exception automaticlaly causes promise 
+ * produced by then call to be rejected
+ * 
+ * no success handlers are called beyond where failed
+ * 
+ * resason of rejection value provided by promise
+ * when exception in handler causes rejection
+ * 
+ * promise rejected by handler flows into next promise
+ * promise.reject function creates new rejected promise
+ * 
+ * catch method registers handler to be called when
+ * promise is rejected similar to then handlers
+ * like then that returns a new promise
+ * 
+ * new promise rejected if catch handler throws error
+ * 
+ * then accepts rejection handler as second argument
+ * you can install both types of handlers in single
+ * method call
+ * 
+ * function passed to Promise constructor receives 
+ * second arguement alongside resolve function used
+ * to reject new promise
+ * 
+ * chains of promise values created by calls to then
+ * and catch can be seen as pipline through asynch
+ * values or failures
+ * 
+ * chains are created by registering hanlders
+ * each link has a success handler or reject hanlder or both
+ * hanlders that don't match success or failure are ignored
+ * 
+ * those that don't match are called outcome determines 
+ * what kind of value comes next -- success when it returns
+ * a non value promies rejection when it throws an exception
+ * outcome of a promise when it returns one of those
+ * /
+ 
+
+ * new Promise((_, reject) => reject(new Error("Fail")))
+ *  .then(value => console.log("Hanlder 1"))
+ *  .catch(reason => {
+ *      console.log("Caught failure " + reason);
+ *      return "nothing";
+ * })
+ *  .then(value => console.log("Hanlder 2", value));
+ * // Caught Failure error: Fail
+ * 
+ * 
+ * javscript enviornments can detect when promise rejection 
+ * isn't handled and will report as an error
+ 
+
+
+// Networks are hard
+
+/**
+ * possible for signal to be sent but never receieved
+ * will cause callback given to send to never be called
+ * causes program to stop without even noticing there is a problem
+ * if no response request would time out and report failure
+ * request function can automaticlly retry before it gives up
+ * 
+ * call back and promises are equivalent
+ * call back based function can be wrapped to expose a promise-based
+ * interface
+ * 
+ * 
+ */
+
+class Timeout extends Error {}
+
+function request(nest, target, type, content) {
+    return new Promise((resolve, reject) => {
+        let done = false;
+        function attempt(n) {
+            nest.send(target, type, content, (failed, value) => {
+                done = true;
+                if (failed) reject(failed);
+                else resolve(value);
+            });
+            set 
+        }
+    })
+}
