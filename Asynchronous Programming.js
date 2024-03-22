@@ -279,7 +279,110 @@ function request(nest, target, type, content) {
                 if (failed) reject(failed);
                 else resolve(value);
             });
-            set 
+            setTimeout(() => {
+                if(done) return;
+                else if(n < 3) attempt(n + 1);
+                else reject(new Timeout("Timed out"));
+            }, 250);
         }
-    })
+        attempt(1);
+    });
 }
+
+/**
+ * promises can be resolved or rejected only once
+ * first time resolve or reject is called determines t
+ * outcome of promise
+ * further calls caused by a request coming back after another
+ * request are ignored
+ * 
+ * user recursive function to build async loop for retires
+ * regular loop doesn't allow stop and wait
+ * 
+ * attempt makes single attempt
+ * sets timeout if no response after 250 ms starts next attempt
+ * rejects promise with instance of Timeout]
+ * 
+ * write handler for request to be delivered multiple times
+ * 
+ * define a wrapper for defineRequestType allows function to 
+ * return promise or plain value wires up to callback
+ * 
+ */
+
+function requestType(name, handler) {
+    defineRequestType(name, (nest, content, source,
+                             callback) => {
+    try {
+        Promise.resolve(hanlder(nest, content, source ))
+        .then(response => callback(null, response ),
+        failure => callback(failure));
+    } catch (exception) {
+        callback(exception);
+    }
+
+    });
+}
+
+/**
+ * Promise.resolve user to convert value returned by 
+ * handler 
+ * 
+ * handler written in try block ensures exception
+ * raises directly given to callback
+ * handleing errors with raw callbacks must
+ * properly route exception like that or failures
+ * wont get reported to right callback. 
+ * 
+ */
+
+// Collections of Promises
+
+/**
+ * promise.all usefull if running collection or promises
+ * at same time
+ * 
+ * waits for promises in array to resolve  
+ * array of values produced by promises
+ */
+
+requestType("ping", () => "pong");
+function availableNeighbors(nest) {
+    let request = nest.neighbors.map(neihbor => {
+        return request(nest, neighbor, "ping")
+            .then(() => true, () => false);
+    });
+    return Promise.all(requests).then(results => {
+        return nest.neighbors.filter((_, i) => result[i]);
+    });
+}
+
+/**
+ * if no neighbor available function mapped over neihbors 
+ * promises attach handlers that make successful request produce true
+ * and reject false
+ * 
+ * handler for combined promise used to remove elements
+ * from neighbors array 
+ */
+// Network Flooding
+
+/**
+ * spread connection to all nests in a way change 
+ * overtime when nests are abandoned new
+ * nests are built
+ * 
+ * check new set of neighbors for given nest matches 
+ * current set we have for it
+ */
+
+requestType("connections", (nest, {name, neighbors}, 
+                            source) => {
+    let connection = nest.state.connections;
+    if (JSON.stringify(connection.get(name)) ==
+        JSON.stringify(neighbors)) return;
+    connections.set(name, neighbors);
+    broadcastConnections(nest, name, source);                               
+});
+
+function brodcast
