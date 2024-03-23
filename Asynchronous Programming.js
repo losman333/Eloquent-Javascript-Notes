@@ -529,5 +529,39 @@ function findInRemoteStorage(nest, name) {
     let local = await storage(nest, name);
     if (local != null) return local;
 
-    let sources = network(nest).filter(n => n != nest.name)
+    let sources = network(nest).filter(n => n != nest.name);
+    while (source.length > 0) {
+        let source = sources[Math.floor(Math.randon() *
+                                        sources.length)];
+        sources = sources.filter(n => n != source);
+        try {
+            let found = await routeRequest(nest, source, "storage", 
+                                            name);
+            if (found != null) return found;
+        } catch(_) {}
+    }
+    throw new Error("Not Found");
  }
+
+ /**
+  * async func marked by word async before function keyword
+  * methods can be made async by writing async
+  * before name when function or method called 
+  * returns promise
+  * 
+  * in async func await in front of expression waits for 
+  * promise to resolve then continue
+  * execution of funcion continues
+  * no longer runs from start to completion in one go
+  * can be frozen any point that has an await can be
+  * resumed later time
+  * non-trivial async code more convenient than
+  * directly using promises even if something
+  * doesn't fit synchronous model such as 
+  * performing multiple action at same time
+  * easy to combine await with direct use of promies
+  * 
+  * 
+  */
+
+ //Generators
