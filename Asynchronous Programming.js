@@ -458,3 +458,76 @@ requestType("route", (nest, {target, type, content}) => {
     return routeRequest(nest,target, type, content);
 })
 
+/**
+ * several layers of functionality on top of primative
+ * communctions to make if convenient to use
+ * network programming is about anticipating and
+ * dealing with failures
+ */
+
+// Async
+
+/** 
+ * to retreive info that doesnt exist consult other
+ * nest in network until finds on with info 
+ * 
+ */
+
+requestType("storage", (nest, name) => storage(nest, name));
+
+function findInStorage(nest, name) {
+    return storage(nest, name).then(found => {
+        if (found != null) return found;
+        else return findInRemoteStorage(nest, name);
+    });
+
+}
+
+function network(nest) {
+    return Array.from(nest.state.connection.keys());
+}
+
+function findInRemoteStorage(nest, name) {
+    let sources = network(nest).filter(n => n != nest.name);
+    function next() {
+        if (sources.length == 0) {
+            return Promise.reject(new Error("Not Found"));
+        } else {
+            let source = sources[Math.floor(Math.randon() *
+                                        sources.length)];
+            sources = sources.filter(n => n != source);
+            return routeRequest(nest, source, "storage", name)
+                .then(value => value != null ? value : next(), 
+                        next);
+    
+        }
+    }
+    return next();
+}
+
+/**
+ * connection is Map Object.keys doesn't work
+ * has keys method but that returns an iterator rather than
+ * array
+ * iterable value can be converted to array with Array.from function
+ * 
+ * multiple async actions chained together in non-obviours ways
+ * 
+ * need reqcursive function to loop through nests
+ * 
+ * code waits for previous action to complete before starting 
+ * the next one
+ * 
+ * JS lets you write pseudo-synchronous code to 
+ * describe async computation
+ * async func implicitly returns promise that cn
+ * await other promises that looks synchronous
+ * 
+ * rewrite findInStorage
+ */
+ async function findINStorage(nest, name) {
+    let local = await storage(nest, name);
+    if (local != null) return local;
+
+    let sources = network(nest).filter(n => n != nest.name)
+ }
