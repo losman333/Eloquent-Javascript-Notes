@@ -385,4 +385,76 @@ requestType("connections", (nest, {name, neighbors},
     broadcastConnections(nest, name, source);                               
 });
 
-function brodcast
+function broadcastConnections(nest, name, exceptFor = null ) {
+    for ( let neighbor of nest.neighbors) {
+        if (neighbor == exceptFor) continue;
+        request(nest, neighbor, "connections", {
+            name,
+            neighbors: nest.state.connections.get(name)
+        });
+    }
+}
+
+everywhere(nest => {
+    nest.state.connections = new Map();
+    nest.state.connections.set(nest.name, nest.neighbors);
+    broadcastConnections(nest, nest.name);
+});
+
+/** 
+ * the comparison uses JSON.stringify because == on object
+ * arrays will return true onlye when the tow are te same value 
+ * 
+ * nodes immediately start broadcasting connections 
+ * should unless nest are completely unreachable
+ * quickly give every nestna  amap of current network graph
+ * 
+ * you can find routes in graphs 
+ * if you have route towards a message destination
+ * you know which direction to send it in
+ * 
+ * find route functions searches for given node in network
+ * instead of whole route returns next step
+ * next nest will using current info about network
+ * decide where it sends message
+ */
+
+function findRoute(from, to, connection) {
+    let work = [{at: from, via: null}];
+    for (let i = 0; i < work.length; i++) {
+        let {at, via} = work[i];
+        for (let next of connection.get(at) || []) {
+            if (next == to) return via;
+            if (!work.some(w => w.at == next)) {
+                work.push({at: next, via: via || next});
+            }
+        }
+    }
+    return null;
+}
+
+/**
+ * build a function to send long-distance messages
+ * if message is addressed to a direct neighbor
+ * delivered as usual if not packaged in an object
+ * sent to neighbor that is closer to target
+ * using route request type will cause neighbor to 
+ * repeat same behavior
+ */
+
+function routeRequest(nest, target, type, content) {
+    if (nest.neighbors.includes(target)) {
+        return request(nest, target, type, content);
+    } else {    
+        let via = findRoute(nest.name, target, 
+                            nest.state.connections);
+        if(!via) throw new ErrorEvent('No route to ${target}');
+        return request(nest, via, "route", 
+                        {target, type, content});
+    }
+}
+
+requestType("route", (nest, {target, type, content}) => {
+    return routeRequest(nest,target, type, content);
+})
+
