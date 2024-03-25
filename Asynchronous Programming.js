@@ -565,3 +565,134 @@ function findInRemoteStorage(nest, name) {
   */
 
  //Generators
+
+/**
+ * async functions can pause and resume
+ * 
+ * javascript generators are similar but 
+ * without promsises 
+ * function* becomes a generator
+ * called generator becomes an iterator
+ */
+
+function* powers(n) {
+    for (let current = n;; current *=n ) {
+        yield current;
+    }
+} 
+
+for (let power of powers(3)) {
+    if (power > 50) break;
+    console.log(power);
+}
+// 3
+// 9
+//27
+
+/**
+ * powers function frozen at start
+ * 
+ * next iterator causes function to run until
+ * it hits a yield expression which pauses
+ * yield value becomes next value produced by
+ * the iterator. when function return iterator done
+ * 
+ */
+
+/**
+ * iterator easier with generator functions
+ * iterator for Group Class
+ */
+
+Group.prototype[Symbol.iterator] = function*() {
+    for (let i = 0; i < this.members.length; i++) {
+        yield this.members[i];
+    }
+};
+
+/**
+ * generators save to local  state everytime they yeild
+ * yield expression
+ * 
+ * async special generator it produces a 
+ * promise when called returns and rejects i
+ * if not working
+ * 
+ * Whenever it yields awaits a promise result of promise
+ * is result of await expression. Functions returns 
+ * iterator is done
+ *                                                                                                                                    
+ * easier to write iterators when using generator 
+ * functon
+ */
+
+Group.prototype
+
+// Event loop
+
+/**
+ * async executed piece by piece
+ * each piece start actoins schedule code 
+ * to be executed when action finishes or fails
+ * in between program sits idle waiting for next
+ * action
+ * 
+ * call backs not directly called by code that
+ * scheduled them. 
+ * 
+ * if call setTimeout from within function will return
+ * by time callback function is called
+ * when callback returns control does not go 
+ * back to function that scheduled it
+ * 
+ * async behavior happens on its own empty function call stack
+ * without promises managing async code is hard
+ * each callback starts with a mostly empty stack
+ * catch handlers wont be on stack when exception thrown 
+ * callback
+ */
+
+try {
+    setTimeout(() => {
+        throw new Error("Woosh");
+    }, 20);
+} catch (_) {
+    // this will not run
+    console.log("Caught!");
+}
+
+/**
+ * event loop
+ * when there's nothing to be done loop stopped
+ * when events come in added to a queue
+ * code is executed one after the other
+ * slow running code might delay handling
+ * of other events
+ * 
+ * code that sets timeout, dallies after 
+ * timeouts intended point of time, causing timeout
+ * to be late
+ */
+
+let start = Date.now();
+setTimeout(() => {
+    console.log("Timeout ran at", Date.now() - starte);
+}, 20);
+while (Date.now() < start + 50) {}
+console.log("Wasted time until", Date.now() - starț);
+// Wasted time until 50
+// Timeout ran at 55
+
+/**
+ * promises resolve or reject as a new event
+ * even if promise is already resolved
+ * waiting for it will cause your callback
+ * to run after current script finishes
+ * rather than right away
+ * 
+ */
+
+Promise.resolve("Done").then(console.log);
+console.log("Me first!");
+
+// Async Bugs
