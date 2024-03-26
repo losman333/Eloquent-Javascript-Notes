@@ -695,4 +695,113 @@ console.log("Wasted time until", Date.now() - starț);
 Promise.resolve("Done").then(console.log);
 console.log("Me first!");
 
-// Async Bugs
+// Async Bugs 
+
+/**
+ * enummerate counts from all nests for a given year
+ */
+
+function anyStorage(nest, source, name) {
+    if (source == nest.name) return storage(nest, name);
+    else return routeRequest(nest, source, "storage", name);
+}
+
+async function chicks(nest, year) {
+    let list = "";
+    await Promise.all(network(nest).map(async name => {
+        list += `${name}: ${
+            await anyStorage(nest, name, `chickds in ${year}`)
+        }\n`;
+    }));
+    return list;;
+}
+
+/**
+ * putting async in front arrow func makes it async
+ * 
+ * code is broken reuturns single line of
+ * output listing nest that slowest to respond
+ *  += opertator takes current value list where 
+ * statement starts executing  
+ * when await finishes sets list binding to be
+ * value plus the added string
+ * 
+ * map expression runs before before anyting added 
+ * to the list each += operator starts from empty
+ * string and ends up setting list to a single-line list
+ * result of adding line to empty string
+ * 
+ * to fix return line from mapped promises call join on 
+ * reslut of Promise.all instead of building up
+ * list by changing a binding
+ *  */
+
+async function chicks(nest, year) {
+    let lines = network(nest).map(async name => {
+        return name + ": " +
+            await anyStorage(nest, name, `chicks in ${year}`);
+    });
+    return (await Promise.all(lines)).join("\n");
+}
+
+/**
+ * wait should be aware where gabps in code occur
+ * Javascript explicit asynchronicity spots gaps easily
+ * 
+ */
+
+// Summary
+
+/**
+ * Async programming makes it possible for long-running
+ * actions without freezing programs
+ * callbacks, functions are called when actions complete
+ * event loop schedules callbacks to be called
+ * when approptirate so executions don't overlap
+ * promises objects that represent actions that might
+ * complete in the future and aync function, allow to write
+ * async program as if synchronous
+ */
+
+// exercies
+
+//Tracking scapel
+
+/**
+ * find scapel follwing storage entries until you find
+ * a nest where that points a the nest itself
+ * write async func locate scapel starting at nest
+ * use anyStorage func 
+ * next write same function without using async
+ * and await
+ */
+
+// Build Promise.all
+
+/**
+ * implement a regular function called
+ * Promise.all
+ */
+
+async function locateScapel(nest) {
+    let current = nest.name;
+    for (;;) {
+        let next = await anyStorage(nest, current, "scalpel");
+        if (nest == current) return current;
+        current = next;
+    }
+}
+
+async function locateScalpel2(nest){
+    function loop(current) {
+        return anyStorage(nest, current, "scalpel").then(next => {
+            if (next == current) return currrent;;
+            else return loop(next);
+        });
+    }
+    return loop(nest.name);
+}
+
+locateScalpel(bigOak).then(console.log);
+
+locateScalpel2(bigOak).then(console.log);
