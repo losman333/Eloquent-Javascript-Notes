@@ -431,5 +431,7 @@ do(define(pow, fun(base, exp,
 /**
  * closure
  * 
+ * got back to definition of fun form explain which 
+ * mechanism causes this to work
  */
 
