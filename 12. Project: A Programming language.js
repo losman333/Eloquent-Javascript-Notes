@@ -407,7 +407,29 @@ do(define(pow, fun(base, exp,
  * runs result 
  */
 //Cheating
-    
+
+/**
+ * domain-specific language language 
+ * tailored to express a narrow domain of knowledge
+ * more expressive because describes exactly things
+ * that need to be described in its domain
+ */
+
 //Exercises
 
+/**
+ * Arrays
+ * add support for arrays to Egg by adding following
+ * three function to top scope array, values to construct
+ * array containing argument values, length(array)
+ * to get an arrays length and element array, n to fetch elment from an array
+ * 
+ * 
+ */
+
+
+/**
+ * closure
+ * 
+ */
 
