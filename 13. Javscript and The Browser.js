@@ -216,9 +216,91 @@ console.log(talksABout(document.body, "book"));
 
 // Finding elements
 
+/**
+ * finding a specific node in document by starting at document.body
+ * and following fixed path of properties is a bad idea
+ * makes bad assumptions about percise structure of document
+ * 
+ * text nodes are created even for whitespace
+ * 
+ * document body tage does not have three children
+ * has seven three plus spaces before, after and between
+ * 
+ * to get href attribute "Get first link in doc"
+ */
+
+let link = document.body.getElementsByTagName("a")[0];
+console.log(link.href);
+
+/**
+ * all element nodes have getElementsByTagName method
+ * collects all elements with given tag name that
+ * are descendants(direct or indirect children)
+ * returns as array-like object
+ * 
+ * to find single node give it an id attribute use
+ * document.getElementById
+ */
+/** 
+<p>Nt adafd gertrude</p>
+<p><img id="gertrude" src="img/ostrich.png"></p>
+<script>
+    let ostrich = document.getElementById("gertrude");
+</script>
+*/
+
+/**
+ * getElementByClassName searches through content of an 
+ * element node retrieves all elements that
+ * have given string in their class attribute
+ */
 // Changing the document
 
+/**
+ * Dom data structure can be changed shape of doc tree 
+ * can be modified by changing parent-child
+ * relationships
+ * remove method removes node from their parent node
+ * 
+ * appendchild adds a child node to an element node
+ * puts it at end of list of children or insertBefore
+ * inserts node given as first argument before
+ * node given as second argument
+ * 
+ * <p>One</p>
+ * <p>Two</p>
+ * <p>Three</p>
+ * 
+ * <script>
+ *  let paragraph = document.body.getElementsByName("p");
+ *  document.body.insertBefore(paragraphs[2], paragraphs[0])
+ * </script>
+ * 
+ * node exist in doc only in one place
+ * insertig paragraph three in front of paragraph One. will first remove from 
+ * end of document insert at front result
+ * in three/one/two
+ * 
+ * all operations that insert a node somewhere will
+ * cause it be removed from the current position
+ * 
+ * replaceChild method used to replcae child node with other one
+ * use two nodes as arguments: new node, and other to be
+ * replaced. 
+ * 
+ * Replaced node must be child of node of element method is called
+ * on
+ * 
+ * replaceShild and insertBefore expect new node as first argument
+ * 
+ * 
+ */
+
 // Creating nodes
+/**
+ * to write script that replaces all images <img><tag>
+ * in document with text held in alt attributes
+ */
 
 // Attributes
 
