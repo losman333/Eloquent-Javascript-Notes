@@ -300,11 +300,199 @@ console.log(link.href);
 /**
  * to write script that replaces all images <img><tag>
  * in document with text held in alt attributes
+ * 
+ * involves removing images
+ * adding new text node to replace them
+ * text nodes use createTextNode
+ * 
+ */
+</script>
+function replaceImages() {
+    let images = document.body.ElementsByTagName("img");    
+    for (let i = images.length - 1; i >= 0; i--) {
+        let image = images[i];
+        if (image.alt) {
+            let text = document.createTextNode(image.alt);
+            image.partentNode.replcaceChild(text, image);
+        }
+    }
+    
+}
+</script>
+
+/**
+ * createTextNode gives text node we can insert
+ * into document to show on the screen
+ * 
+ * loop that goes over images starts at end of list
+ * 
+ * node is returned by method getElementsByTagName
+ * 
+ * Updated as document changes
+ * 
+ * starting from front would list to lose
+ * first element so second time loop repeats
+ * where i is 1 would stop because 
+ * length of collection is 1
+ * 
+ * convert collection to real array by calling Array.from
+ * 
  */
 
+let arrayish = {0: "one", 1: "two", length: 2};
+let array = Array.from(arrayish);
+console.log(array.map(s => s.toUpperCase()));
+// ["ONE", "TWO"]
+
+/**
+ * create element nodes use document.createElement
+ * method
+ * 
+ * utility elt creates element node rest of args
+ * as children to that node function 
+ * used to add attribution to quote
+ * 
+ * 
+ */
+
+<blockquote id="quote">
+    No Book can ever be finished. While working on it 
+    we learn just enough to find it immature the moment
+    we turn away from it
+</blockquote>
+
+    function elt(type, ...children) {
+        let node = document.createElement(type);
+        for (let child of children) {
+            if (typeof child != "string") node.appendChild(child);
+            else node.appendChild(document.createTextNode(child));
+        }
+        return node;
+    }
+
+    document.getElementById("quote").appendChild(
+        elt("footer", "-", 
+            elt("strong", "Karl Popper"), 
+            ", preface to the second edition of ", 
+            elt("em", "The Open Society and Its Enemies"), 
+            ", 1950"));
 // Attributes
 
+/**
+ * to store extra information in a document use
+ * html to set attribute you want on nodes
+ * 
+ * make up your own attribute names use 
+ * getAttribute and setAttribute methods
+ * attributes will not be properties on 
+ * elements node
+ * 
+ */
+
+<p> data-classified="secret"> the launch code is 00000.</p>
+<p> data-classified="unclassified"> I have two feet.</p>
+
+<script>
+    let paras = document.body.getElementsByTagName("p");
+    for (let para of Array.from(paras)) {
+        if (para.getAttribute("data-classified") == "secret") {
+            para.remove();
+        }
+    }
+
+</script>
+
+/**
+ * prefix name of made-up attributes with data-
+ * ensure they dont conflict with any other
+ * attributes. 
+ * 
+ * class attribute is keyword in JS 
+ * old javascript implementations 
+ * could not handle property names that
+ * matched keywords
+ * propert use to access attributes called className
+ * access it under "class" using getAttribute and setAttribute
+ * 
+ */
+
 // Layout
+/**
+ * block elements
+ * 
+ * inline elements
+ * 
+ * compute layout
+ * 
+ * size , position of element can be accessed 
+ * from JavaScript offsetWidth offsetHeight properties
+ * 
+ * pixel basic unit of measurment
+ * 
+ * clieintWidth and clientHeight size of space inside
+ * element ignoring width
+ * 
+ */
+
+<p style="border: 3px solid red">
+    "im boxed in"
+</p>
+
+<script>
+    let para = document.body.getElementsByTagName("p")[0];
+    console.log("clientHeight:", para.clientHeight);
+    console.log("offsetHeight:", para.offsetHeight);
+</script>
+
+/**
+ * getBoundingClientRect method find 
+ * percise position of element on screen
+ * returns object with top, bottom, left, right
+ * indicating positions of the sides relative 
+ * to top left of the screen
+ * 
+ * laying out document
+ * 
+ * browser will compute to draw changed
+ * document to the screen
+ * when a program asks for position or size 
+ * hy reading properties such as offsetHeight or
+ * calling getBoundingClientRect providing correc
+ * informatin requires computing layout
+ * 
+ * Reading DOM layout info chan and Changin DOM
+ * foreces a lot of layout computations
+ * wlll run slowly
+ * 
+ * code that builds line of X
+ * characters 2,000 pixels wide measures
+ * measure time each one takes
+ * 
+ */
+
+function time(name, action) {
+    let start = Date.now(); // Current time in milliseconds
+    action();
+    console.log(name, "took", Date.now() - start, "ms");
+}
+
+time("naive", () => {
+    let target = document.getElementById("one");
+    while (target.offsetWidth < 2000) {
+        target.appendChild(document.createTextNode("X"));
+    }
+});
+
+// naive took 32 ms
+
+time("clever", function() {
+    let target = document.getElementById("two");
+    target.appendChild(document.createTextNode("XXXXX"));
+    let total = Math.ceil(2000 / (target.offsetWidth / 5));
+    target.firstChild.nodeValue = "X" .repeat(total);
+
+});
+// clever took 1 ms
 
 // Styling
 
