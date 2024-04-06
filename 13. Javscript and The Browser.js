@@ -494,12 +494,136 @@ time("clever", function() {
 });
 // clever took 1 ms
 
-// Styling
+// Styling 
 
+/**
+ * Elements are drawn differently some
+ * displayed as blocks others inline
+ * 
+ * change styling associated with element
+ * ex text color underline
+ * 
+ * style attribute may contain one or more declrations
+ * 
+ * more than one declaration must be seperated
+ * by semicolons as in color: red; border: none"
+ * 
+ * display property controls whether element 
+ * displayed as block or inline element
+ * 
+ * this text is displayed <strong>inline</strong>
+ * <strong style="display: block">as a block</strong>, and
+ * <strong style="display: none">not at all</strong>
+ * 
+ * block ends up on own line
+ * block elemnets not displayed inline
+ * with text around them
+ * 
+ * last tag not displayed at all
+ * 
+ * display: none = prevents element from showing up
+ * way to hide elements entirely because makes it easy
+ * to reveal them again later
+ * 
+ * style property
+ * maniputlates style of element
+ * 
+ * property holds object has properties
+ * for all possible style properties
+ * values of properties are string
+ * used to change aspect of elements style
+ */
+
+let para = document.getElementById("para");
+console.log(para.style.color):
+para.style.colr = "magenta";
+
+/**
+ * hyphens removed
+ * letters after them capitalized (style.fontFamily)
+ */
 // Cascading styles
 
+/**
+ * specificity measure of precise matching elements
+ * determined by number and kind of element aspects
+ * it requires
+ */
 // Query Selectors
+
+/**
+ * 
+ */
+
+function count(selector) {
+    return document.querySelectorAll(selector).length;
+}
+console.log(count("p")); // all <p> elements
+//4
+console.log(count(" .animal")); // class animal
+// 2
+console.log(count("p .animal")); // animal inside of <p
+//2
+console.log(count("p > .animal")); // direct child of </p>
+// 1
+//
+
+/**
+ * querySelector useful if you want specific element
+ * return first maching element or null when no 
+ * element matches
+ */
 
 // Positioning and animating
 
+/**
+ * position style default value 
+ * has value of static
+ * element sits in normal place
+ * in document. 
+ * 
+ * relative element takes up space in document
+ * top and left style properies used to 
+ * move relative to normal place 
+ * 
+ * position set to absolute element removed 
+ * from normal doc flow - no longer takes space
+ * may overlap with other elements 
+ * 
+ * top left props can be absolutely position
+ * relative to top-left corner of 
+ * nearest enclosing element
+ * 
+ * display picture of cat that moves around ellipse
+ */
+
+// style of text
+// cat img element with position relative
+
+//script of cat movement
+// select cat img
+
+querySelector("img");
+// define angle using PI divided by 2;
+Math.PI / 2;
+// define animate function with time and lastime as param 
+
+// conditionl comparing lastTime != null 
+// angle will increase based on time minus lastTime time * 0.001;
+//change style of top increasing size using sin angle times 20 * px
+//change style of top increasing size using cos angle times 200 * px
+// request Animation time newTime a function that animatesm newTime time
+// requestAnimationFrame to schedule animate function to run when browser
+// ready to repaint screen. 
+// animate function calls requestAnimation to schedule next update
+// causes updates to happen at a rate of 60 per second
+
+/**
+ * why do need requestAnimationFrame  
+ * browser do not update display while a JavaScript program
+ * is running nor do they allow interaction with page
+ * 
+ */
+
+//
 // Summary
