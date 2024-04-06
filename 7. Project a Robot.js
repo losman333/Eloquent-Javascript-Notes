@@ -105,10 +105,10 @@ function runRobot (state, robot, memory) {
  */ 
 
 VillageState.random = function(parcelCount = 5) {
-    let = [];
+    let parcels = [];
     for (let i = 0; i < parcelCount; i++) {
         let address = randomPick(Object.keys(roadGraph));
-        let place
+        let place;
         // do loop keeps picking new places when equal to the address//
 
         do {
