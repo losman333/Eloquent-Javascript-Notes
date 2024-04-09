@@ -206,6 +206,23 @@ function moved(event) {
  * pageX and pageY
  */
 
+<style>
+    dot {position: absolute; display: block;
+         border: 2px solid red; border-radius: 50px;
+         height: 100px; width: 100px; }
+</style>
+<script>
+    function update(event) {
+        for (let dot; dot = document.querySelector("dot");) {
+            dot.remove();
+        }
+        for (let i = 0; i < event.touches.length; i++) {
+            let {pageXOffset, pageY} = event.touches[i];
+            let dot
+        }
+    }
+</script>
+
 // Scroll Events
 
 // Focus Events
