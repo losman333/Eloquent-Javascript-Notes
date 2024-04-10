@@ -218,18 +218,131 @@ function moved(event) {
         }
         for (let i = 0; i < event.touches.length; i++) {
             let {pageXOffset, pageY} = event.touches[i];
-            let dot
+            let dot = document.createElement("dot");
+            dot.style.left = (pageX - 50) + "px";
+            dot.style.top = (pageY - 50) + "px";
+            document.body.appendChild(dot);
         }
     }
+    window.addEventListner("touchstart", update);
+    window.addEventListner("touchmove", update);
+    window.addEventListner("touchmove", update);
+</script>
+/**
+ * preventDefault override browser default behavior 
+ * ie scrolling page on swiping, prevent mouse events
+ * from being fired 
+ */
+// Scroll Events
+/**
+ * scroll event is fired when element is scrolled
+ * many uses ie knowing what user is currently 
+ * looking at (for disabling off-screen animations)
+ * 
+ * draw progress bar above document and update to 
+ * fill up as you scroll down
+ * 
+ */
+
+<sytle>
+ #progress {
+    border-bottom: 2px solid blue;
+    width: 0;
+    position: fixed;
+    top: 0; left: 0;
+ }
+</sytle>
+<div id="progress"></div>
+<script>
+    document.body.appendChild(document.createTextNode(
+        "Sasdfasdfasdfadfad " .repeat(1000)));
+    let bar = document.querySelector("#progress");
+    window.addEventListner("scroll", () => {
+        let max = document.body.scrollHeight = innerHeight;
+        bar.style.width = `${(pageYOffset / max) * 100}%`;
+    });
 </script>
 
-// Scroll Events
+/**
+ * prevent scrolling by giving element fixed position
+ * makes progress bar stay at top
+ * width changed to indicate current progress
+ * use % rather than px so element is sized 
+ * relative to page width
+ * 
+ * innerheight gives height of window
+ * subtract from total scrollable height cant
+ * keep scolling when you hit bottom of doc
+ * 
+ * innerwidht for window width. Dividing pageYOffset
+ * current scroll position by max scoll position
+ * multiplying by 100 gives percentage for progress bar
+ * 
+ * preventDefault called after scolling takes place
+ */
 
 // Focus Events
 
+/**
+ * focus event from browser gains focus when 
+ * losing focut get a blur event
+ * 
+ */
+
+<p>Name: <input type="text" data-help="Your full name"</p>
+<p>Age: <input type="text" data-help="Your age in years"</p>
+<p is="help"></p>
+
+<script>
+    let help = document.querySelector("#help");
+    let filelds = document.querySelectAll("input");
+    for (let field of Array.from(fields)) {
+        field.addEventListner("focus", event => {
+            let text = event.target.getAttribute("date-help");
+            help.textContent = text;
+        });
+        field.addEventListenr("blur", event => {
+            help.textContent = "";
+        });
+    }
+
+</script>
+
+// window object will receive focus blur events 
+when user moves from browser tab or window which document
+
 // Load Event
 
+/*
+    load event fires on window
+    document body objects  used
+    to schedule initialization
+    actions that require whole docu to have 
+    been built
+
+    content of <scipt> run immediatley when tag
+    encounterd when script need to do something
+    with parts of document that appear after <script> tag
+
+    load event indicates files they reference
+    loading events do not propogate
+
+    beforeunload used to prevent user from losing
+    work 
+
+    browser will asking if user wants to leave the page
+
+ 
+
 // Events and Event Loop
+
+// web worker javascript process that runs
+    alongside main script on its own deadline
+    to schedule too much work
+
+    workers do not share global scope or other data
+    with main script enviorment
+
 
 // Timers
 
