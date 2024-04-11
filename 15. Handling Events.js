@@ -343,11 +343,165 @@ when user moves from browser tab or window which document
     workers do not share global scope or other data
     with main script enviorment
 
+    following code sends a few messages and outputs responses
+
+
+    let squareWorker = new Worker("code/squareworker.js");
+    squareWorker.addEventListner("message", event >= {
+        console("The worker responed:", event.data);
+    });
+    squareWorker.postMessage(10);
+    squareWorker.postMessage(24);
+
+    postMessage function sends message causes "message" event to
+    event to fire in receiver
+    
+    worker talks to script sends and listeners
+    directly on global scope
+
+    scripts sends and receives messages through Worker object
+
+    only JSON values can be sent as messages
 
 // Timers
 
+    to cancel function already scheduled
+    store value returned by setTimeout and calling
+    clearTimeout
+
+    let bombTimer = setTimeout(() => {
+        console.log("Boom!");
+    }, 500);
+
+    if (Math.randon() < 0.5) {
+        console.log("Defused");
+        clearTimeout(bombTimer);
+    }
+cancelAnimationFrame same as clearTimeout
+calling on value returned by 
+requestAnimationFrame will cancel that frame
+
+setInterval and clearInterval used to
+set timers that should repeat every X ms
+
+let ticks = 0;
+let clock = setInterval(() => {
+    console.log("tick", ticks++);
+    if (ticks == 10) {
+        clearInterval(clock);
+        consolde.log("stop");
+    }
+}, 200);
+
 // Debouncing 
 
+be careful not to do anyting too time consuming
+handler will take up time interaction with with
+document slow down
+
+deboucning event setTimeout to make sure notn 
+doint it too often
+
+when user types something wait until a pause occures
+insteat of performing acton we set a setTimeout
+also clear prevous timeout so if event occur close 
+together timeout from previous event will be canceled. 
+
+<textarea>Type something her...</textarea>
+<script>
+    let textarea = document.querySelector("textarea");
+    let timeout;
+    textarea.addEventListener("input", () => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => console.log("Typed"), 500);
+    });
+</script>
+
+    clearTimeout undefined value has no effect on timeout
+    don't have to be careful when calling it  
+
+    seperate length of time fired during series of events
+
+    repond to mousemove events by showing current
+    coordintates of mouse but only every 250 milliseconds
+
+    <script>
+        let scheduled = null;
+        window.addEventListener("mousemove", event => {
+            if(!scheduled) {
+                setTimout(() => {
+                    document.body.textContent = 
+                        `Mouse at ${scheduled.pageX}, ${scheduled.pageY}`;
+                    scheduled = null;
+                }, 250);
+            }
+        });
+    </script>
 // Summary
 
+Event handlers respond to events happeing on web page
+
+
+addEventListener method used to register handler
+ 
+keydown focus
+
+propogate to elements ancestors allows hanlders 
+associated with elements to handle them
+
+stopPropagation event handler passes event object with
+extra info about event
+
+preventDefault prevents browser default handling of event
+
+
+keydown keyup events
+
+mousedown mouseup click events
+
+mousemove events
+
+touchstart, touchmove, touchend
+
+scroll event 
+
+focus, blur event
+
+load event
+
 // Exercises
+
+Ballon
+
+/**
+ * write page displays a balloon using balloon emoji
+ * press up arrow should inflate by 10 percent 
+ * down arrow deflate by 10 percent
+ * 
+ * control size by setting font size CSS prop style.fontsize on parent
+ * include unit value (px, em, percent)
+ * 
+ * ArrowUp ArrowDown
+ * 
+ * keys should only change ballong without scorlling page
+ * 
+ * pop ballon if blown past certain size
+ * 
+ * replace with explosion emoji event handler removed
+ */
+
+Mouse Trail
+
+/**
+ * series of elements that follows mouse trail
+ * 
+ * absolute positioned div with fix size and background
+ * color
+ * 
+ * creat elements when mouse movems disply them in wake
+ * of mouse pointer
+ * 
+ * keepp
+ */
+
+Tabs
