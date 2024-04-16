@@ -334,7 +334,10 @@ console.log(`${simpleLevel.width} by ${simpleLevel.height}`);
  * need be changed often as program evolves
  * 
  * drawing subsystem can be encapsulated reason
- * display game in 
+ * for this is to display same game in a 
+ * different way in the next chapter
+ * we can load same game program and plug 
+ * in a new display module.
  */
 
 //Drawing
