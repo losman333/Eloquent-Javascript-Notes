@@ -186,9 +186,156 @@ class Vec {
  * will be useful when need to multipy a speed vector
  * by time interval
  * to get distance traveled during that time
+ * 
+ * different types of actors get their own classes
+ * since their behavior is different
+ * 
+ * player clases stores current speed to simulate
+ * momentum and gravity
  */
 
+class Player {
+    constructor(pos, speed) {
+        this.pos = pos;
+        this.speed = speed;
+
+    }
+    get type() { return "player"; }
+
+    static create(pos) {
+        return new Player(pos.plus(new Vec(0, -0.5)),
+                          new Vec(0,0));
+    }
+}
+
+Player.prototype.size = new Vec(0.8, 1.5);
+
+/**
+ * 
+ * size property same for all instances 
+ * of player you can store on the prototype
+ * rather than instances themselves
+ * 
+ * you can use a getter like type that creates and
+ * return a new Vec object every time property
+ * is read 
+ * Strings being immutable don't have to be 
+ * re-created every time they are evaluated
+ * 
+ * Lava Actor
+    * intitalize object differently depending on character
+    * its based on
+    * 
+    * dynamic lava moves along at current speed until it hits
+    * obstacle if has reset property will jump
+    * back to start position. If not will invert speed
+    * continue in other direction(bouncing)
+ * 
+ * create method looks at character that Level
+ * constructor passes and creates appropriate lava
+ * actor
+ */
+
+class Lava {
+    constructor(pos, speed, reset) {
+        this.pos = pos;
+        this.speed = speed;
+        this.reset = rest;
+    }
+
+    get type() { return "lava"; }
+
+    static create(pos, ch) {
+        if (ch == "=") {
+            return new Lava(pos, new Vec(2, 0));
+        } else if ( ch == "|") {
+            return new Lava(pos, new Vec(0, 2));
+        } else if (ch == "v") {
+            return new Lava(pos, new Vec(0, 3), pos);
+        }
+    }
+}
+
+Lava.prototype.size = new Vec(1, 1);
+
+/**
+ * Coin Actors
+    * mostly sit in their place
+    * given a wobble slight back-and-forth motion
+    * coin object stores a base position and 
+    * wobble property tracks phase of the 
+    * bouncing motion 
+ */
+
+class Coint {
+    constructor(pos, basePos, wobble) {
+        this.pos = pos;
+        this.basePos = basePos;
+        this.wobble = wobble;
+    }
+
+
+get type() { return "coin"; }
+
+    static create(pos) {
+        let basePos = pos.plus(new Vec(0.2, 0.1));
+        return new Coint(basePos, basePos,
+                        Math.random() * Math.PI * 2);
+    }
+}
+
+Coin.prototype.size = new Vec(0.6, 0.6);
+
+/**
+ * Math sign give y-coordinate of point on circle
+ * goes back and forth in smooth waveform
+ * as we move along circle, useful to make
+ * sine function useful for modeling a wave function
+ * 
+ * width of wave produced by Math.sin wave is 2π
+ * multiply value returned by Math.random by number
+ * to give coin random starting position on wave
+ * 
+ * define levelChars object that maps 
+ * plan characters to either background grid types
+ * or actor classes
+ */
+
+const levelChars = {
+    ".": "empty", "#": "wall", "+": "lava",
+    "@": Player, "o": Coin, 
+    "=": Lava "|": Lava, "v": Lava
+    // creates level instance
+
+}; 
+
+let simpleLevel = new level(simpleLevelPlan);
+console.log(`${simpleLevel.width} by ${simpleLevel.height}`);
+
 //Encapsulation as a burden
+
+/**
+ * makes programs bigger 
+ * requires additional concepts and interfaces
+ * 
+ * elements are close together if behavior
+ * of one changes unlikely any others stay same
+ * interfaces between elements end up encoding
+ * assumptions abaout the way ghe game works
+ * 
+ * makes them less effective when having changed
+ * one part of the system. have to worry about
+ * way it impacts other parts 
+ * 
+ * encapsulate something that isnt suitable boundry
+ * sure way to wast energy
+ * 
+ * interfaces get large and detailed they
+ * need be changed often as program evolves
+ * 
+ * drawing subsystem can be encapsulated reason
+ * display game in 
+ */
 
 //Drawing
 
