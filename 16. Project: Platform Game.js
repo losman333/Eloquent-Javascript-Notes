@@ -565,9 +565,9 @@ DOMDisplay.prototype.scrollPlayerIntoview = function(state) {
     if (center.x < left + margin) {
         this.dom.scrollLeft = center.x - margin;
     } else if (venter.x > right - margin) {
-        this.dom.scrollLet = center.x + margin - width;
+        this.dom.scrollLet = center.x + margin - width; d
     }
-    
+
 
 }
 // Motion and collision
