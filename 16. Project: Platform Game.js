@@ -430,15 +430,146 @@ function drawGrid(level) {
 
 .background     { background: rgb(52, 166, 251);
                   table-layout: fixed;
-                  border-spacing: 0;
+                  border-spacing: 0; }
 .background td  { padding: 0;}}
 
 .lava   { background: rgb(255, 100, 100); }
 .wall   { background: white;    } 
 
+/**
+ * 
+ * table-layout, border-spacing, padding used
+ * to override default behavior
+ * 
+ * background rule sets background color
+ * 
+ * draw each actor by creating DOM element
+ * setting elements position and size 
+ * based on actors properties
+ * 
+ * values have to multiplied by scale
+ * to go from game units to pixels
+ */
 
+function drawActors(actors) {
+    return elt("div", {}, ...actors.map(actor => {
+        let rect = elt("div", {class: `actor ${actor.type}`});
+        rect.style.width = `${actor.size.x * scale}px`;
+        rect.style.height = `${actor.size.y * scale}px`;
+        rect.style.left = `${actor.pos.x * scale}px`;
+        return rect;
 
+    }));
+}
 
+/** to give element more than one class
+ * separate class names by spaces
+ * actor class give actors absolute position
+ * type name is used as an extra class to
+ * give them color
+ * 
+ * don't have to define lava class again 
+ * because reusing class for lava grid squares
+ * defined earlier
+ */
+
+.actor { position: absolute;}
+.coin { background: rgb(213, 229, 89);}
+.player {background: rgb(64, 64, 64);}
+
+/**
+ * syncState method used to make display show given
+ * state first removes old actor graphics 
+ * then redraws actors in new positions
+ * 
+ * since only handful of actors in game
+ * redrawing is not that expensive
+ * 
+ * first removes old actor graphics
+ * then redraws actors in new positions
+ */
+
+DOMDisplay.prototype.syncState = function(state) {
+    if (this.actorLayer) this.actorLayer.remove();
+    this.actorLayer = drawActors(state.actors);
+    this.dom.appendChild(this.actorLayer);
+    this.dom.className =`game ${state.status}`;
+    this.scrollPlayerIntoView(state);
+};
+
+/**
+ * adding current level status as class name
+ * to wrapper you can stule player actor slightly
+ * differently when game is won or lost
+ * by adding CSS rule that takes effect 
+ * when player ancestor element with given class
+ */
+
+.lost .player {
+    background: rgb(160, 64, 64);
+}
+.won .player {
+    box-shadow: -4px -7px 8px white, 4px -7px 8px white;
+}
+
+/**
+ * after touching lave player color turns dark
+ * red
+ * 
+ * when last coin collected add two blurred
+ * white shadows on top left on top right
+ * create halo effect
+ * 
+ * scrollPlayerIntoView call ensures if level is
+ * protruding outside viewport scroll that 
+ * viewport to make sure player is
+ * near its center.
+ * 
+ * follwing CSS give game wrapping DOM element max size
+ * ensures anything that sticks out of elements
+ * box not visible
+ * 
+ * give a relative position so actor
+ * insdie are positioned relative to levels top-left corner
+ */
+
+.game {
+    overflow: hidden;
+    max-width: 600px;
+    max-height: 450px;
+    position: relative;
+}
+
+/**
+ * scrollPlayerIntoView method we find the
+ * player position and update wrapping 
+ * elements scroll position
+ * 
+ * change scroll position by manipulating 
+ * elements scrollLeft and scrollTop
+ * properties when player is too close
+ * to edge
+ */
+
+DOMDisplay.prototype.scrollPlayerIntoview = function(state) {
+    let width = this.dom.clientWidth;
+    let heigh = this.dom.clientHeight;
+    let margin = widtih /3;
+
+    // viewport
+    let left = this.dom.scrollLeft, right = left + width;
+    let top = this.dom.scrollTop, bottom = top + height;
+    let player = state.player;
+    let center = player.pos.plus(player.size.times(0.5))
+                            .times(scale);
+    if (center.x < left + margin) {
+        this.dom.scrollLeft = center.x - margin;
+    } else if (venter.x > right - margin) {
+        this.dom.scrollLet = center.x + margin - width;
+    }
+    
+
+}
 // Motion and collision
 
 // Actor updates
