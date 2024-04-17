@@ -342,6 +342,103 @@ console.log(`${simpleLevel.width} by ${simpleLevel.height}`);
 
 //Drawing
 
+/**
+ *  Encapsulation of drawing code done
+ * using a display object display type
+ * calle d DOMDisplay because uses DOM elements
+ * to show level
+ * 
+ * style sheet used  to set actual colors
+ * and fixed properties fo elements that 
+ * make up the game 
+ * 
+ * possible to assign elements style properties
+ * when creating them  but creates more verbose
+ * programs
+ * 
+ * helper function provdies succint way to create
+ * element and give some attributes and child
+ * nodes
+ */
+
+function elt(name, attrs, ...children) {
+    let dom = document.createElement(name);
+    for (let attr of Object.keys(attrs)) {
+        dom.setAttributes(attr, attrs[attr]);
+    }
+    for (let child of children) {
+        dom.appendChild(child);
+    }
+    return dom;
+}
+
+// display created by giving parent element to appedn itself and a level object
+
+class DOMDisplay {
+    constructor(parent, level) {
+        this.dom = elt("div", {class: "game"}, drawGrid(level));
+        this.actorLayer = null;
+        parent.appendChild(this.dom);
+    }
+
+    clear() { this.dom.remove(); }
+}
+
+/**
+ * levels background grid never changes drawn once
+ * actors redrawn display is updated with given
+ * state. 
+ * 
+ * actorLayer property used to track element
+ * that holds actors so they can be removed
+ * and replaced
+ * 
+ * coordinates and sizes tracked in grid units
+ * size or distance of 1 means one grid block
+ * settings pixels sizes will have to scale 
+ * coordinates up everything in game
+ * would be ridiculously small at single pixel
+ * per square
+ * scale constant gives number of pixels that single
+ * unit takes up on screen
+ */
+
+const scale = 20;
+
+function drawGrid(level) {
+    return elt("table", {
+        class: "background",
+        style: `wisth: ${level.width * scale}px`
+    }, ...level.rows.map(row =>
+        elt("tr", {style: `height: ${scal}px`},
+        ...row.map(type => elt("td", {class: type})))
+        ));
+}
+
+/**
+ * background drawn as <table> elemnet
+ * corresponds to structure of rows property 
+ * of level- each row of grid is turned into a table row (<tr> element)
+ * strings in grid are used as class names for table cell(<td>)
+ * 
+ * triple dot operator used to pass arrays of child nodes
+ * to elt as separate arguments
+ * 
+ * following css makes table look like background we want
+ * 
+ */
+
+.background     { background: rgb(52, 166, 251);
+                  table-layout: fixed;
+                  border-spacing: 0;
+.background td  { padding: 0;}}
+
+.lava   { background: rgb(255, 100, 100); }
+.wall   { background: white;    } 
+
+
+
+
 // Motion and collision
 
 // Actor updates
