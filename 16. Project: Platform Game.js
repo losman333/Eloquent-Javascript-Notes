@@ -750,6 +750,7 @@ Coin.prototype.collide = function(state) {
  * the time step, state, object and keys object
  * lava actor type ignores keys object
  * 
+ * Lava actor ignores keys object
  */
 
 
@@ -761,12 +762,273 @@ Lava.prototype.update = function(time, state) {
         return new Lava(this.reset, this.speed, this.reset);
     } else {
         return new Lava(this.pos, this.speed.times(-1));
-
     }
 };
 
-// Tracking keys
+consst woebbleSpeed = 8, wobbleDist = 0.07;
+
+Coin.prototype.update = function(time) {
+    let wobble = this.wobble + time * wobbleSpeed;
+    let wobblePos = Math.sin(wobble) * wobbleDist;
+    return new Coin(this.basePoss.plus(new Vec(0, wobblePos)),
+                    this.basePos, wobble);
+};
+
+/**
+ *  * current position computed from base postiion
+ * and offset based on wave
+ * 
+ * wobble property incremented to track time
+ * used as argument to Math.sin to find
+ * new position of the wave
+ * 
+ * player motion handled separately
+ * per axis because hitting floor should not prevent
+ * horizontal motion 
+ * hitting wall should not stop falling or jumping motion
+ * 
+ */
+
+const playerXSpeed = 7;
+const gravity = 30;
+const jumpSpeed = 17;
+
+Player.prototype.update = function(time, state, keys) {
+    let xSpeed = 0;
+    if (keys.ArrowLeft) xSpeed -= playerXSpeed;
+    if (keys.ArrowRight) xSpeed += playerXSpeed;
+    let pos = this.pos;
+    let movedX = pos.plus(new Vec(xSpeed * time, 0));
+    if (!state.level.touches(movedX, this.size, "wall")) {
+        pos = movedX;
+    }
+
+    let uSpeed = this.speed.y + time * gravity;
+    let movedY = pos.plus(new Vec(0, ySpeed * time));
+    if (!state.level.touches(movedY, this.size, "wall")) {
+        pos = movedY;
+    }   else if (keys.ArrowUp && ySpeed > 0) {
+        ySpeed = -jumpSpeed;
+    } else {
+        ySpeed = 0;
+    }
+
+    return new Player(pos, new Vec(xSpeed, ySpeed));
+};
+
+/**
+ * horizontal motion computed based on state of 
+ * left/right arrow keys
+ * 
+ * new position created when no wall blocking
+ * old position kept otherwise
+ * 
+ * // Tracking keys
+
+ * 
+ * new key handler that sets the state of left,
+ * right,  and up arrow keys
+ * 
+ * call prevenDefault for keys that don't end up
+ * scrolling the page
+ * 
+ * following function will return an object that
+ * tracks current position of those key names
+ * will return an object that trakcs current 
+ * position of keys
+ * 
+ * registers event handlers for "keydown" "keyup"
+ * updates object
+ * 
+ * when key code in event is present in set
+ * of codes that it is tracking
+ */
+
+function trackKeys(keys) {
+    let down = Object.create(null);
+    function track(event) {
+        if (keys.includes(event.key )) {
+            down[event.key]  = event.type == "keydown";
+            event.preventDefault();
+        }
+    }
+    window.addEventListener("keydown", track);
+    window.addEventListener("keyup", track);
+    return down;
+}
+
+const arrowKeys =
+    trackKeys(["ArrowLeft", "ArrowRight", "ArrowUp"]);
+
+/**
+ * samde handler function used for both event types
+ * looks at event objects type property to determine
+ * whether key state should be updated 
+ * to true("keydown") trun or ("keyup")
+ */
+
+/**
+ * 
+ * update method computes  new position by adding
+ * product of time step and current speed to old position
+ * if no obsticle it moves there
+ * if obsticle behavior depends on type of lave ablock
+ */
+
 
 // Running the game
 
+/**
+ * requestAnimationFrame function 
+ * provids a good way to animate game
+ * 
+ * define helper function that wraps boring
+ * parts in a convenient interface allows us
+ * to call runAnimation giving it a function
+ * that expects a time difference as an argument
+ * and draws a single frame
+ * 
+ * when frame function returns value false
+ * animation stops
+ * 
+ */
+
+function  runAnimation(frameFunc) {
+    let lastTime = null;
+    function framte(time) {
+        if(lastTime != null) {
+            let timeStep = Math.min(time - lastTime, 100) / 1000;
+            if (frameFunc(timeStep) === False) return;
+        }
+        lastTime = time;
+        requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+}
+
+/**
+ * maximum frame step of 100 milliseconds (one-tenth of sec)
+ * 
+ * when browser tab or window with page is hidden
+ * requestANmiatonFrame calls susupended until tab or window
+ * is shown again
+ * 
+ * difference between lastTime and timewill be entire
+ * time in which page was hidden
+ * 
+ * Advancing game by that much in single step might
+ * cause side effects like player falling through the floor
+ * 
+ * function also converts time steps to seconds
+ * which are an easeir quantity to thing about than
+ * milliseconds
+ * 
+ * runLevel function takes level object
+ * and display constructor and returns promise
+ * 
+    * displays level in document.body
+    * and lets user play through it
+    * runlevel waits one more second
+    *   (lets user see what happens)
+    * clears dpsplay stops and animation
+    * resolves promise to games end status
+ */
+
+function runLevel(level, Display) {
+    let display = new Display(document.body, level);
+    let state = Start.start(level);
+    let ending = 1;
+
+    return new Promise(resolve => {
+        runAnimation(time => {
+            state = state.update(time, arrowKeys);
+            display.syncState(state);
+            if (state.status == "playing") {
+                return true;
+            } else if (ending > 0 ) {
+                ending -= time;
+                return true;
+            } elt;se {
+                display.clear();
+                resolve(state.status);
+                return false;
+            }
+        });
+    });
+}
+
+/**
+ * games sequence of levels whenver player dies current 
+ * level is restarted. When level is completed
+ * move on to nex level
+ * 
+ * expressed by following function
+ * takes array of level plans(strings) and display constructor
+ */
+
+async function runGame(plans, Display) {
+    for (let level = 0; level < plans.length;) {
+        let status = await runLevel(new level(plans[level]),
+                                    Display);
+        if (status == "won") level++;
+    }
+
+    console.log("You've won!");
+}
+
+/**
+ * because runLevel return a promise run game
+ * be written using async function
+ * returns another promsie resolves when player
+ * finishes a game
+ */
+
 // Excercises
+
+// Game Over
+
+/**
+ * adjust runGame to implement lives Have player start
+ * with three
+ * 
+ * Output current number of lives (using console.log)
+ * every time a level starts
+ */
+
+// Pauing Game
+
+/**
+ * make it possible to puase suspend
+ * and unpause game by pressing ESC key
+ * 
+ * this can be done changing runLevel
+ * function to user another keyboard event handler 
+ * and interrupting or resuming
+ * animation whenever Esc key hit
+ * 
+ * rearrange the way runLevel calls runAnimation
+ * 
+ * arrowKeys object currently a global binding
+ * and event handler are kept around even
+ * when no game is running
+ * 
+ * Extend trakcKeys to register handlers then change
+ * runLevel to register handlers when it starts
+ * and unregister again when its finished
+ */
+
+// A MONSTER
+/**
+ * create a monster that moves horrizontally
+ * can make them ove in the direction of the player
+ * bounce back and forth
+ * 
+ * class doesn't have to handle falling but should
+ * make sure mosnter doesn't walk through walls
+ * 
+ * when monsuter touches player effect depends
+ * on whehter player is jumping on top them or not
+ * 
+ * you can approzimate this by checking whether players bottom is near
+ * monsters top if so monster disappears if not game is lost
+ */
