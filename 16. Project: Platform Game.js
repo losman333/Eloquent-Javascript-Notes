@@ -565,13 +565,96 @@ DOMDisplay.prototype.scrollPlayerIntoview = function(state) {
     if (center.x < left + margin) {
         this.dom.scrollLeft = center.x - margin;
     } else if (venter.x > right - margin) {
-        this.dom.scrollLet = center.x + margin - width; d
+      this.dom.scrollLet = center.x + margin - width; 
     }
+    if (center.y < top + margin) {
+        this.dom.scrollTop = center.y - margin;
+    } else if (center.y > bottom - margin) {
+      this.dom.scrollTop = center.y + margin - height;
+    }
+};
 
-
-}
+/**
+ * methods on Vec type allow computations with objects
+ * to be written in readable way
+ * 
+ * to find actors center add position (top-left corner)
+ * and half its size
+ * 
+ * multiply resulting vector by display scale to get 
+ * pixel coordinates
+ * 
+ * series of checks verifies player position
+ * isnt ouside of allowd range
+ * 
+ * sometime sets nonsense scroll coordinates
+ * below zero or beyond elements
+ * scollable area. DOM will constarin them
+ * to acceptable values scollinLeft to -10
+ * will cause to become 0
+ * 
+ * <link rel="stylesheet" href="css/game.css">
+ * 
+ * <script>
+ *  let simpleLevel = new Level(simpleLevelPlan);
+ *  let display = new DOMDisplay(document.body, simpleLevel);
+ *  display.syncState(State.start(simpleLevel));
+ */
 // Motion and collision
 
+/**
+ * handling collisions between rectangular
+ * 
+ * test whether motion would take inside wall
+ * cancel if it does
+ * 
+ * collision response depends on type of actor
+ * player will stop lava block will bounce back
+ * 
+ * time steps nee to be small
+ * will cause motion to stop before
+ * objects actually touch
+ * 
+ * if time steps(motion steps) are to big
+ * player ends up hovering noticeable distance
+ * above ground
+ * 
+ * method tells us whether rectangle ( specified
+ * by position and size) touches grid element
+ * of given type
+*/
+
+level.prototype.touches = function(pos, size, type) {
+    let xStart = Math.floor(pos.x);
+    let xEnd = Math.ceil(pos.x + size.x);
+    let yStart = Math.floor(pos.y);
+    let yEnd = Math.ceil(pos.y + size.y);
+
+    for (let y = yStart; y < yEnd; y++) {
+        for (let x = xStart; x < xEnd; x++) {
+            let isOutside = x < 0 || x >= this.width ||
+                            y < 0 || y >= this.height;
+            let here = isOutside ? "wall" : this.rows[y][x];
+
+            if (here == type) return true;
+        }
+    }
+    return false;
+};
+
+/**
+ * 
+ * method computes set of grid squares
+ * that body overlaps with using Math.floor
+ * and Math.ceil on its coordinates
+ * 
+ * grid squares are 1 x 1 units in size
+ * rounding sides of box up and down gets
+ * range of background squares that box
+ * touches
+ * 
+ * 
+ */
 // Actor updates
 
 // Tracking keys
