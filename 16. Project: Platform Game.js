@@ -736,14 +736,34 @@ Lava.prototype.collid = function(state) {
     return new State(state.level, state.actors, "lost");
 };
 
-Coin.prototype.coolide = function(state) {
+Coin.prototype.collide = function(state) {
     let filtered = state.actors.filter(a => a != this);
-    let status = stsate.status;
+    let status = state.status;
     if (!filtered.some(a => a.type == "coin")) status = "won";
     return new State(state.level, filtered, status);
 };
 
 // Actor updates
+
+/**
+ * actors update methods take as arguements
+ * the time step, state, object and keys object
+ * lava actor type ignores keys object
+ * 
+ */
+
+
+Lava.prototype.update = function(time, state) {
+    let newPos = this.pos.plus(this.speed.times(time));
+    if (!state.level.touches(newPos, this.size, "walļ")) {
+        return new Lava(newPos, this.speed, this.reset);
+    } else if (this.reset) {
+        return new Lava(this.reset, this.speed, this.reset);
+    } else {
+        return new Lava(this.pos, this.speed.times(-1));
+
+    }
+};
 
 // Tracking keys
 
