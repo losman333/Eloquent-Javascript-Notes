@@ -651,10 +651,98 @@ level.prototype.touches = function(pos, size, type) {
  * grid squares are 1 x 1 units in size
  * rounding sides of box up and down gets
  * range of background squares that box
- * touches
+ * touches 
+ * 
+ * loop over block of grid squares found
+ * rounding coordinates return true
+ * when matching square found
+ * 
+ * Squares outside of level treated as "wall"
+ * to ensure player can't leave world won't
+ * accidentallly try to read outside
+ * bounds of rows array
+ * 
+ * update method touches figures out whether 
+ * player touching lava
+ * 
+ */
+
+State.prototype.update = function(time, keys) {
+    let actors = this.actors
+    .map(actor => actor.update(time, this, keys));
+
+    let newState = new State(this.level, actors, this.status); 
+
+    if (newState.status != "playing") return newState;
+
+    let player = newState.player;
+    if (this.level.touches(player.pos, player.size, "lava")) {
+        return new State(this.level, actors, "lost");
+    }
+
+    for (let actor of actors) {
+        if(actor !== player && overlap(actor, player)) {
+            newState = actor.coolide(newState);
+        }
+    }
+    return newState;
+    
+};
+
+/**
+ * method passed timestep and data structure
+ * tells which keys are being held down
+ * 
+ * calls update method on all actors, producing
+ * array of updated actors
+ * 
+ * actors get time step, keys and the state
+ * they can base their update on those
+ * 
+ * player will actually read keys, only
+ * actor controlled by keyboard
+ * 
+ * methods tests whether player is touching 
+ * background lava, game is lost
+ * 
+ * overlap function detects overlap between 
+ * actor objects returns true when they touch
+ * overlap both along the x-axis along y-axis
  * 
  * 
  */
+
+function overlap(actor1, actor2) {
+    return  actor1.pos.x + actor1.size.x > actor2.pos.x &&
+            actor1.pos.x < actor2.pos.x + actor2.size.x &&
+            actor1.pos.y < actor1.pos.y + actor2.pos.y.x &&
+            actor1.pos.y < actor2.pos.x + actor2.size.y;           
+        
+}
+
+/**
+ * collide method updates stae
+ * 
+ * touching lava actor sets game status
+ * to lost
+ * 
+ * coins vanish when you tuch them
+ * set to status of won when last coin 
+ * of the level
+ * 
+ */
+
+Lava.prototype.collid = function(state) {
+    return new State(state.level, state.actors, "lost");
+};
+
+Coin.prototype.coolide = function(state) {
+    let filtered = state.actors.filter(a => a != this);
+    let status = stsate.status;
+    if (!filtered.some(a => a.type == "coin")) status = "won";
+    return new State(state.level, filtered, status);
+};
+
 // Actor updates
 
 // Tracking keys
