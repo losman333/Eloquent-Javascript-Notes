@@ -164,8 +164,89 @@ cx.strokeReact(135, 5, 50, 50);
         cx.stroke();
     </script>
 </canvas>
+
+/**
+ * lineTo starts at paths current position
+ * position usually at end of argument
+ * unless moveTo called
+ * 
+ */
+
+/**
+ * fill path fills each shape seperately
+ * path can contain multiple shapes each
+ * moveTo motion starts a new one
+ * path needs to be closed 
+ * start and end are in same position
+ * before shape can be filled
+ */
+
+/**
+ * if path not already closed line is
+ * added from its end to its start
+ * shape enclosed by completed path
+ * is filled
+ */
+
+<script>
+    let cx = document.querySelector("canvas").getContext("2d");
+    cx.beginPath();
+    cs.moveTo(50, 10);
+    cx.lineTo(10, 70);
+    cx.fill();
+</script>
+
 // Curves
 
+/**
+ * QuadraticCurveTo method draws curve to given point
+ * method given a control point and destination point
+ * control point attracts line giving curve
+ * line won't go through control point
+ * direction at the start and end straight
+ * line in that directoin
+ * 
+ * straight line in that direction would point
+ * toward control 
+ * 
+ * straight line would point toward control point
+ * 
+ */
+
+<canvas>
+    <script>
+        let cx = document.querySelector("canvas").getContext("2d");
+        cx.beginPath();
+        cx.moveTo(10, 90);
+        // control=(60, 10) goal=(90,90)
+        cx.qudrativCurveTo(60, 10, 90, 90);
+        cxlineTo(60, 10);
+        cx.closePath();
+        cx.stroke();
+    </script>
+</canvas>
+
+/**
+ * draw quadratic curve from left to right with (60, 10)
+ * as control point, then draw two line segments
+ * goint through control point
+ * 
+ * bezierCurveTo has two control points
+ * one for each of the lines endpoints
+ */
+
+<canvas></canvas>
+<script>
+    let cx = document.querySelector("canvas").getContext("2d");
+    cx.beginPath();
+    cx.moveTo(10, 90);
+    // conrtrol1=(10,10) control12=(90, 10) goal=(50,90)
+    cx.bezierCurveTo(10, 10, 90, 10, 50, 90);
+    cx.lineTo(90, 10);
+    cx.lineTo(10, 10);
+    cx.closePath();
+    cx.stroke();
+</script>
 // Drawing a pie chart
 
 // Text
