@@ -247,8 +247,104 @@ cx.strokeReact(135, 5, 50, 50);
     cx.closePath();
     cx.stroke();
 </script>
-// Drawing a pie chart
 
+/**
+ * two control points specify direction
+ * at both ends of curve
+ * farther they are away from corresponding
+ * point the more curve will bulge
+ * 
+ * arch method way to draw line that curves
+ * along circle
+ * 
+ * takes a pair of coordinates for arcs cener
+ * a radius then start angle and end angle
+ * 
+ * the last two parameters make it possible to 
+ * draw only part of the circle
+ * angles measured in radians not degress
+ * full circle has angel of 2π or 2 * Math.PI
+ * which is about 6.28
+ * angle starts counting at point to right
+ * of circles center and goes clockwise from there
+ * use a start of 0 and end bigger than 2π 
+ * to draw full circle
+ */
+
+<canvas></canvas>
+<script>
+    let cx = document.querySelector("canvas").getContext("2d");
+    cx.beginPath();
+    // center=(50.50) redius=40 angle=0 to 7
+    cx.arc(50, 50, 40, 0, 7);
+    // center=(150,50) radius=40 angle=0 to π1/2
+    cx.arc(150, 50, 40, 0, 0.5 * Math.PI);
+    cx.stroke();
+</script>
+
+/**
+ * picture contains line from right of full circle
+ * first call to arc
+ * 
+ * to right of quarter-circle
+ * second call
+ * 
+ * 
+ * arc is connected to previous path segment
+ * 
+ * like other path-drawing methods line
+ * drawn with arc is connected to previous
+ * segement
+ * 
+ * call moveTo to avoid this
+ * to avoid this
+ */
+// Drawing a pie chart
+/**
+ * draw pie chart of customer satisfaction
+ * survey results
+ * 
+ * results binding contain array of objects
+ * that represent survey responses
+ * 
+ */
+
+const results = [
+    {name: "Statisfied", count: 1043, color: "lightblue"},
+    {name: "Neutral", count: 563, color: "lightgreen"},
+    {name: "Unsatisfied", count: 510, color: "pink"},
+    {name: "No comment", cound: 175, color: "silver"}
+];
+
+/**
+ * compute angle taken up by each
+ * arc by dividin full circle
+ * by total number of responses
+ * multiplyin number (angle per response)
+ * by number of people who picked 
+ * given choice
+ */
+
+<canvas width="200" height="200">
+    <script>
+        let cx = document.querySelector("canvas").getContext('2');
+        let total = results
+            .reduce((sum, {count}) => sum + count, 0);
+        // Start at top
+        let currentAngle = -0.5 * Math.PI:
+        for (let result of results) {
+
+            let sliceAngle = (result.count / total) * 2 * Math.PI;
+            cx.beginPath();
+            // center=100, 100, radius=100
+            // from curent angle, clockwise by slice's angle
+            cx.arc(100, 100, 100, 
+                    currentAngle, currentAngle + sliceAngle);
+            currentAngle += sliceAngle;
+            cx;
+        }
+    </script>
+</canvas>
 // Text
 
 // Images
