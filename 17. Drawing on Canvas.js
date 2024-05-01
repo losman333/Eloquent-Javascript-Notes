@@ -341,13 +341,128 @@ const results = [
             cx.arc(100, 100, 100, 
                     currentAngle, currentAngle + sliceAngle);
             currentAngle += sliceAngle;
-            cx;
+            cx.lineTo(100, 100);
+            cx.fillStyle = result.color;
+            cx.fill();
         }
     </script>
 </canvas>
+
 // Text
 
+/**
+ * fillText method
+ * 
+ * strokeText
+ * 
+ * fillStyle
+ */
+<canvas></canvas>
+<script>
+    let cx = document.querySelector("canvas").getContext("2d");
+    cx.font = "28px Georgia";
+    cx.fillStyle = "fuchsia";
+    cx.fillText("I can draw text, too!", 10, 50);
+</script>
+
+/**
+ * font property for size, style, font
+ * 
+ * fillText, strokeText provide position 
+ * at which font is drawn. They indicate
+ * position of start of text alphabetic baseline
+ * 
+ * textAlign property to end or center
+ * and the vertical position by seting
+ * textBaseline to top, middle or bottom
+ */
+
 // Images
+
+/**
+ * bitmap graphics vs vevtor
+ * 
+ *  bitmap doesn. specify actual shape
+ * works with pixel data (rasters of colored dots)
+ * 
+ * drawImage method allows pixel data drawing
+ * on canvas
+ * 
+ * pixel data cn originate form <img> element
+ * or other canvas
+ * 
+ * create detached <img> element and load
+ * image file into it
+ * regitster load event handler to draw after
+ * image has loaded
+ * 
+ */
+
+<canvas></canvas>
+<script>
+    let cx = document.querySelector("canvas").getContext("2d");
+    let img = document.createElement("img");
+    img.src = "img/hat.png";
+    img.addEventListener("load", () => {
+        for (let x = 10; x < 200; x += 30) {
+            cx.drawImage(img, x, 10);
+        }
+    });
+</script>
+
+/**
+ * drawImage will draw image at original size
+ * add two additional arguments to set 
+ * different width and height
+ * 
+ * when drawImage is given nine arguments
+ * it can be used to draw only a 
+ * fragement of an image second through
+ * fifth arguments indicate rectangle (x, y,
+ * width, and height)
+ * this can be used to pack multiple sprites(image, elements)
+ * into a single image file  and draw only the 
+ * part you need
+ * 
+ * clearRect method to animate picture on canvas
+ * resembles fillRect instead of coloring rectangle
+ * makes it transparent, removing previously
+ * drawn pixels
+ * 
+ * load image and set up interval(repeated timer)
+ * to draw the next frame
+ */
+
+<canvas></canvas>
+<script>
+    let cx = document.querySelector("canvas").getContext("2d");
+    let img = document.createElement("img");
+    img.src = "img/player.png";
+    let spriteW = 24, spriteH =30;
+    img.addEventListener("load", () => {
+        let cycle = 0;
+        setInterval(() => {
+            cx.clearRect(0, 0, spriteW, spriteH);
+            cx.drawImage(img, 
+                        // source rectangle
+                            cycle * spriteW, 0, spriteW, spriteH, 
+                            // destination rectangle
+                            0,          0, spriteW, spriteH);
+            cycle = (cycle + 1) % 8;
+        }, 120);
+    });
+</script>
+
+/**
+ * cycle binding tracks position in animation 
+ * for each frame is incremented and then
+ * clipped back to 0 to 7 range
+ * by using the remainder operator
+ * binding used to compute x-coordinate 
+ * that 
+ */
+
+/*difference between vector graphics a\d=andaa
 
 // Transformation
 
