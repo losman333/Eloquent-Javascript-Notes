@@ -459,15 +459,111 @@ const results = [
  * clipped back to 0 to 7 range
  * by using the remainder operator
  * binding used to compute x-coordinate 
- * that 
+ * that sprite for current pose
+ * has in the picture
  */
 
-/*difference between vector graphics a\d=andaa
 
 // Transformation
+/**
+ * scale method will cause anything drawn
+ * after it to be scaled. This method takes
+ * two parameters, 
+    * one to set a horizontal scale
+    * one set to vertical scale 
+ */
 
+let cx = document.querySelector("canvas").getContext("2d");
+cx.scale(3, .5);
+cx.beginPath();
+cx.arc(50, 50, 40, 0, 7);
+cx.lineWidth = 3;
+cx.stroke();
+
+/**
+ * scaling will cause everything about image
+ * to be squeezed
+ * 
+ * You could adjust the coordinates given to
+ * drawImage to compensate by drawing the image
+ * at x position -50 instead of 0
+ * 
+ * or
+ * 
+ * adjust axis around which scaling happens
+ * 
+ * rotate method to change coordinate system
+ * for a canvas as well as translate
+ * 
+ * transformations stack each method happens
+ * relative to previous transformations
+ * 
+ * if translating by 10 horizontal pixels
+ * twice, everything will be drawn 20 pixels
+ * to the right
+ * 
+ * moving center of coordinate system to 50, 50
+ * then rotate by 20 degrees( about 0.1π radians)
+ * that rotation will happen around point(50, 50
+ * 
+ * or first rotoate by 20 degrees then translate by 50, 50)
+ * order in which transforms are applied matters
+ * 
+ * to flip picture around vertical line at given x pos
+ * use
+ */
+
+function flipHorizontally(context, around) {
+    context.translate(around, 0);
+    context.scale(-1, 1);
+    context.translate(-around, 0);
+}
+
+/**
+ * move y-axis to where mirror should be
+ * apply mirroring, finally move y-axis
+ * back to proper place in mirrored universe
+ * 
+ * draw mirrored character at position
+ * (100, 0) by flipping world around
+ * characters vertical center
+ */
+
+let cs = document.queryselelctor("canvas").getContext("2d");
+let img = document.createElement("img");
+img.src "img/player.png";
+let sprieW = 24, spriteH = 30;
+img.addEventListener("load", () => {
+    flipHorizontally(cx, 100 + spriteW / 2);
+    cx.drawImage(img, 0, 0, spriteW, spriteH, 
+                100, 0, sptireW, spriteH);
+});
 // Storing and clearning transformations
+/**
+ * save and restore methods on 2d canvas context 
+ * do this transformation management
+ * 
+ * save current state is pushed onto stack
+ * restore state on top of stack is taken
+ * off used as context's current tranformation
+ * 
+ * resetTransform fully resets transformation
+ */
 
+let cx = document.querySelector("canvas").getContext("2d");
+function bruanch(length, angle, scale) {
+    cx.fillRect(0, 0, 1, length);
+    if (length < 8) return;
+    cx.save();
+    cx.translage(0, length);
+    cx.rotate(-angle);
+    bruanch(lenght * scale, angle, scale);
+    cx.rotate(2 * angle);
+    bruanch(length ( sclae, angle, scale);
+    cx.restore();
+    cx.translate(300, 0);
+    branch(60. 0.5, 0.8);
+}
 // Back to the game
 
 // Choosing a graphics interface
