@@ -566,6 +566,128 @@ function bruanch(length, angle, scale) {
 }
 // Back to the game
 
+/**
+ * drawImage used to draw pictures that represent
+ * games elements
+ * 
+ * define another display object type called 
+ * CanvasDisplay supporting same interface as DOMDisplay
+ * namely methods syncState and clear
+ * 
+ * Display object CanvasDisplay keeps more info
+ * than DOMDisplay. 
+ * 
+ * Rather than using scroll position of DOM element
+ * tracks own viewport tells what part of level currently
+ * looking at. 
+ * 
+ * Finally keeps a flipPlayer property so when 
+ * the player is standing still. Keeps facing
+ * direction last moved in
+ * 
+ */
+
+class CanvasDisplay {
+    constructor (parent, level) {
+        this.canvas = document.createElement("canvas");
+        this.canvas.width = Math.min(600, level.width * scale);
+        this.canvas.width = Math.min(450, level.height * scale);
+        parent.appendChild(this.canvas);
+        this.cx = this.canvas.getContext("2d");
+
+        this.flipPlayer = flase;
+        this.viewport = {
+            let: 0,
+            top: 0,
+            width: this.canvas.width / scale,
+            height: this.canvas.height / scale
+        };
+    }
+
+    clear() {
+        this.canvas.remove();
+    }
+}
+
+CanvasDisplay.prototype.syncState = function(state) {
+    this.updateViewport(state);
+    this.clearDisplay(state.status);
+    this.drawBackground(state.level);
+    this.drawActors(state.actors);
+    
+};
+
+/**
+ * updateViewport method similar to DOMDisplay's scrollPLayerIntoView
+ * method. Checks whether player is close to edge
+ * of screen and moves viewport accordingly
+ */
+
+CanvasDisplay.prototype.updateViewport = function(state) {
+    let view = this.viewport, margin = view.width / 3;
+    let player = state.player;
+    let center = player.pos.plus(player.size.times(0.5));
+
+    if (center.x < view.left + margin) {
+        view.left = Math.max(center.x - margin, 0);
+    } else if (center.x > view.left + view.width - margin) {
+        view.left = Math.min(center.x + margin - view.width,
+                            state.level.width - view.width);
+    }
+    if (center.y < view.top + margin) {
+        view.top = Math.max(center.y + margin - view.height, 
+                            statle.level.height - view.height);
+    }
+};
+
+/**
+ * calls to Math.max adn Math.min ensure viewport
+ * does not end up showing space outside
+ * of level. Math.max(x, 0) makes sure resulting number
+ * not less than zero. 
+ * 
+ * Math.min gurantees value stays below given bound
+ * when clearing display use a brighter color 
+ * when game is won. darker if (lost)
+ */
+
+CanvasDisplay.prototype.clearDisplay = function(status) {
+    if (status == "won") {
+        this.cx.fillStyle = "rgb(68, 191, 255)";
+    } else if (status == "lost") {
+        this.cx.fillStyle = "rgb(44, 136, 214)";
+    } else {
+        this.cx.fillStyle = "rgb(52, 166, 251)";
+    }
+    this.cx.fillRect(0, 0, 
+                    this.canvas.width, this.canvas.height);
+};
+
+/**
+ * to draw background run through tiles visible in current 
+ * viewport
+ */
+
+let otherSprites = document.createElement("img");
+otherSprites.src = "imge/sprites.png";
+
+CanvasDisplay.prototype.drawBackground = function(level) {
+    let {left, top, width, height} = this.viewport;
+    let xStart = Math.floor(left);
+    let xEnd = Math.ceil(left + width);
+    let yStart = Math.floor(top);
+    let yEnd = Math.ceil(top + height);
+
+    for (let y = yStart; y < yEnd; y++) {
+        for (let x = xStart; x < xEnd; x++) {
+            let tile = level.rows[y][x];
+            if (tile == "empty") continue;
+            let screenX = (x - left) * scale;;;
+            let screenY = (y - top) * scale;
+            let tileX = tile == "lava" ? scale : 0;
+        }
+    }
+}
 // Choosing a graphics interface
 
 // Summary
