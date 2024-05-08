@@ -685,9 +685,69 @@ CanvasDisplay.prototype.drawBackground = function(level) {
             let screenX = (x - left) * scale;;;
             let screenY = (y - top) * scale;
             let tileX = tile == "lava" ? scale : 0;
+            this.cx.drawImage(otherSprites,
+                            tileX,          0, scale, scale,
+                            screenX, screenY, scale, scale);
         }
     }
-}
+};
+
+/**
+ * tiles that are not empty drawn with drawImage. 
+ * otherSprites image contains pictures used for elements
+ * other than the player
+ * contains from left to right, wall tile
+ * lava tile and sprite for a coin
+ * 
+ * Background tiles are 20 x 20 pixels since 
+ * same scale used with DOMDisplay
+ * offset for lava tiles is 20 value
+ * of the scale binding offset for walls
+ * is 0
+ * 
+ * don't bother waiting for sprite image to load
+ * Callin drawImage with an image that hasn't 
+ * been loaded yet will simply do nothing
+ * 
+ * Thus we might fail to draw game properly for 
+ * first few frames while image is still loading
+ * since screen keeps updating correct scene will
+ * appear as soon as loading finishes
+ * 
+ * walking character will be used to represent
+ * player. Code that draws it needs to pick
+ * the right sprite and direction based on
+ * players current motion. first eight
+ * sprites contain walking animation.
+ * 
+ * When player is moving along a floor
+ * we cycle based on the current time
+ * 
+ * time is divided by 60 to switch frames 
+ * every 60 milliseconds
+ * 
+ * when player is standing still we draw ninth
+ * sprite. During jumps tenth, which are 
+ * recognized by fact vertical speed is not 
+ * zero rightmost sprite is used
+ * 
+ * because sprites slightly wider than player
+ * object 24 instead of 16 pixels to allow some space
+ * for feet and arms. Method has to adjust x-coordinate 
+ * and width by amount (playerXOverlap)
+ */
+
+let playerSprites = document.createElement("img");
+playerSprites.src = "img/player.png";
+const playerXOverlap = 4;
+
+CanvasDisplay.prototype.drawPlayer = function(player, x, y,
+                                                    width, height){
+
+    width += playerXOverlap * 2;
+    x -= playerXOverlap;
+    if (player.speed.x !=0)}
+
 // Choosing a graphics interface
 
 // Summary
