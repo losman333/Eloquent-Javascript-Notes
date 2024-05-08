@@ -746,10 +746,120 @@ CanvasDisplay.prototype.drawPlayer = function(player, x, y,
 
     width += playerXOverlap * 2;
     x -= playerXOverlap;
-    if (player.speed.x !=0)}
+    if (player.speed.x !=0) {
+        this.flipPlayer = player.speed.x < 0;
+    }
+
+    let tile = 8;
+    if (player.speed.y != 0) {
+        tile = 9;
+    } else if (player.speed.x != 0) {
+        tile = Math.floor(Date.now() / 60) % 8;
+    }
+
+    this.cx.save();
+    if (this.flipPlayer) {
+        flipHorizontally(this.cx, x + width / 2);
+    }
+    let tileX = tile * width;
+    this.cx.drawImage(playerSprites, tileX, 0, width, height, 
+                                    x,    y, width, height);    
+    this.cx.restore();
+
+};
+
+/**
+ * drawPlayer method called by drawActors
+ * which is responsible for drawing all
+ * actors in game
+ */
+
+CanvasDisplay.prototype.drawActors = function(actors) {
+    for (let actor of actors) {
+        let width = actor.size.x * scale;
+        let height = actor.size.y * scale;
+        let x = (actor.pos.x - this.viewport.left) * scale;
+        let y = (actor.pos.y - this.viewport.top) * scale;
+        if (actor.type == "player") {
+            this.drawPlayer(actor, x, y, width, height);
+        } else {
+            let tileX = (actor.type == "coin" ? 2 : 1) * scale;
+            this.cx.drawImage(otherSprites, 
+                                tilex, 0, width, height, 
+                                x,        y, width, height);
+        }
+    }
+};
+
+/**
+ * when drawing something that is not player
+ * look at its type to find correct offset
+ * of the correct sprite.
+ * 
+ * lava tile found at offset 20 coin sprite
+ * found at 40 two times scale
+ * 
+ * subtract viewports position when computing 
+ * actors position since (0, 0) corresponds
+ * to top left of viewport not top left
+ * of level. You could hvae used translate
+ */
 
 // Choosing a graphics interface
 
+/**
+ * svg desgined for drawing used to produce
+ * crisp graphcs that look good at any
+ * zoom level
+ * 
+ * controlls are interface elements that appear
+ * below picture
+ * will provided  asn an array 
+ * 
+
+ * 
+ * both svg and html build a data structure (dom
+ * ) represents picture. Makes it possible to modify
+ * elements aftert after they are drawn 
+ * 
+ * IF changes  are needed in response to what
+ * user is doing as part of an animation 
+ * using canvas needlessly expensive
+ * 
+ * DOM allows to register mouse event handlers 
+ * on every element
+ * in picture
+ * even shapes drawn with svg cant do that with canvas
+ * 
+ * 
+ * canvas pixel-oriented approach can be advantage
+ * when drawing huge number of tine elements
+ * does not build data structre. but repeadtedly
+ * draws onto same pixel surfave gives canvas low
+ * cost per shape
+ * 
+ * also with effects such as rendering 
+ * scene one pixel at a time ( using ray tracer
+ * postproccessing an image with JS (blurring or distorting it)
+ * can be realistically handled by pixel-basd approach
+ * 
+ * 
+ */
 // Summary
+
+/**
+ * canvas node represents area in document that program may 
+ * draw on drawing done through drawing context object
+ * created with getContext method
+ * 2d drawing interface allows to fill and stroke various
+ * shapes
+ * context fillStyle prorperty determines how shapes are filled
+ * the strokeStyle and lineWidth properties control way lines
+ * are drawn
+ * 
+ * Rectangles and pieces of text can be drawn with single
+ * method call. fillRect and strokeRect methods draw 
+ * rectangles and fillText and strokeText methods draw text. 
+ */
 
 // Exercies
