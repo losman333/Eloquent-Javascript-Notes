@@ -860,6 +860,87 @@ CanvasDisplay.prototype.drawActors = function(actors) {
  * Rectangles and pieces of text can be drawn with single
  * method call. fillRect and strokeRect methods draw 
  * rectangles and fillText and strokeText methods draw text. 
+ * 
+ * To draw custom shapes you must first build up a path
+ * 
+ * Calling beginPath starts new path. Other methods add
+ * lines and curves to current path
+ * lineTo can add straight line 
+ * 
+ * when path is finished it can be filled with fill method
+ * or stroked with the stroke method
+ * 
+ * Moving pixels from an image or another canvas 
+ * onto our canvas is done with drawImage method. This
+ * method draws whole source image giving it more
+ * parameters can copy specific area of the image
+ * 
+ * can be used by copying individual poses of game
+ * character out of an image that contained
+ * many such poses
+ * 
+ * Transformation allow you to draw shape in multiple
+ * orientations 2d drawing context has current transformation
+ * that can be changed with translate, scale, rotate methods
+ * will affect all subsequent drawing operations
+ * 
+ * transformation state can be saved with save method
+ * and restored with restore method
+ * 
+ * when showing animation on canvas clearRect method
+ * can clear part of canvas before redrawing it
  */
 
 // Exercies
+
+// Shapes
+
+/**
+ * write a program that draws following
+ * shapes on a canvas
+ * 
+ * a trapezoid
+ * 
+ * a red diamon
+ * 
+ * a zigzaggin line
+ * 
+ * spiral made up of 100 straight line segments
+ * a yellow star
+ * 
+ * use Math.cos and Math.sin
+ * 
+ * create a function for each shape
+ * 
+ * pass position and other properties 
+ * such as size or number of points as
+ * parameters
+ */
+
+// Pie Chart
+
+/**
+ * name each category in pie shart next to 
+ * slice that represents it
+ * 
+ * use Math.sin and Math.cos
+ */
+
+// Bouncing Ball
+
+/**
+ * use requestAnimationFrame to draw bouncing ball
+ * ball moves at constant speed and bounces off box's sides
+ * when it hits them
+ */
+
+// Precomputed Mirroring
+/**
+ * transformation slow down bit maps
+ * position and size of each pixel has to be transformed
+ * 
+ * THink of way to draw inverted character
+ * without loading additional image files
+ * without having to make transformed drawImage calls
+ * every frame
+ */
