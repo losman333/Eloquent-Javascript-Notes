@@ -90,4 +90,7 @@
 
     codes that start with 5 mean error happened on 
     server and request is not to blame
+
+    first line of request or response may be
+    followed by any number of headers
  */
