@@ -93,4 +93,50 @@
 
     first line of request or response may be
     followed by any number of headers
+
+    line in form name value that specify extra
+    information about request or response
+    headers were part of example response
+
+    Content-Length: 65585
+    Content-Type: text/html
+    Last-Modified: Thu, 04 Jan 2018 14:05:30 GM
+
+
+    tells the size of the doc, last modified, 
+
+    most headers, client and server are free to
+    decide whether to include them in a request
+    response
+
+    Host header specifies hostname should be
+    included in request because server might serve
+    multiple hostnames on single IP address 
+    without that header server won't know
+    which hostname client is trying to talk to
+
+    after headers both request and responses
+    may include blank line followed by body
+    which contains data being sent
+    
+    get and delete don't send any data 
+    put and post request do.
+
+    some response types such as error responses
+    do not require a body
+ */
+
+// Browser and http
+
+/**
+ * 
+ * browser will make several get request
+ * rather than wait for responses one 
+ * at a time
+ * 
+ * <form method="GET" action="example/message.html"> 
+ * <p>Name: <input type="text" name="name"></p> 
+ * <p>Message:<br><textarea name="message"></textarea></p> 
+ * <p><button type="submit">Send</button></p>
+</form>
  */
