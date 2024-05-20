@@ -432,3 +432,25 @@ console.log(document.activeElement.tagName);
 
 // Disable fields
 
+/**
+ * disable attribute a way to disable
+ * form fields an attribute that can be 
+ * 
+ * Disabled fields cannot be focused or changed
+ * browsers make them look gray and faded
+ * 
+ * name attribute of a form field determines
+ * can be used as a property
+ * name when accessing forms element
+ * property called elements that
+ * contains an array-like collection
+ */
+
+<form action="example/submit.html">
+  Name: <input type="text" name="name"><br>
+  Password:<input type="password" name="password"><br>
+  <button type="submit">Log in</button>
+  
+</form>
+
+
