@@ -304,4 +304,131 @@ fetch("example/data.txt")
     /**
      * browsers protect users by disallowing scripts
      * to make HTTP requests to other domains
+     * 
+     * a header used to indicate to browser that
+     * a request came from another domain
+     * 
+     * Access-Control-Allow-Origin
      */
+
+    // Appreciating HTTP
+
+    /**
+     * building a system that requires 
+     * communication between JavaScript program 
+     * running in the browser several
+     * ways to model this commumication
+     * 
+     * remote procedural calls
+        - communication follows patterns
+          of normal function calls.
+          - function running on other machine
+            - calling it involvrs making 
+              request to server that includes
+              function name and arguements
+
+    * Build communication around concept of
+      - of resources and HTTP methods 
+        - instead of remote procedure
+          called addUser use PUT request
+        
+        - instead of encoding user properities]
+        - Define a JSON document that represents
+          users properties instead of encoding
+          into a function arguement
+
+          body of the PUT request to create
+          a new resource
+
+          resource is fetched by making a GET 
+          request to the resources returns
+          document representing resource
+
+          HTTP features 
+
+          - support for cacheing resources
+            keep a coppy on the client for fast access
+
+
+
+
+
+     */
+
+// Security and HTTPS
+
+/**
+ * HTTPS wraps HTTP traffic in a way that makes it harder
+ * to read and tamper with. Client verifies 
+ * server is who it claims to be by asking
+ * to prove that it has a cryptographic
+ * certificate issued by certificate authority
+ *  - all data going over the connection is encrypted 
+ *    that prevents eavesdropping and tapmering
+ *  - HTTPS prevents people from impersonating
+ *    from snooping on your communication
+ * 
+ */
+
+// Form Fields
+
+/**
+ * form elements are part of DOM like 
+ * the rest of the page
+ * 
+ * input fields gropued in a <form> tag
+ * 
+ * multiline text fields have their own tag
+ * <textarea>
+ * 
+ * <select> tag used to create field that
+ * allows user to select from predefined
+ * options
+ * 
+ * when value of form field changes will fire
+ * a change event
+ */
+
+//Focus
+
+/**
+ * to control focus from JavaScript with
+ * focus and blur method
+ * 
+ * value in document.activeElement
+ * corresponds to currently focused element
+ */
+
+document.querySelector("input").focus();
+console.log(document.activeElement.tagName);
+// INPUT
+document.querySelector("input").blur();
+console.log(document.activeElement.tagName);
+
+/**
+ * HTML also provides autofocus
+ * attribute. Gives browser the option
+ * to disable the behavior when user
+ * has put focus on something else
+ * 
+ * tabindex lets you influence the order
+ * in which elements receive focus 
+ * 
+ * example lets focus jump from text
+ * input to OK button rather than
+ * going to help link first
+ */
+
+<input type="text" tabindex=1>
+<a href=".">(help)</a>
+<button onclick="console.log('ok')" tabindex=2>OK</button>
+
+/**
+ * you can add tabindex attribute to any element
+ * that will make it focusable.
+ * tabindex of -1 makes tabbing skip over
+ * an element even if it is normally focusable
+ */
+
+// Disable fields
+
