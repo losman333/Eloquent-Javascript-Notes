@@ -574,4 +574,63 @@ checkbox field is a binary toggle
   </script>
  */
 
+/**
+<label> tag associates a piece of document with 
+  an input field
 
+  radion button similar to checkbox linked 
+  to other radio buttons with same name attribute
+  son only one of them can be active at any time
+
+  Color:
+  <label>
+    <input type="radion" name="color" value="orange">orange
+  </labe>
+  <label>
+    <input type="radio" name="color" value="lightgreen"> Green
+  </label>
+  <label>
+    <input type="radio" name="color" value="lightblue"> Blue
+  </label>
+  <script>
+    let buttons = document.querySelectorAll("[name=color]");
+    for (let button of Array.from(buttons)) {
+      button.addEventListner("change", () => {
+        document.body.style.background = button.value;
+      });
+    }
+  </script>
+
+  square brackets in CSS query given to querySelectorAll
+  are used to match attributes. It selects elements
+  whose name attribute is color
+ */
+
+// Select Fields
+/**
+similar to radio buttons also allow user to choose
+from a set of options
+
+radion button puts layout under user control
+
+appearance of <select> tag is determined by the browser
+
+when givn multiple attribute select tag will allow
+user to select any number of options rather than just a 
+single option
+
+Each <option> tag has a value
+  can be defined with a value attribute
+  text inside option will count as its value
+
+  value property of <select> reflects currently
+    selected option
+
+  <option> tags for select field can be accesdedd
+    as am array-lie kk e `1l`
+
+                                                        
+    Example extracts selected value from a multiple
+    field an uses them to compose a binary number
+    from indidual tools                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+ */ 
