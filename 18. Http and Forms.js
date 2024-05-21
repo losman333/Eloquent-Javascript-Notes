@@ -554,3 +554,24 @@ text and counter displaying current length of text in field:
  */
 
 
+ // Checkboxes and radio Buttons
+/**
+checkbox field is a binary toggle
+  value can be extracted or changed
+  through its checked property which
+  hold a Boolean value
+
+  <label>
+    <input type="checkbox" id="purlpe"> Make ths page
+    purple
+  </label>
+  <script>
+    let checkbox = document.querySelector("#purple");
+    checkbox.addEventListener("change", () => {
+      document.body.style.background =
+        checkbox.checked ? "mediumpurple" : "";
+    });
+  </script>
+ */
+
+
