@@ -450,7 +450,107 @@ console.log(document.activeElement.tagName);
   Name: <input type="text" name="name"><br>
   Password:<input type="password" name="password"><br>
   <button type="submit">Log in</button>
-  
 </form>
+<script>
+  let form = document.querySelector("form");
+  console.log(form.elements[1].type);
+  // password
+  console.log(form.elements.password.type);
+  // true
+</script>
+
+<form action="example/submit.html"> Value: <input type="text" name="value"> <button type="submit">Save</button>
+ </form>
+ <script>
+let form = document.querySelector("form"); 
+form.addEventListener("submit", event => {
+  console.log("Saving value", form.elements.value.value);
+  event.preventDefault();
+   });
+</script
+
+</input>
+
+/</br>
+/</input>
+
+/</form>
+
+
+//Text Fields
+
+/**
+fields created by <textarea>tags or <input>tags with
+a type of text or password share a common interface
+DOM elements have a value property
+that holds their current content as a string value
+Setting this property to another string
+changes the fields content
+
+
+selectionStart and selectionEnd properties of
+text fields give us information about the cursor
+and selection in the text
+
+   when nothing is selected these two properties
+   hold the same number indicating the position
+   of the cursor
+
+   0 indicates start of text
+   10 indicates cursor after the 10th character
+
+   When part of the field is selected two properties will
+   differ giving us the start and end of selected text
+
+   like value these properties may also be written to
+
+   <textarea></textarea>
+   <script>
+    let textarea = document.querySelector("textarea");
+
+    textarea.addEventListener("keydown", event => {
+      // the key code for f2 happens to be 113
+      if (event.keyCode == 113) {
+        replaceSelection(textarea, "Khasekhemwy");
+        event.preventDefault();
+      }
+    });
+    function replaceSelection(field, word) {
+      let from = field.selectionStart, to = field.selectionEnd;
+      field.value = field.value.slice(0, from) + word +
+                    field.value.slice(to);
+      // Put the cursor after the word
+      field.selectionStart = from + word.length;
+      field.selectionEnd = from + word.length;
+    }
+
+replaceSelection replaces currently selected
+part of text fields content with the given word
+and moves the cursor after text fields content
+with given word
+
+change event for a text field does not fire every time
+something is typed
+
+it fires when field loses focus after its content
+was changed
+
+to respond to changens in a text field register
+a handler for the input event instead
+
+which fires for every time the user types a character
+deletes text or manipulates fields content
+
+text and counter displaying current length of text in field:
+
+<input type="text">length:<span id="length">0</span>
+<script>
+  let text = document.querySelector("input");
+  let output = document.querySelector("#length");
+  text.addEventListener("input", () => {
+    output.textContent = text.value.length;
+  });
+</script>
+ */
 
 
