@@ -632,5 +632,149 @@ Each <option> tag has a value
                                                         
     Example extracts selected value from a multiple
     field an uses them to compose a binary number
-    from indidual tools                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+    from indidual tools   
+
+    <select multiple>
+      <option value="1">0001</option>
+      <option value="2">0001</option>
+      <option value="4">0001</option>
+      <option value="8">0001</option>
+    </select> = <span id="output">0</span>
+    <script>
+      let select = document.querySelector("select");
+      let output = document.querySelector("#output");
+      select.addEventListener("change", () => {
+        let number = 0;
+        for (let option of Array.from(select.options)) {
+          if(option.selected) {
+            number += Number(option.value);
+          }
+        }
+        output.textContent = number;
+      });
+    </script>
+
  */ 
+
+ // File Fields
+
+ /**
+ file fields were originally designed  to upload file
+ from user machine through a form
+
+ uses script and interprets action so script
+ may read the file
+
+ file field looks like button labeled with 
+ something like choose file and browse
+
+ <input type="file">
+  <script>
+    let input = document.querySelector("input");
+    input.addEventListener("change", () => {
+      if (input.files.length > 0) {
+        let file = input.files[0];
+        console.log("You chose", file.name);
+        if (file.type) console.log("It has type", file.type);
+      }
+    });
+    </script>
+
+    files property of a file field element is 
+    an array-like object (again not a real array)
+    containing the files chosen in the field 
+    intially empty
+
+    reason there isn't simply a file property is that file
+    fields also support a multiple attribute makes it 
+    possible to seelct multiple files at the same time
+
+    objects in files object have properties such as name
+      - name
+      - size (size in bytes chunks of 8 bits)
+      - type (text/plain or image/jpeg)
+
+        Does not have properties that containing
+        content of the file 
+
+        interface must be asynchronus to avoid
+        freezing the document 
+
+        <input type="file" multiple>
+          <script>
+            let input = document.querySelector("input");
+            input.addEventListener("change", () => {
+              for (let file of Array.from(input.files)) {
+                let reader = new FileReader();
+                reader.addEventListener("load", () => {
+                  console.log("File", file.name, "starts with", 
+                              reader.result.slice(0, 20));
+                });
+                reader.readAsText(file);
+              }
+            });
+    </script>
+  */
+
+  /**
+  reading a file is done by creating FileReader object
+  register a load event handler for it. callingits readAsText
+  method when loading finishes readers result contains
+  files content
+
+  File readers also fire an error event whe 
+  reading the file fails for any reason
+  interface was designed before promises became part 
+  of the language wrap in a promise
+  
+  function readFileText(file) {
+    return new Promise((resolve, reject) => {
+      let reader = new FileReader();
+      reader.addEventListener(
+        "load", () => resolve(reader.result));
+      reader.addEventListener(
+        "error" () => reject(reader.error));
+      reader.readAsText(file);
+    });
+  }
+
+   */
+
+   //Storing Data Client-Side
+
+   /**
+  simple html pages with JS can be great for 
+  mini applications
+
+  connecting form filelds with event handlers allows
+  you to create small applies
+
+  You cannot use Javascript bindings to remember between sessions
+  JS binding thrown away every time the page is closed
+
+  set up a server connect to the internet have  application
+  store something there
+
+  local storage object used to store data to survive
+  page reloads allows you to file string valus under names
+
+
+  localStorage.setItem("user", "marign");
+  console.log(localStorage.getItem("username"));
+  // marign
+  localStorage.removeItem("username");
+
+  value in localStorage sticks around until is
+  overwritten removed with removeItem or user
+  clears local data
+
+  browsers eforce a limit on size of data a site 
+  can localStorage. prevents feature from eating too
+  much space
+
+  a crude note-taking application keeps
+  a set of named notes and allows user to edit notes
+  and create new ones.
+
+    */
+
