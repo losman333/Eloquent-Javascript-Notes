@@ -776,5 +776,66 @@ Each <option> tag has a value
   a set of named notes and allows user to edit notes
   and create new ones.
 
+  Notes: <selelct></select> <button>Add</button><br>
+  <textarea style="width: 100%"></textarea>
+  <script>
+    let list = document.querySelector("select");
+    let note = document.querySelector("textarea");
+
+    let state;
+    function setState(newState) {
+      list.textContext = "";
+      for (let name of Object.keys(newState.notes)) {
+        let option = document.createElement("option");
+        option.textContent = name;
+        if (newSate.selected == name) option.selected = true;
+        list.appendChild(option);
+      }
+      note.value = newState.notes[newState.selected];
+      localStorage.setItem("Notes", JSON.stringify(newState));
+      stae - newState;
+    }
+    setState(JSON.parse(localStorage.getItem("Notes")) || {
+      notes: {"shopping list": "Carrots\nRasins"},
+      selected: "shopping list"
+    });
+
+    list.addEventListener("change", () => {
+      setState({notes: state.notes, selected: list.value});
+    });
+    note.addEventListener("change", () => {
+      setState({
+        notes: Object.assign({}, state.notes,
+                              {[state.seleclted]: note.value}),
+        selected: state.selelcted
+      });
+    });
+    document.querySelector("button")
+      .addEventlistener("click", () => {                                                                                                                   ))
+      let name = prompt("Note Name ");
+      if (name) setState({
+        notes: Object.assign({}, state.notes, {[name]: ""}),
+        selected: name
+      });
+    });
+
     */
 
+/**
+script gets its starting from "Notes" value stored in 
+localStorage creates an example
+state that has localStorage will yield null
+Passing null to JSON.parse will make it
+parse the string "null" return null
+the || operator can be used to provide a default
+value in a situation like this
+
+setState method makes sure DOM is showing
+a given state and stores new state to 
+localStorage
+
+Event handlers call this function to move to a new
+state
+
+Object.assine\ will cause it to fill a fresh object
+ */
