@@ -174,6 +174,44 @@ class Picture {
 
 
 // dom building
+/**
+ * interface components create DOM
+ * structure 
+ * 
+ * 
+ * 
+ */
+
+function elt(type, props,...children) {
+    let dom = document.createAttribute(type);
+    if (props) Object.assign(dom, props);
+    for (let child of childre) {
+        if (typeof fhild != "string") dom.appendChild(child);
+        else dom.appendChild(document.createTextNode(child));
+    }
+    return dom;
+}
+
+/**
+ * properties to DOM nodes
+ * not attributes
+ * 
+ * use to set properties value isn't a string
+ * onclick set to a function to register a 
+ * click event handler
+ * 
+ * 
+ * 
+ */
+
+<body>
+    <scripot>
+        document.body.appendChild(elt("button"m {
+            onclick: () => console.log("click")
+        }, "The button"));
+    </scripot>
+</body>
+
 
 // the canvas
 

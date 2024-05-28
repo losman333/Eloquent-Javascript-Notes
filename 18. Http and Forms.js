@@ -837,5 +837,159 @@ localStorage
 Event handlers call this function to move to a new
 state
 
-Object.assine\ will cause it to fill a fresh object
+Object.assign will cause it to fill a fresh object
+
+square brackets notation in third argument used to create a property
+whose name is based on some dynamic value
+
+session storage
+    session storage is 
+    forgotten at the end
+    of each session.
+    whenever browser is closed
+ */
+
+ Summary
+
+ /**
+ hot HTTP protocol works
+    client sends a request
+    which contains a get method
+
+    server decides what to do
+    with the request and responds
+    with a status code and a responds
+    with status code and a response
+    body.
+
+    Both requests and responses may
+    contain headhers that provide
+    additional information that
+    provide additional information
+
+    interface through which JS can
+    make HTTP request is called
+    Fetch making a request looks like
+    this
+
+    fetch("/18_http.html").then(r => r.text()).then(text => {
+      console.log(`the page starts with ${text.slice(0, 15)}`);
+    });
+
+
+  Browser make GET requests to fetch resources
+  needed to display a web page. A page may
+  also contain forms which allow information
+  entered by the user to be sent as request for
+  new page when form is submitted
+
+  HTML can represent various types of form fields
+  such as text fields checkboxes multiple-choice
+  fields and file pickers
+
+  Fields can be inspected an manipulated
+  with JS. They fire change event when changed
+  fire the input event when text is typed
+  and receive keyboard events when they have
+  keyboard focus
+
+  Properties like value( for text and select fields)
+  or checked for checked for boxes and radio buttons
+  are used to read or set the fields content
+
+  when a form is submitted a "submit" event is FileReader
+  on it. 
+
+  Javascript handler can call preventDefault on event
+  to disable browsers default behaviors 
+
+  File reader can be used to access the content
+
+  localStorage and sessionStorage can be used
+  to save information to survive page 
+  reloads. 
+
+  first object saves data forever or until user decides
+  to clear it and saves it until the browser is closed
+
+
+  Excercises
+
+  /**
+  HTTP can do content negotiation
+
+  Accept request header is used to 
+  tell server what type of document
+  client would like to get
+
+  Many servers ignore this header
+  when server knows of various ways to encode a resource
+  it can look at this header and send
+  the one that client prefers 
+  
+  url https://eloquentjavascript.net/author is 
+  configured to respond with either plaintext, HTML
+  JSON, depending on what the client asks 
+  formats are identified by the standardized media
+  types text/plain.text/html, and application/JSON
+
+  send request to fetch all three formats of this resouroce
+  Use the headers property in the options object
+  passed to fetch to set header named Accept
+
+  to desired media type
+
+  finally try asking for media type 
+  application/rainbows+unicorns see 
+  which status code that produces
+  
+   */
+
+  */
+
+// JAVASCRIPT WORKBENCH
+/**Build an Interface that allows people to
+type and run pieces of JavaScript code
+
+Put a button next to a <textarea> field when
+pressed uses function constructor to wrap
+the text in a function and call instanceof.
+
+Convert return value of function or any
+error it raises to a string and display it
+below the text field
+*/
+
+// Conways Game Life
+/**
+conways Game of Life is a simple simulation that creates
+artificial like on a grid the following
+rules are applied
+
+    Any live cell with fewwer than two
+    or more than three live neighbors
+    disable
+
+    Any live cell with two or three live neighbors
+    lives on to the text generation
+
+    Any dead cell with exactly three live neighbords
+    becomes a live cell
+
+    a neighbor is defined as any adjacent cell
+    including diagonally adjacent ones.
+
+    these rules are applied to the whole grid
+    
+
+    use Math.random to populate the grid
+    with a random pattern initially
+
+    Display it as a grid of checkbox fields
+    with a button next to it to advance to
+    the next generation when user checks
+    or unchecks the checkboxes their changes
+    should be included when computing the next
+    generation
+
  */
