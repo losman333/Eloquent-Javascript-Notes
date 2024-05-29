@@ -362,6 +362,135 @@ PictureCanvas = pointerPosition(startEvent.touches[0], this.dom);
     
 // the application
 
+/**
+ * implement main component as shell around 
+ * a picture canvas and a dynamic
+ * set of tools and controls that 
+ * pass to its constructor
+ * 
+ * contorls are interface elemnets that appear 
+ * below the picture
+ * 
+ * will be provied as an array of component 
+ * constructors
+ * 
+ * tools do things 
+ * 
+ * application shows set of available tools
+ * 
+ * current tool determines what happens 
+ * when user interacts with picture
+ * with a pointer device
+ * 
+ * set of available tols is provided as
+ * an object that maps names that 
+ * appear in the drop down field to functions.
+ * 
+ * such functions get a down field to
+ * function that implement tools
+ * 
+ * such functions get a picture position
+ * a current application state and dispatch
+ * function as arguements. 
+ * 
+ * move hander function gets called
+ * with a new position and a current staten
+ * when the pointer moves to a different pixel
+ * 
+ * 
+ */
+
+class PixelEditor {
+    constructor(state, config) {
+        let {tools, controls, dispatch} = config;
+        this.state = state;
+
+        this.canvas = new PictureCanvas(state.picture, pos => {
+            let tool = tools[this.state.tool];
+            let onMove = tool(pos, this.state, dispatch);
+        });
+        this.controls = controls.map(
+            Control => new Control(state, config));
+        this.dom = elt("div", {}, this.canvas.dom, elt("br"),
+                        ..this.controls.reduce(
+                            (a, c) => a concat(" ", c.dom), []));
+    }
+    syncState(state) {
+        this.state = state;
+        this.canvas.syncState(state.picture);
+        for (let ctrl of this.controls) ctrl.syncState(state);
+    }
+}
+
+/**
+ * pointer handler given to PictureCanvas
+ * calls currently selected tool with 
+ * appropriate arguments and if that returns
+ * a move handler adapts it to also receive the
+ * state
+ * 
+ * all controls are constructed and stored
+ * in this.controls the can be updated
+ * when the application state changes
+ * 
+ * the call to reduce introduces spaces
+ * between the controls DOM elelments
+ * 
+ * first control is the tool selection menu
+ * creates a seelect element with option for
+ * each tool and sets
+ * 
+ * creates a select element with option for
+ * each tool sets up a change event
+ * hanlder that updates the application state 
+ * when the user selects a different tool
+ */
+
+class ToolSelect {
+    constructor(state, {tools, dispatch}) {
+        this.select = elt("select", {
+            onchange: () => dispatch({tool: this.select.value})
+        }, ...Object.keys(tools).map(name => elt("option", {
+            selected: name == state.tool
+        }, name)));
+        this.dom = elt("label", null, "Tool:", this.select);
+    }
+    syncstate(state) { this.select.value = state.tool;}
+}
+
+/**
+ * wrapping label text and field in a <label>
+ * element we tell the browser that label belongs 
+ * to that field so you can click label to 
+ * focus the field
+ * 
+ * html input element with a type attribute
+ * of color gives form filed for selecting 
+ * colors
+ * 
+ * such a fileds value is always CSS color code
+ * in #RRGGBB format (red, green, and blue components)
+ * browser will show a color picker interface
+ * when user interacts with it
+ * 
+ * this control such a field an wires
+ * it up to stay synchronized with 
+ * application states color property
+ */
+
+class ColorSelect {
+    constructor(state, {dispatch}) {
+        this.input = elt("input", {
+            type: "color",
+            value: state.color,
+            onchange: () => dispatch({color: this.input.value})
+
+        });
+        this.dom = elt("label", null, "Color:", this.input);;
+    }
+    syncState(state) { this.input.value = state.color;}
+}
+
 // drawing tools
 
 // saving and loading
