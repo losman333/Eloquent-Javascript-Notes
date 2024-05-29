@@ -196,25 +196,170 @@ function elt(type, props,...children) {
  * properties to DOM nodes
  * not attributes
  * 
- * use to set properties value isn't a string
+ * uses to set properties whose value isn't a string
  * onclick set to a function to register a 
  * click event handler
  * 
- * 
+ * allows the following style of registering
+ * event handlers
  * 
  */
 
 <body>
-    <scripot>
-        document.body.appendChild(elt("button"m {
+    <script>
+        document.body.appendChild(elt("button", {
             onclick: () => console.log("click")
         }, "The button"));
-    </scripot>
+    </script>
 </body>
 
 
 // the canvas
 
+/**
+ * define the component as part of the
+ * interface display
+ * 
+ * will display picture as a grid of boxes
+ * 
+ * shows the picture and communicates
+ * pointer events on picture to the rest 
+ * of the application
+ * 
+ * component can only know about the picture
+ * not the whole application state
+ * 
+ * When responding to pointer events
+ * uses callback function which will
+ * handle application-specifc parts
+ */
+
+const scale = 10;
+
+class PictureCanvas {
+    constructor(picture, pointerDown) {
+        this.dom = elt("canvas", {
+            onmousedown: event => this.mouse(event, pointerDown),
+            ontouchstart: event => this.touch(event, pointerDown)
+        });
+        this.syncState(picture);
+    }
+    syncState(picture) {
+        if (this.picture == picture) return;
+        this.picture = picture;
+        drawPicture(this.picture, this.dom, scale);
+    }
+}
+
+/**
+ * draw each pixel as 10 by 10 square 
+ * determined by the scale constant
+ * 
+ * component keeps track of its current
+ * picture
+ * 
+ * Does a redrawwhen syncState is given
+ * a new picture
+ * 
+ * actual drawing function sets size
+ * of the canvas based on scale and picture
+ * size fills it with a series of squares
+ * one for each pixel
+ */
+
+function drawPicture(picture, canvas, scale) {
+    canvas.width = picture.width * scale;
+    canvas.height = picture.height * scale;
+    let cx = canvas.getContext("2d");
+
+    for (let y = 0; y < picture.height; y++) {
+        for (let x = 0; x < picture.width; x++) {
+            cx.fillstyle = picture.pixel(x, y);
+            cx.fillRect(x * scale, y * scale, scale, scale);
+        }
+    }
+}
+
+/**
+ * when left mouse button is pressed 
+ * while mouse is over picture canvas
+ * component calls pointerDown callback
+ * 
+ * gives position of pixel that was
+ * clicked in picture coordinates
+ * will be used to implement mouse
+ * interaction with picture
+ * 
+ * callback may return another callback
+ * function to be notified when pointer
+ * is moved to a different pixel
+ * while button is held down
+ */
+PictureCanvas.prototype.mouse = function(downEvent, onDown) {
+    if (downEvent.button != 0) return;
+    let pos = pointerPosition(downEvent, this.dom);
+    let onMove = onDown(pos);
+    if (!onMove) return;
+    let move = moveEvent => {
+        if (moveEvent.button == 0) {
+            this.dom.removeEventListener("mousemove", move);
+        } else {
+            let newPos = pointerPosition(moveEvent, this.dom);
+            if (newPos.x == pos.x && newPos.y == pos.y) return;
+            pos = newPos;
+            onMove(newPos);
+        }
+    };
+    this.dom.addEventListener("mousemove", move);
+};
+
+function pointerPosition(pos, domNode) {
+    let rect = domNode.getBoundingClientRect();
+    return {x: Math.floor((pos.clientX - rect.left) / scale), 
+            y: Math.floor(pos.clientX - rect.top) / scale};
+}
+
+/**
+ * getBoundingClientRect
+ * to find position of the canvas on 
+ * the screen its possible
+ * to go from mouse event 
+ * coordinates (clientX and clientY)
+ * to picture coordinates
+ * 
+ * always rounded down to refer to a specfic pixel
+ * 
+ * with touch events make sure to call preventDefault
+ * on the touchstart event to prevent panning
+ */
+
+PictureCanvas = pointerPosition(startEvent.touches[0], this.dom);
+
+    let pos = pointerPosition(startEvent.touches[0], this.dom);
+    let onMove = onDown(pos);
+    startEvent.preventDefault();
+    if (!onMove) return;
+    let move = moveEvent => {
+        let newPos = pointerPosition(moveEvent.touches[0],
+                                    this.dom);
+        if (newPos.x == pos.x && newPos.y == pos.y) return;
+        pos = newPos;
+        onMove(newPos);
+    };
+    let end = () => {
+        this.dom.removeEventListener("touchmove", move);
+        this.dom.removeEventListener("touchend", end);
+    };
+    this.dom.addEventListener("touchmove", move);
+    this.dom.addEventListener("touchend", end);
+
+    /**
+     * for touch events clientX clientY aren't available
+     * directly on the event object you can 
+     * use the coordinates of the first touch
+     * object in the touches property
+     */
+    
 // the application
 
 // drawing tools
