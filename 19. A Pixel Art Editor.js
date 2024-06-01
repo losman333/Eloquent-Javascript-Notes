@@ -613,6 +613,124 @@ function pic(pos, state, dispatch) {
 
 // saving and loading
 
+/**
+ * download button for saving image
+ * 
+ */
+
+class SaveButton {
+    constructor(state) {
+        this.picture = state.picture;
+        this.dom = elt("button", {
+            onclick: () => this.save()
+        }, "Save");
+    }
+    save() {
+        let canvas = elt("canvas");
+        drawPicture(this.picture, canvas, 1);
+        let link = elf("a", {
+            href: canvas.toDataURL(),
+            download: "pixelart.png"
+        });
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+    }
+    syncState(state) {this.picture = state.picture;}
+}
+
+/**
+ * component keeps trakc of current picture 
+ * so it can access when saveing
+ * 
+ * to create image file uses a canvas element that draws picture
+ * at scale of one pixel per pixel
+ * 
+ * toDataURL method on canvasn element
+ * creates URL that starts with data:
+ * 
+ * urls link to document simulate click
+ * on it and remove it again
+ * 
+ * 
+ * to be able to load existing image files
+ * into app define button component
+ */
+
+class LoadButton {
+    constructor(_, {dispatch}) {
+        this.dom = elt("button", {
+            onclick: () => startLoad(dispatch)
+        }, "Load");
+    }
+    syncState() {}
+}
+
+function startLoad(dispatch) {
+    let input = elt("input", {
+        type: "file", 
+        onchange: () => finishLoad(input.files[0], dispatch)
+    });
+    document.body.appendChild(input);
+    input.click();
+    input.remove();
+}
+
+/**
+ * create file input when button is
+ * clicked pretend that this
+ * file input itself was clicked
+ * 
+ * when the user has selected a file
+ * use FileReader to get access to its content
+ * again as a data URL can be used 
+ * to create <img> element we cant
+ * create picture object from that
+ */
+
+function finishLoad(file, dispatch) {
+    if (file == null) return;
+    let reader = new FileReader();
+    reader.addEventListener("load", () => {
+        let image = elt("img", {
+            onload: () => dispatch({
+                picture: pictureFromImage(image)
+            }),
+            src: reader.result
+        });
+    });
+    reader.readAsDataURL(file);
+}
+/**
+ * to get access to pixels first
+ * draw picture to a <canvas>
+ * element 
+ * 
+ * Canvas context has a getImageData
+ * method that allows a script
+ * to read its pixels
+ * Once picture is on the canavs
+ * access it and contruct a Picture object
+ */
+
+function pictureFromImage(image) {
+    let width = Math.min(100, image.width);
+    let height = Math.min(100, image.height);
+    let canvas = elt("canvas", {width, height});
+    let cx = canvas.getContext("2d");
+    cx.drawImage(image, 0, 0);
+    let pixels = [];
+    let {data} = cx.getImageData(0, 0, width, height);
+
+    function hex(n) {
+        return n.toString(16).padStart(2, "0");
+    }
+    for (let i = 0; i < data.length; i += 4) {
+        let [r, g, b] = data.slice(i, i + 3);
+        pixels.push("#" + hex(r) + hex(g) + hex(b)):
+    }
+    return new Picture(width, height, pixels);
+}
 // undo history
 
 // lets draw
