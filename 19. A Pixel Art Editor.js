@@ -846,7 +846,16 @@ function startPixelEditor({state = startStaate,
  * startPixelEditor function makes use of this
  * to oaccept an object witha number optional 
  * properties as an arguement
-                            }
+ * how to get an actual editor on the screen
+ */
+
+<div></div>
+<script>
+    document.querySelector("div")
+        .appendChild(startPixelEditor({}));
+</script>
+
+
 // why is this so hard
 
 // Excercises
