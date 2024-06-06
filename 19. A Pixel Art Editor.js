@@ -733,8 +733,120 @@ function pictureFromImage(image) {
 }
 // undo history
 
+/**
+ * 
+ * use done array to keep previous version of 
+ * the picture
+ * 
+ * use a state update function that
+ * adds pictures to the array
+ * 
+ * use done at property to track time of 
+ * last picture stored in history
+ */
+
+function historyUpdateState(state, action) {
+    if (action.undo == true) {
+        if (state.done.length == 0) return state;
+        return Object.assign({}, state, {
+            picture: state.done[0],
+            done: state.done.slice(1),
+            doneAt: 0
+        });
+    } else if (action.picture &&
+                state.doneAt < Date.now() - 1000) {
+        return Object.assign({}, state, action, {
+            done: [state.picture, ...state.done],
+            doneAt: Date.now()
+        });
+        } else {
+            return Object.assign({}, state, action);
+        }
+}
+
+/**
+ * undo action function takes the most
+ * recent picture from the history and makes 
+ * that the current picture sets doneAt to
+ * zero so that the next change is
+ * guaranteed to store the picture back in
+ * the history allows you to revert to another
+ * time
+ * 
+ * if action contains a new picture last
+ * time something is stored more than a second 1000 miliseconds
+ * the done and doneAt properties are updated to store 
+ * previous picture
+ * 
+ * undon button componet doesn't do much dispatches undo
+ * actions when clicked and disables itself when there is nothing
+ * to undo
+ */
+
+class UndoButton {
+    construuctor(state, {dispatch}) {
+        this.dom = elt("button", {
+            onclick: () => dispatch({undo: true}),
+            disabled: state.done.length ==0
+        }, " Undo");
+    }
+    syncState(state) {
+        this.dom.disabled = state.done.length == 0;
+    }
+}
 // lets draw
 
+/**
+ *  to set up application create the following
+ * 
+ * a state, set of tools, set of controls,
+ * and dispatch function
+ * 
+ * pass them to PixelEditor constructor to create
+ * main component
+ * 
+ * to create several editors in the excercises
+ * define some bindings
+ */
+
+const startStaate = {
+    tool: "draw",
+    color: "#0000",
+    picture: Picture.empty(60, 30, "#f0f0f0"),
+    done: [],
+    doneAt: 0
+};
+
+const baseTools = {draw, fill, rectangle, pick};
+
+const baseControls = [
+    ToolSelect, ColorSelect, SaveButton, LoadButton, UndoButton
+];
+
+function startPixelEditor({state = startStaate, 
+                            tool = baseTools,
+                            controls = baseControls}) {
+    let app = new PixelEditor(state, {
+        tools,
+        controls,
+        dispatch(action) {
+            state = historyUpdtateState(state, action);
+            app.syncState(state);
+        }
+    });
+    return app.dom;
+}
+
+/**
+ * when desctructuring an object or array you can
+ * use = after a binding to give binding
+ * a default value which is used when
+ * property is missing or holds undefined
+ * 
+ * startPixelEditor function makes use of this
+ * to oaccept an object witha number optional 
+ * properties as an arguement
+                            }
 // why is this so hard
 
 // Excercises
