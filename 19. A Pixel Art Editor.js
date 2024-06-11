@@ -858,7 +858,59 @@ function startPixelEditor({state = startStaate,
 
 // why is this so hard
 
+/**
+ * browser provides powerful set of interface
+ * building blocks to style and manipulate
+ * and tools to inspect and debug
+ * 
+ * abstractions can be helpful component
+ * model and data flow is crude form of that
+ */
+
 // Excercises
 
+// keyboard bindings
 
+// effecient drawing
+
+/**
+ * find a way to make syncState method of PictureCanvas
+ * faster by redrawing only the pixels that
+ * actually changed
+ * 
+ * drawPicture is also used by the save button if 
+ * it changes make sure changes don't break old 
+ * use or create a new version with different name
+ * 
+ * note changing size of <canvas> element
+ * by setting width or height properties, clears it
+ * making it entirely transparent again
+ * 
+ */
+
+// Cirlcles
+
+/**
+ * define a tool called circle that draws
+ * a filled circle when you drag. The center
+ * of the circle lies at the point where
+ * the drag or touch gesture starts and its
+ * radius is determined by the distance dragged
+ */
+
+
+// Proper Lines
+
+/**
+ * design a solution to a nontrivial problem
+ * 
+ * improve the draw tool to make it draw a full line
+ * make motion handler function remember previous
+ * position and connect that to the current one
+ * 
+ * write a general line drawing function
+ * 
+ * use code to define a line tool which draws
+ * a straight line between start and end of drag
+ */
 
