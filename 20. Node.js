@@ -160,7 +160,48 @@ exports.reverse = function(string) {
 
 /**
  * use node to fetch and install packages
+ * 
+ * after running npm install
+ * NPM will have created a directory
+ * that contains the library
+ * 
+ * when require ini is loaded we call
+ * is parse property to parse a 
+ * configuration
  */
+
+// Pacakge Files
+/**
+ * create package.json file for each node project
+ * manually or running npm init
+ * 
+ * contains information about project
+ * name and version and list
+ * of dependencies
+ * 
+ * robbot simulation in chapter 7
+ * might have package.json file like this
+ */
+
+{
+    "author": "Margin Haverbke",
+    "name": "eloquent-javascript-robot",
+    "description" : "Simulation of package-delivery robot",
+    "version": "1.0.0",
+    "main": "run.js",
+    "dependencies": {
+        "dijkstrajs": "^1.0.1",
+        "randon-item": "^1.0.0"
+    },
+    "license":"USC"
+}
+
+/**
+ * run npm install will install all dependencies
+ * unless installing a specific package 
+ */
+
+// Versions
 
 // FIle system Module
 
