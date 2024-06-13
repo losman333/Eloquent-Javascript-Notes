@@ -201,10 +201,72 @@ exports.reverse = function(string) {
  * unless installing a specific package 
  */
 
-// Versions
+// Versions 
+
+/**
+ * package.json  program's version
+ * and dependencies
+ * 
+ * follows schema called semantic
+ * versioning.-- encodes information about which
+ * version are compatible
+ * 
+ * semantic vesion consists of three 
+ * numbers, seperated by periods
+ * 
+ * everytime new functionality is added
+ * middle number to be incremented e
+ * 
+ * everytime compatibility broken first 
+ * number has to be incremented
+ * 
+ * ^ character indicates that any version
+ * compatible with given number may be
+ * installed ^2.3.0 would mean any 
+ * version greater than or equal to 2.3.0 and less than
+ * 3.0.0
+ * 
+ * NPM command used to publish new packages or new
+ * version of packages
+ * 
+ * npm publish will publish package with 
+ * name and version
+ * 
+ * listed in JSON file to registry
+ * 
+ * 
+ */
 
 // FIle system Module
 
+/**
+ * character encoding - used to
+ * decode file into a string
+ * 
+ * UTF-8 when reading text file
+ * 
+ * if no encoding 
+ * node assumes you want
+ * binary data - will give you
+ * a buffer object instead of a string
+    - an array-like object that contains numbers 
+    representing representing bytes (8-bit chunks of data) in files
+ * 
+ */
+
+    const {readFile} = require("fs");
+    readFile("file.txt", (error, buffer) => {
+        if(error) throw error;
+        console.log("The file contained", buffer.length, "bytes",
+                    "the first byte:", buffer[0]);
+    });
+
+/**
+ * writeFile used to write files to disk
+ */
+
+const {writeFile} = require("fs");
+writeFile("graffiti.txt", node was here)
 // HTTP Module
 
 // streams
