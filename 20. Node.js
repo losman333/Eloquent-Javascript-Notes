@@ -296,7 +296,96 @@ writeFile("graffiti.txt", "node was here", err => {
  * functions as fs but uses promises
  * rather than. callback functions
  */
+
+const {readFile} = require("fs").promises;
+readFile("file.txt", "utf-8")
+    .then(text => console.log("the file contains:", text));
+
+const {readFileSync} = require("fs");
+
+/**
+ * many functions in fs have synchronous
+ * variant which has same name with Sync
+ * added to the end
+ * 
+ * synchronous versoin of readFile called readFileSync
+ */
+console.log("The File contains:", 
+            readFilesSync("file.txt", "utf8"));
+
+const {readFileSync} = require("fs");
+console.log("The File contains:", 
+    readFileSync("file.txt", "utf8")
+);
+
+/**
+ * while synchronous operation being performed
+ * program is stopped entirely
+ * 
+ * not good if it should be responding
+ * to the user or to other machines
+ * on network being stuck on
+ * a synchronous action might produce annoying delays
+ */
+
 // HTTP Module
+
+/**
+ * http 
+ * 
+ * central module
+ * 
+ * provides functionality for running HTTP servers
+ * making HTTP requests
+ * 
+ * to start HTTP Server 
+ */
+
+const{createServer} = require("http");
+let server = createServer((request, response) => {
+    response.writeHead(200, {"Content-Type": "text/html"});
+    response.writei(`
+        <h1>Hello</h1>
+        <p> You asked for <code>${request.url}</code></p>`);
+    response.end();;
+});
+server.listen(8000);
+console.log("Listening! (port 8000)");
+
+/**
+ * everytime client connects to server function
+ * passed as arguement to createServer
+ * 
+ * request and respondse binding 
+ * are objects representing incoming
+ * and outgoing data
+ * 
+ * first contains information about request
+ * such as url property tells to what url
+ * request was made
+ *  pages sends request to computer
+ *  casuse server function to run
+ *  and send back response which you can
+ *  see in the browser
+ * 
+ * writeHead will write response headers
+ * 
+ * give it status code(200 for OK) and object
+ * that contains header values
+ * 
+ * example sets Conten-Type header
+ * to inform client will send back html doc
+ * 
+ * actual response body(sent with response.write)
+ * 
+ * call method multiple timesto send response
+ * piece by piece -- to stream data to client
+ * as it becomes available
+ * 
+ * Finally response.end signals end of response
+ * 
+ * second
+ */
 
 // streams
 
