@@ -266,7 +266,36 @@ exports.reverse = function(string) {
  */
 
 const {writeFile} = require("fs");
-writeFile("graffiti.txt", node was here)
+writeFile("graffiti.txt", "node was here", err => {
+    if (err) console.log(`Failed to write file: ${err}`);
+    else console.log("File written.");
+});
+
+/**
+ * write file assumes when given a string it should
+ * write it out as text using default character encoding
+ * which is UTF-8
+ * 
+ * fs module contains other useful functions: readir
+ * will return files in a directory as array of strings
+ * stat will retrieve information about file
+ * 
+ * unlink will remove a file
+ * 
+ * take callback function as last parameter
+ * which they call with an error first argument
+ * 
+ * or successful result
+ * 
+ * error handling becomes verbose and error-prone
+ * 
+ * promises are being integrated into Node.js
+ * 
+ * object promises exported from fs package
+ * since version 10.1 contains most of the same
+ * functions as fs but uses promises
+ * rather than. callback functions
+ */
 // HTTP Module
 
 // streams
