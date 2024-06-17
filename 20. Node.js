@@ -384,10 +384,79 @@ console.log("Listening! (port 8000)");
  * 
  * Finally response.end signals end of response
  * 
+ * server.isten
+ * causes server 
+ * start waiting for connections to port 800
+ * 
+ * localhost 8000 to speak to server
+ * rather than localhost uses port 80 default
+ * reason why you have to connect to localhost:8000
+ * 
+ * network connections 
+ * node will not exi when reaches end of script
+ * control-C to close
+ * 
+ * method property
+ * see's which action client is trying
+ * to perform looks at requests URL
+ * find out which resource action is permormed on
+ * 
+ * request function to act as an HTTP client
+ * 
+ * 
  * second
  */
 
+const {request} = require("http");
+
+let requestStream = request({
+    hostname: "eloquentjavascript.net",
+    path: "/20_node.html",
+    method: "GET",
+    header: {Accept: "text/html"}
+}, response => {
+    console.log("Server responded with status code",
+                response.statusCode);
+});
+requestStream.end()
+/**
+ * first arguement to request configures the request
+ * what server to talk to
+ * 
+ * what path request from that server
+ * 
+ * method to use 
+ * 
+ * second argument 
+ * 
+ * function to be called when response comes in
+ * given an object allows to inspect response 
+ * 
+ *      ex: to inspect response
+ *          to find out status code
+ * 
+ * stream data into request
+ * 
+ * write method
+ * 
+ * end method
+ * 
+ * does not use write 
+ * get request should not contain data in request body
+ * 
+ * similar request function https module
+ * can be used to make requests to http: URLS
+ * 
+ * more convenient wrapper packages available
+ * on NPM
+ * 
+ * node-fectch provides promise-based fetch interface
+ * that we know from the browser
+ */
+
 // streams
+
+
 
 // file server
 
