@@ -456,6 +456,75 @@ requestStream.end()
 
 // streams
 
+/**
+ * response object that server writes to
+ * and request object that was returned from request
+ * 
+ * widelly used in Node.js
+ * 
+ * objects have write method that 
+ * can be passed a string 
+ * or Buffer object to
+ * write something to the stream
+ * 
+ * end method closes the stream
+ * takes value to write stream
+ * before closing
+ * 
+ * callback as additional argument
+ * will call when writing or closing
+ * has finished
+ * 
+ * write the file one piece
+ * at a time
+ * 
+ * rather than writefile
+ * 
+ * Readable streams are a little more involvled.
+ * Both the request binding was passed 
+ * to the HTTP servers callback
+ * response binding passed to HTTP client
+ * callback are readable streams
+ * 
+ * 
+ * readable streams server reads requests then 
+ * writes responses
+ * 
+ * reading from a stream uses event handlers rather than methods
+ * 
+ * addEventListener method in the browser
+ * give it an event name then a function
+ * will register function to be
+ * called whenever given event occurs
+ * 
+ * readable streams have data  and end events
+ * everytime data comes in
+ * 
+ * stream is at end
+ * stream data that can be proccessed
+ * when whole document isn't avavilable
+ * yet
+ * 
+ * createReadStream file can be read
+ * as readable stream by using createReadStream
+ * function from fs
+ * 
+ * code creates server reads request bodies
+ * and streams them back to client as all uppercase
+ */
+
+const {createServer} = require("http");
+createServer((request, response) => {
+    response.writeHead(200, {"Content-Type": "text/plain"});
+    request.on("data", chunk => 
+        response.write(chunk.toString().toUpperCase()));
+    request.on("end", () => response.end());;
+}) listen(8000);
+
+/**
+ * chunk value bianary Buffer decoding as UTF-8 to 
+ * convert to string
+ */
 
 
 // file server
