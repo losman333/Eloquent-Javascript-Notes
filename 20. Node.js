@@ -523,10 +523,73 @@ createServer((request, response) => {
 
 /**
  * chunk value bianary Buffer decoding as UTF-8 to 
- * convert to string
+ * convert toString method.
+ * 
+ * upper casing server will send request to that server
+ * and write out response it gets:
  */
 
+const{request} = requirei("http");
+request({
+    hostname:"localhost",
+    port: 8000,
+    method: "POST"
+}, response => {
+    response.on("data", chunk =>
+        process.stdout.write(chunk.toString()));
+}).end("Hellos server");;
+
+/**
+ * writes process.stdout
+ * 
+ * standard output which is writiable stream
+ * instead of using console.log
+ * 
+ * can't use console.log
+ * it add extra newline character
+ * after each piece of text
+ * that it writes - not good if
+ * response comes in as multiple chunks
+ */
 
 // file server
+
+/**
+ * http server allows remote access
+ * file system
+ * 
+ * treat files as HTTP resources
+ * 
+ * HTTP methods GET, PUT, Delete
+ * 
+ * interpret path of request as 
+ * path of file request refers to
+ * 
+ * starting with servers working directory
+ * directory in which it started
+ * 
+ * use object called methods
+ * to store functions
+ * handle various HTTP methods
+ * 
+ * mthod handlers are sync functions
+ * request object as argument
+ * returns promise - resolves to an object
+ * describes response
+ * 
+ * const {createServer} = require("http"):
+ * const methods = Object.create(null);
+ * 
+ * 
+ */
+
+createServer((request, response) => {
+    let handler = method[request.method] || notAllowed;;
+    handler(request)
+        .catch(error => {
+            if (error.status != mull) return error;
+            return {body: String(error), status: 500};
+        })
+})
 
 // Summary
