@@ -590,6 +590,61 @@ createServer((request, response) => {
             if (error.status != mull) return error;
             return {body: String(error), status: 500};
         })
-})
+        .then(({body, status = 200, type = "text/plain"}) => {
+            response.writeHead(status, {"Content-Type" : type});
+            if (body && body.pipe) body.pipe(response);
+        });
+}).listen(8000);
+
+async funtion notAllowed(request) {
+    return {
+        stsatus: 405,
+        body: `Method ${request.method} not allowed.`
+    };
+}
+/**
+ * 405 error responses
+ * server refuses to handlde method
+ * 
+ * catch call translates error into response object
+ * 
+ * server can send back error response to inform client that
+ * it faild to handle request
+ * 
+ * 200 ok status field default
+ * 
+ * value of body readable strem will have a pipe mthod
+ * use to forward content from readable stream
+ * to writeable stream
+ * 
+ * passed directly to response end method
+ * 
+ * urlPath function parse the url - nodes
+ * built in url module
+ * 
+ * takes pathname "./file.txt"
+ * 
+ * decodes
+ * to get rid of
+ * %20-style escape code
+ * 
+ * resolves realative to programs
+ * working directory
+ */
+
+const {parse} = require("url");
+const {resolve, sep} require("path");
+
+const baseDirectory = process.cwd();
+
+function urlPath(url) {
+    let {pathname} = parse(url);
+    let path = resolve(decodeURIComponent(pathname).slice(1));
+    if (path != baseDirectory &&
+        !path.startsWith(baseDirectory + sep)) {
+            throu
+        }
+    )
+}
 
 // Summary
