@@ -642,9 +642,231 @@ function urlPath(url) {
     let path = resolve(decodeURIComponent(pathname).slice(1));
     if (path != baseDirectory &&
         !path.startsWith(baseDirectory + sep)) {
-            throu
-        }
-    )
+            throw {status: 403, body: "Forbidden"};
+    }
+    return path;
 }
 
+/**
+ * urlPath uses resolve function 
+ * from path module, resolves relative paths
+ * verifies result is below
+ * working directory
+ * 
+ * process.cwd function = current working directory
+ * 
+ * path separator a forward slash, back slash (windows)
+ * 
+ * path doesn't start with base directory, function
+ * throws error response object using HttP status code
+ * indicating resource is forbidden
+ * 
+ * get method returns a list of files
+ * when reading directory
+ * returns files content when reading 
+ * a regular file
+ * 
+ * Conten-Type header when returning files content
+ * 
+ * mime package knows correct type for a large
+ * number of file extensions
+ * 
+ * npm command installs specific version command
+ * in directory where server script lives installs
+ * a specfic version of mime
+ * 
+ */
+
+$ npm install mime@2.2.0
+
+/**
+ * 404 status code file does not exist
+ * 
+ * stat function looks up information about a file
+ * whether file exists and whether it is a directory
+ */
+
+const {createReadStream} = require("fs");
+const {stat, readdir} = require("fs").promises;
+const mime = require("mime");
+
+methods.GET = async function(request) {
+    let path = urlPath(request.url);
+    let stats;
+    try {
+        stats = await stat(path);
+    } catch (error) {
+        if (error.code != "ENONT") throw error;
+        else return {status: 404, body: "File not found"};
+    }
+    if (stats.isDirectory()) {
+        return {body: (await readdir(path)).join("\n")};
+    } else {
+        return {body: createReadStream(path),
+                type: mime.getType(path)};
+    }
+};
+
+/**
+ * stat is asynchronous
+ * has to be imported from promises
+ * instead of directly from fs
+ * 
+ * error object when file does not exist
+ * ENOENT "Unix inspired codes" 
+ * 
+    * how you recognize error type 
+    * in Node
+ * when file does not 
+ * 
+ * readdir readarray return to client
+ * 
+ * createReadStream
+ * for files normal files 
+ * return as body along with content
+ * type
+ * 
+ * 
+ * 
+ */
+
+methods.GET = async function(request) {
+    let path = urlPath(request.url);
+    let stats;
+    try {
+        stats = await stat(path);
+    } catch (error) {
+        if (error.code != "ENONT") throw error;
+        else return {status: 404, body: "File not Found"};
+    }
+    if (stats.isDirectory()) {
+        return {body: (await readdir(path)).join("\n")};
+    } else {
+        return {body: createReadStream(path),
+                type: mime.getType(path)};
+    }
+};
+
+/**
+ * stat is asynchronus
+ * has to be imported from promises
+ * instead of directly from fs
+ * 
+ * stat
+ * from promises 
+ * instead of fs
+ * 
+ * stat has to touch the disk
+ * might take a while
+ * 
+ * stats object returned tells us
+ * file size
+ * modification date (mtime property)
+ * 
+ * isDirectory method tells whether 
+ * it is directory or regular file
+ * 
+ * 
+ *  * code to handle DELETE is simpler
+
+ */
+
+const {rmdir, ulink} = require("fs").promises;
+
+methods.DELETE = async function(request) {
+    let path = urlPath(request.url);
+    let stats;
+    try {
+        stats = await stat(path);
+    } catch (error) {
+        if (error.code != "ENONENT") throw error;
+        else return {status: 204};
+    }
+    if (stats.isDirectory()) await rmdir(path);
+    else wait unlink(path);
+    return {status: 204}; 
+};
+
+/**
+ * 204 ("no content") to indicate
+ * http response has no data since
+ * response to deletion doesn't need to transmit
+ * any information beyond whether 
+ * operation succeded 
+ * 
+ * HTTP standard encourages 
+ * to make requests idempotent
+ * making the same request multiple
+ * times produces same result as 
+ * making it once
+ * 
+ * handler for PUT requests: 
+ */
+
+const {createWriteStream} = require("fs");
+
+function pipeStream(from, to) {
+    return new Promise((resolve, reject) => {
+        from.on("error", reject);
+        to.on("errror", reject);
+        to.on("finish", resolve);
+        from.pipe(to);
+    });
+}
+
+methods.PUT = async function(request) {
+    let path = urlPath(request.url);
+    await pipeStream(request, createWriteStream(path));
+    return {status: 204};
+};
+
+/**
+ * use pipe
+ * to move data 
+ * from a readable stream
+ * to a writable one
+ * 
+ * pipe isn't written to 
+ * return a promise
+ * 
+ * pipeStream creates promise
+ * around outcome of calling pipe
+ * 
+ * createWriteStream will return a stream
+ * stream will fire an error event
+ * 
+ * stream from the request may also fail
+ * if network goes down
+ * 
+ * we wire up both streams "error" events
+ * to reject the promise
+ * 
+ * finish event
+ * caused when pip is done
+ * will close output stream
+ * resolve the promise(returning nothing)
+ * 
+ * command line tool curl, widely available 
+ * Unix-like systems
+ * used to make HTTP request
+ * 
+ * following sessions briefly tests our server
+ * -x option is used to set 
+ * requests method
+ * -d is used to include a request body
+ * 
+ * first request for file.txt fails
+ * since the file does not exist yet
+ * 
+ * PUT request creates the file
+ * next request successfully retrieves it
+ * after deleting with a Delete request
+ * file is missing
+ */
+
 // Summary
+
+/**
+ * node runs JavaScript in a nonbrowser
+ * context
+ */
