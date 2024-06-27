@@ -869,4 +869,105 @@ methods.PUT = async function(request) {
 /**
  * node runs JavaScript in a nonbrowser
  * context
+ * 
+ * designed for network tasks
+ * to play rolde of node in a network
+ * 
+ * built in modules
+ * 
+ * fs module for file system
+ * 
+ * http module for HTTP servers and
+ * making HTTP requests
+ * 
+ * Node input output done asynchronously
+ * 
+ * synchronius variant of a function
+ * such as readFileSync
+ * 
+ * callback function 
+ * 
+ * Node will call with error value
+ * 
+ * error value
+ * 
+ * 
+ * 
+ * 
  */
+
+// Exercises
+
+// Search Tool
+
+/**
+ * something like grep
+ * you can run from command line
+ * 
+ * 
+ * first command line argument
+ * regular expression 
+ * 
+ * uses arguments as files to search
+ * 
+ * output the names of any file
+ * file content matches the
+ * regular expresson
+ * 
+ * extend when one of the args
+ * is a directory
+ * searches through all files
+ * in directory
+ * and subdirectory
+ * 
+ * Use asynch or sync fs functions 
+ * 
+ * set up so 
+ * multiple async actions are requested
+ * 
+ * might speed things up a little
+ */
+
+
+
+// Directory Creation
+
+/**
+ * add support for MKCOL method
+ * should create a directory by calling mkdir
+ * from fs module
+ * 
+ * MKCOL not widely HTTP method
+ * 
+ * WebDAV
+ * 
+ * set conventions on top of HTTP
+ * 
+ * suitable for creating documents
+ */
+
+//A public space on the web
+
+/**
+ * write basic HTML page thant includes simple JavaScript
+ * put files in a directory 
+ * served by file server
+ * 
+ * open them in the browser
+ * 
+ * build user-friendly interface
+ * for modifying the website from inside
+ * the website
+ * 
+ * use html form to edit
+ * content of files that make
+ * up website
+ * 
+ * allow user to update on server using HTTP
+ * requests
+ * 
+ * keep code outside publicly accessible directory
+ * copy there when testing
+ */
+
+//
