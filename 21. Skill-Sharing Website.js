@@ -112,6 +112,81 @@
     "presenter": "Jamał",
     "summary": "Modifying your cycle for extra style",
     "comments" : []}] 
+
+/**
+ * new talk done by making
+ * put request to url like
+ * /talks/Unituning
+ * 
+ * part after second slash 
+ * title of the talk
+ * 
+ * PUT request body should contain JSON object
+ * that has presenter and summary properites
+ * 
+ * title strings mus be encoded
+ * 
+ * encodeURICOmponent function
+ * 
+ * because talk titles contain
+ * spaces and other chracters 
+ * that may not appear in URL
+ */
+
+console.log("/talks/" + encodeURComponent("How to Idle"));
+// /talks/HowtoIdle
+
+/**
+ * request to create talk about idling
+ */
+
+PUT /talks/How%20to%20Idle HTTP/1.1
+Content-Type: application/json
+Content-Length: 92
+
+{"presenter": "Maureen", 
+    "sumaary": "Standing still on a unicycle"
+}
+
+/**
+ * also support get requests to retrieve JSON 
+ * representation of a talk and DELETE request
+ * to delete talk
+ * 
+ * adding comment to a talk 
+ * done with post request to URL
+ * like / talks/Unituning/comments
+ * 
+ * with JSON body that has author
+ * and message properties
+ */
+
+/**
+ * {"author": "Iman", 
+ *  "message": "Will you talk about rasing a cycle"}
+ * 
+ * to support long polling
+ * 
+ * Extra headers that inform server
+ * to delay response if no information
+ * 
+ * ETag and If-None-Match
+ * 
+ * ETag enitity tag
+ * value  is a string 
+ * identifies current version of resourece
+ * 
+ * CLients make conditional request 
+ * by including If-None-Match
+ * 
+ * whose value holds 
+ * same string
+ * 
+ * if resource hasn't changed server will respond 
+ * with status code 304 means
+ * "not modified" 
+ */
+
 // The server
 
 // the client
