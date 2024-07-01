@@ -179,15 +179,68 @@ Content-Length: 92
  * CLients make conditional request 
  * by including If-None-Match
  * 
+ *  * whic version of the list
+
+ * 
  * whose value holds 
  * same string
+ * 
  * 
  * if resource hasn't changed server will respond 
  * with status code 304 means
  * "not modified" 
+ * 
+ * to distinguis long polling requests
+ * 
+ * from normal conditional requests
+ * 
+ * use header Prefer: wait=90
+ * tells server client waits 90 sec for response
+ * 
+ * Server will use eTag value (version number) when talks 
+ * change
+ * 
+ * clients make requests to be notified
+ * when change
+ */
+
+GET /talks HTTP/1.1
+If-None-Match: "4"
+Prefer: wait=90
+
+(time passes)
+
+HTTP/1.1 200 OK
+Content-Type: application/json
+ETag: "5"
+Content-Length:295
+
+[...]
+
+/**
+ * comment, modify talks, delete them
  */
 
 // The server
+
+/** build server-side
+ * part of the program
+ * code runs on Node.js
+ * 
+ * ROUTING
+ * 
+ *routher: component helps dispatch request to the
+ function that can handle it
+
+ ex put request with match to regular
+ expression /^\/talks\/([^\/]+)$/ (/talks/ followed by talk title)
+ can be handled by given function
+
+ helps extract meaningful parts of 
+ of the path
+
+
+ */
 
 // the client
 
