@@ -239,8 +239,39 @@ Content-Length:295
  helps extract meaningful parts of 
  of the path
 
+ router packages available
+ in NPM
+
 
  */
+
+ const {parse} = require("url");
+
+ module.exports = class Router {
+    constructor() {
+        this.routes = [];
+    }
+    add(method, url, handler) {
+        this.routes.push({method, url, handler});
+    }
+    resolve(context, request) {
+        let path = parse(request.url).pathname;
+
+        for (let {method, url, hander} of this.routes) {
+            let match = url.exec(path);
+            if (!match || request.method != method) continute:
+            let urlParts = match.slice(1).map(decodeURIComponent);
+            return handler(context, ...urlParts, request);
+        }
+    }
+    return null;
+ };
+
+ /**
+  * module exports router class
+  * 
+  * add method resolve method
+  */
 
 // the client
 
