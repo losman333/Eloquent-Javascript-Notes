@@ -334,6 +334,63 @@ const ecstatic = require("ecstatic");
 const router = new Router();
 const defaultHeader = {"Content-Type": "text/plain"};
 
+class SkillShareServer {
+    constructor(talks) {
+        this.talks = talks;
+        this.version = 0;
+        this.wating = [];
+
+        let fileServer = ecstatic({root: "./public"});
+        this.server = createServer((request, response) => {
+            let resolved = router.resolve(this, request);
+            if (resolved) {
+                resolved.catch(error => {
+                    if(error.status != null) return error;
+                    return {body: String(error), status: 500};
+                }).then(({body: String(error), status: 500};
+            )).then(({body,status = 200, headers = defaultHeaders}) => {
+                response.writeHead(status, headers);
+                response.end(body);
+            });
+            } else {
+                fileServer(request, response);
+            }
+        });
+    }
+    start(port) {
+        this.server.listen(port);
+    }
+    stop() {
+        this.server.close();
+    }
+}
+
+/**
+ * handlers return promises
+ * resolve to objects
+ * describing response
+ * 
+ * wraps server in
+ * an object that also 
+ * holds its state
+ * 
+ * need to add handlers
+ * to router to implement
+ * methods that clients 
+ * can work with
+ * 
+ * 
+ * handler for requests
+ * that GET single talk
+ * must do the following
+ * look up the talk
+ * respond with JSON data or
+ * 404 error response
+ */
+
+const talkPath = /^\/talks\/([^\/]+)$/;
+
+
 // the client
 
 // the excercises
