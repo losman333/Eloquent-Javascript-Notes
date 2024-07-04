@@ -133,6 +133,7 @@
  * that may not appear in URL
  */
 
+
 console.log("/talks/" + encodeURComponent("How to Idle"));
 // /talks/HowtoIdle
 
@@ -270,8 +271,68 @@ Content-Length:295
  /**
   * module exports router class
   * 
-  * add method resolve method
+  * router object allows
+  * 
+  * handlers to be registered
+  * 
+  * 
+  * to add 
+  * use add method
+  * 
+  * to resolve 
+  * resolve method
+  *     will return response
+  *     when handler found
+  *     null otherwise
+  * 
+  * handler function 
+  * called with context value
+  * ( server instance )
+  *     
+  * match strings groups defined
+  * in regular expression and 
+  * request object
+  * 
+  * strings have to be URL-decoded
+  * since. URL contain %20-style codes
+  * 
   */
+
+//Server Files
+
+/**
+ * request for file
+ * in public directory
+ * 
+ * no need to souppor PUT and Delete
+ * requests on files
+ * 
+ * support for caching
+ * 
+ * static file server from NPM
+ * 
+ * ecstatic
+ * 
+ * use root optoin 
+ * to look for files
+ * 
+ * handler function accepts request
+ * response param passed
+ * directly to createServer
+ * to serve files
+ * 
+ * to check for requests we should 
+ * handler specially though
+ * 
+ * we wrap it in another function
+ */
+
+const {createServer}. = require("http");
+const Router = require("./router");
+const ecstatic = require("ecstatic");
+
+const router = new Router();
+const defaultHeader = {"Content-Type": "text/plain"};
 
 // the client
 
