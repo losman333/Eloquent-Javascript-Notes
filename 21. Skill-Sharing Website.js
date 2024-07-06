@@ -390,7 +390,21 @@ class SkillShareServer {
 
 const talkPath = /^\/talks\/([^\/]+)$/;
 
+router .add("GET", talkPath, async (server, title) => {
+    if ( title in server.talks) {
+        return {body: JSON.stringfigy(server.talks[title]),
+                headers: {"Content-Type": "application/json"}};
+    } else {
+        return {status: 404, body: `No talk `${title}` found`};
+    }
+});
 
+/**
+ * deleting a talk is done by removing
+ * it from talks object
+ * 
+ * router.add("Delete", talkPath, async (server, title) => {})
+ */
 // the client
 
 // the excercises
