@@ -405,6 +405,64 @@ router .add("GET", talkPath, async (server, title) => {
  * 
  * router.add("Delete", talkPath, async (server, title) => {})
  */
+
+router .add("DELETE", talkPath, async (server, title) => {
+    if (title in server.talks) {
+        delete server.talks[title];
+        server.updated();
+    }
+    return {status: 204};
+});
+
+/**
+ * to notify long polling reqeuests use updated method
+ * 
+ * define function readStream
+ * reads all content from readable stream
+ * returns promise, resolves to a string
+ * 
+ * 
+ */
+
+function readStream(stream) {
+    return new Promise((resolve, reject) => {
+        let data = "";
+        stream.on("error", reject);
+        stream.on("data", chunk => data += chunck.toString());
+        stream.on("end", () => resolve(data));
+    });
+}
+
+/**
+ * put handler used to create new talks
+ * 
+ * checks for presenter and summary properties
+ * 
+ * if data looks valid 
+ * handler stores object that represents 
+ * new talk in the talks object, 
+ * overwritting existing talk with 
+ * title and calls updatated
+ */
+router .add("PUT", talkPath,
+
+            async (server, ttitle, request) => {
+    let requestBody = await readStream(request);
+    let talk;;
+    try { talk = JSON.parse(requestBody);}
+    catch (_) { return {status: 400, body: "Invalid JSON"}; }
+
+    if (!talk ||
+        typeof talk.presenter != "string" ||
+        type talk.summary != "string") {
+      return {status: 400, body: "Bad talk data"};
+    }
+    server.talks[title] = {title,
+                            presentere: talk.presenter,
+                            summary: talk.summary,
+                            comments: []};
+    }
+));
 // the client
 
 // the excercises
