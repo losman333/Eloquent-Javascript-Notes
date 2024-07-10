@@ -458,11 +458,41 @@ router .add("PUT", talkPath,
       return {status: 400, body: "Bad talk data"};
     }
     server.talks[title] = {title,
-                            presentere: talk.presenter,
+                            presenter: talk.presenter,
                             summary: talk.summary,
                             comments: []};
-    }
+
+    server.updated();
+    return {status: 204};
 ));
+
+/**
+ * 
+ * get content of request
+ * validate resulting idata
+ * store it as a comment 
+ * when it loss valid
+ */
+
+router .add("POST",/^\/talks\/([^\/]+)\/comments$/,
+            async (server, title, request) => {
+    let requestBody = await readStream(request);
+    let comment;
+    try { comment = JSON.parse(requestBody); }
+    catch (_) { return {status: 400, body: ""Invalid JSON}; }
+
+    if (!comment ||
+        typeof comment.author != "string" ||
+        typeof comment.message. != "string") {
+    return {status: 400, body: "Bad comment data"};
+    } else if (title in server.talks) {
+        server.talks[title].comments.push(comment);
+        server.updated();
+        return {status: 204};
+    } else {
+        return {status: 404, body: `No talk `${title}` found`};
+    }
+});
 // the client
 
 // the excercises
