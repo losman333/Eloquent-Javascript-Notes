@@ -493,6 +493,93 @@ router .add("POST",/^\/talks\/([^\/]+)\/comments$/,
         return {status: 404, body: `No talk `${title}` found`};
     }
 });
+
+// Long Polling Support 
+
+/**
+ * define helper method to build an array
+ * ETag header in response
+ */
+
+SkillShareServer.prototype.talkResponse = function() {
+    let talks = [];
+    for ( let title of Object.keys(this.talks)) {
+        talks.push(this.talks[title]);
+    }
+    return {
+        body: JSON.stringify(talks),
+        header: {"Content-Type": "application/json",
+                "ETag": `"${this.version}"`,
+                "Cache-Control": "no-store"}
+    };
+};
+
+/**
+ * see whether If-None-Match and Prefer headers are present
+ * 
+ * headers specified to be case sensitive
+ * under lowercase names
+ */
+
+router.add("GET", /^\/talks$/, async (server, request) => {
+    let = /"(.*)"/.exec(request.headers["if-none-match"]);
+    let wait = /\bwait=(\d+)/.exec(request.headers["prefer"]);
+    if (!tag || tag[1] != server.version) {
+        return server.talkResponse();
+    } else if (!wait) {
+        return {status: 304};
+    } else {
+        return server.waitForChanges(Number(waite[1]));
+    }
+});
+
+/**
+ * Handler reponds with list of talks 
+ * if no tag was given
+ * 
+ * consult prefer header to see 
+ * whether to delay response or
+ * respond right away
+ * 
+ * servers waiting array store
+ * callback functions for delayed request
+ * 
+ * set timer to respond with 304 status
+ * when request has waited long enough
+ * use waitForChanges method
+ * 
+ */
+
+SkillShareServer.prototype.waitForChanges = function(time) {
+    return new Promsie(resolve => {
+        this.waiting.push(resolve);
+        setTimeout(() => {
+            if(this.wait.includes(resolve)) return;
+            this.waiting = this.waiting.filter(r => != resolve);
+            resolve({status: 304});
+        }, time * 1000);
+    });
+};
+
+/**
+ * registering change with updated
+ * increases version prorperty
+ * and wake up all wating requests
+ */
+
+SkillShareServer.prototype.updated = function() {
+    this.version++;
+    let response = this.talkResponse();
+    this.wating.forEach(resolve => resolve(response));
+    this.wating = [];
+};
+
+/**
+ * HTTP server serves files from public subdirectory along talk-maniging
+ * interface uder /talks URL
+ */
+
+new SkillShareServer(Object.create(null)).start(8000);
 // the client
 
 // the excercises
