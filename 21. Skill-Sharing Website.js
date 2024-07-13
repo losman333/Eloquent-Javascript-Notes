@@ -580,8 +580,82 @@ SkillShareServer.prototype.updated = function() {
  */
 
 new SkillShareServer(Object.create(null)).start(8000);
+
 // the client
 
+/**
+ * 
+ * three files: HTML, Style Sheet, Javascript
+ */
+
+//HTML
+/**
+ * conventrion for web servers
+ * to serve file named index.html
+ * when request made for path that
+ * corresponds to a directory
+ * 
+ * file server static supports 
+ * this convention
+ * 
+ * ./public being the root we gave and
+ * returns that file
+ * 
+ * a page to show up when browser
+ * is pointed to server
+ * 
+ * defines document title includes style sheet
+ * defines a few style, inluding 
+ * 
+ *at bottom loads scriopt that contains the 
+ clent-side application
+
+ */
+
+ // Actions
+ /**
+  * applkcation state consisitss of list
+  * of talks name of user stores in {talks, user} object
+  *
+  * emit actions describe what user is doing
+  * 
+  * handleAction function state changes 
+  * handeled
+  * in same function
+  * 
+  * 
+
+*/
+
+function handleAction(state, action) {
+    if (action.type == "setUser") {
+        localStorage.setItem("userName", action.user);
+        return Object.assign({}, state, {user: action.user});
+    } else if (action.type =="setTalks") {
+    return Object.assign({}, state, {talks: action.talks});
+} else if (action.type == "newTalk") {
+    fetchOK(talkURl(actoin.title), {
+        method: "PUT",
+        headers: {"Content-type": "application/json"},
+        body: JSON.stringify({
+            presenter: state.user, 
+            summary: action.summary
+        })
+    }).catch(reportError);
+} else if (action.type == "deleteTalk") {
+    fetchOK(talkURL (action.talk), {method: "DELETE"})
+        .catch(reportError);
+} else if (action.type == "newComment") {
+    fetchOK(talkURL(action.talk) + "/commnents", {
+        method: "POST",
+        headers: {"Content-type": "application/json"},
+        body: JSON.stringify({
+            authorL state.user, 
+            message: action.message
+        })
+    }).catch(reportError);
+}
+return state;
 // the excercises
 
 // Exercises
