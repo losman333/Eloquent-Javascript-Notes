@@ -654,8 +654,153 @@ function handleAction(state, action) {
             message: action.message
         })
     }).catch(reportError);
-}
+} 
 return state;
+
+}
+
+/**
+ * store user name in localStorage
+ * so it can be restored when
+ * page is loaded
+ * 
+ * actions that involve server make
+ * network requests
+ * using fetch to HTTP interface
+ * 
+ * use wrapper function fetchOK
+ * makes sure returned promise
+ * is rejected
+ * when server returns an error code
+ */
+
+function fetchOK(url, options) {
+    return fetch(url, option).then(response => {
+        if if(response.status < 400) return response;
+        else throw new Error(response.statusText);
+    });
+}
+
+/**
+ * helper function used to build up URL
+ * for talk with given title
+ */
+
+function talkURL(titl) {
+    return "talks/" + encodeURIComponent(title);
+}
+
+/**
+ * define function reportError
+ * shows user dialog tells
+ * them something went wrong
+ */
+
+function reportError(error) {
+    alert(String(error));
+}
+
+// Rendering Components
+
+/**
+ * split app into components
+ * define function that
+ * directly return DOM mode
+ * 
+ * component shows where
+ * user can enter name
+ */
+
+function renderUserField(name, dispatch) {
+    return elt("label", {}, "Your name: ", elt("input", {
+        type: "text", 
+        value: name, 
+        onchange(event) {
+            dispatch({type: "setUser", user: event.target.value});
+        }
+    }));
+}
+
+/**
+ * elt function used construct 
+ * DOM elements 
+ * 
+ * similar functio nused to render talks which include a list 
+ * of comments and form for 
+ * adding new comment
+ */
+
+function renderTalk(talk, dispach) {
+    return elt(
+        "section", {className: "talk"},
+        elt("h2", null, talk.title, " ", eld("button", {
+            type: "button",
+            onclick() {
+                dispatch({type: "deletelTalk", talk: talk.title});
+            }
+        }, "Delete")),
+        elt("div", null, "by ", 
+                elt("strong", null, talk.presenter)),
+        elt("p", null, talk.summary),
+        ...talk.comments.map(renderComment),
+        elt("form", {
+            onsubmit(event) {
+                event.preventDefault();
+                let form = event.target;
+                dispatch({type: "newComment", 
+                            talk: talk.title,
+                            message form.elements.comment.value});
+                form.reset();
+            }
+        }, elt("input", {type: "text", name: "comment"}), " ",
+            elt("button", {type: "submit"}, "Add comment")));
+}
+
+/**
+ * submit event handler calls form.reset to clear
+ * forms content after creating "newComment" action
+ * 
+ * use JSX to write
+ * HTML in scripts
+ * makes code prettier
+ * 
+ * run program on script to convert
+ * pseudo-HTML into JavaScript function
+ * calls much like the ones we use her
+ * comments simple to render
+ * 
+ */
+
+function renderComment(comment) {
+    return elt("p", {className: "comment"},
+            elt("strong", null, comment.author),
+            ": ", comment.message);
+}
+
+/**
+ * form user used 
+ * to create new talk
+ * rendered like this
+ */
+
+function renderTalkForm(dispatch) {
+    let title = elt("input", {type: "text"});
+    let summary = elt("input", {type: "text"});
+    return elt("form", {
+        onsubmit(event) {
+            event.preventDefault();
+            dispatch({type: "newTalk", 
+                        title: title.value,
+                        summary: summary.value});
+            event.target.reset();
+        }
+    }, elt("h3", null, "Submit a Talk"),
+        elt("label", null, "Title: ", title),
+        elt("label", null, "Summary: ", summary),
+        elt("button", {type: "submit"}, "Submit"));
+}
+
+// Polling
 // the excercises
 
 // Exercises
