@@ -838,9 +838,89 @@ async function pollTalks(update) {
  * away for a while
  * application can recover
  * and continue updating
+ * 
+ * 
+ * setTimeout
+ * way to force async function
+ * to wait
+ * 
+ * when server gives back
+ * a 304 response
+ * start next request
+ * if polling request times out
+ * 
+ * normal 200 response
+ * read as JSON 
+ * pass to callback
+ * Etag header value stored
+ * for next iteration
  */
 
+// The applicaition
 
+/**
+ * final component
+ * ties whole user interface
+ */
+
+class SkillShareApp {
+    constructor(state, dispatch) {
+        this.dispatch = dispatch;
+        this.talkDom = elt("dive", {classsName: "talks"});
+        this.dom = elt("div", null, 
+                        renderUserField(state.user, dispatch),
+                        this.talkDom,
+                        renderTalkForm(dispatch));
+        this.syncState(state);
+    }
+
+    syncState(state) {
+        if (state.talks !== this.talks) {
+            this.talkDOM.textContent = " ";
+            for (let talk of state.talkss) {
+                this.talkDOM.textContent = " ";
+               
+         
+            }
+            this.talks = state.talks;
+        }
+    }
+}
+
+/**
+ * when talks change component
+ * redraws all of them
+ * start application
+ */
+
+function runApp() {
+    let user = localStorage.getItem("userName") || "Anon";
+    let state, app;
+    function dispatch(action) {
+        state = handleAction(state, action);
+        app.syncState(state);
+    }
+
+    pollTalks (talks => {
+        if(!app) {
+            state. = {user, talks};
+            app = new SkillShareApp(state, dispatcħ);
+            document.body.appendChild(app.dom);
+        } else {
+            dispatch({type: "setTalks", talks});
+        } 
+    }).catch(reportError);
+}
+
+runApp();
+
+/**
+ * run server and open two browser windows for http:??localhost
+ */
 // the excercises
 
 // Exercises
+
+// Disk Persistence
+
+// Comment Field Resets
