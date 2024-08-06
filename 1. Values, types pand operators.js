@@ -127,3 +127,80 @@ console.log("Itchy" != "Scratchy")
 console.log)("Apple" == "Orange")
 
 
+/**
+ * NaN (not a number)
+ * 
+ */
+
+console.log(NaN == NaN)
+// false
+
+/**
+ * denotes result of nonsensical computation
+ * not equal to the result of any 
+ * other nonsensical computations
+ */
+
+
+// Logical Operators
+
+/**
+ * and, or, and, not 
+ * 
+ * uses to reason about booleans
+ * 
+ * the && operator. represents logical and
+ * 
+ * a binary operator 
+ * 
+ * the result true
+ * only if both valuels given to it are true
+ */
+
+console.log(true && false)
+// false
+
+console.log(true && true)
+// true
+
+/**
+ * || operator denontes logical or
+ * 
+ * produces true 
+ * 
+ * if either of the 
+ * values give to is true
+ */
+
+console.log(false || true)
+// true
+
+console.log(false || false)
+// false
+
+/**
+ * not written as eclamation mark
+ * 
+ * flips value given to it !true produces false
+ * !false produces true
+ * 
+ * == will give true when 
+ * both values are the same
+ * produces true only if both sides
+ * are one of null or undefined
+ * 
+ * console.log(null == undefined);
+ * // true
+ * 
+ * console.log(null == 0);
+ * // false
+ * 
+ * go test for real value instead of null 
+ * you can compare it to null with 
+ * the == (or !=) operator
+ * 
+ * 
+ * 
+ * === used to prevent unexpected type
+ * conversion from tripping you up
+ */
