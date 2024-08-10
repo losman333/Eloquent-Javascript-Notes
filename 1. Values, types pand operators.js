@@ -201,6 +201,55 @@ console.log(false || false)
  * 
  * 
  * 
- * === used to prevent unexpected type
+ * use === defensively to prevent unexpected type
  * conversion from tripping you up
  */
+
+// Short-circuiting of logical operators
+
+/**
+ * logical operators && and || handle values
+ * of different types in a peculiar way
+ *      - convert value on their _____ side
+ *        to boolean type, to decide what to do
+ * 
+ *        will return either orginal left-hand value
+ *        or right-hand value depending on operator
+ *        and the resut of that conversion
+ * 
+ *  || will return value to left when 
+ *  that can be converted to true and 
+ *  will return value on right otherwise
+ */
+
+console.log(null || "user")
+
+console.log("Agnes" || "user")
+
+/**
+ * fall back on a default value
+ * if value is empty use || after
+ * with replacement value 
+ * 
+ * rules for converting strings and numbers to Boolean 
+ * state 0 NaN and empty sting("") count as false
+ * 
+ * while other values count as true
+ * 
+ * 0 || -1 
+ *  produces -1
+ * 
+ * 
+ * "" || "!?" yields "!?"
+ * 
+ * && operator works other way around
+ * 
+ * when value converts to false
+ * returns that value returns value on its right
+ * 
+ * the part on the right is only evaluated 
+ * when necessary 
+ * 
+ * short circuit evaluation 
+ */
+
