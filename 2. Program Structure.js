@@ -251,10 +251,51 @@ if (1 +1 == 2) console.log("It's true");
  */
 
 let theNumber = Number(prompt("Pick a number"));
-ir(!Number.isNaN(theNumber)) {
+if(!Number.isNaN(theNumber)) {
     console.log("Your number is the square root of" + 
                 theNumber + theNUmber);
 } else {
     console.log("Hey. Why didn't you give me a number");
 }
 
+/**
+ * chain multiple if/else pairs together
+ */
+
+let num = Number(prompt("Pick a number"));
+
+if (num < 10) {
+    console.log("Small");
+} else if (num < 100) {
+    console.log("Medium");
+} else {
+    console.log("Large");
+}
+
+/**
+ * while loop
+ */
+
+let number = 0;
+while (number <= 12) {
+    console.log(number);
+    number = number + 2;
+}
+
+/**
+ * statement starting with keyword
+   while creates a loop
+
+   word while followed by 
+   expressions in parentheses
+
+   then a statement, like if
+
+   keeps entering statement
+
+   expression produces value 
+   that gives true when converted to 
+   Boolean
+
+   
+ */
