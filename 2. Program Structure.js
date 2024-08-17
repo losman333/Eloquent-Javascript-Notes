@@ -135,12 +135,126 @@ console.log(greeting + name);
 prompt("Enter passcode");
 
 /**
+ * 
+ * executing a function is called
+ * 
  * invoking
  * 
  * calling
  * 
  * applying
+ * 
+ * use parenthesis to 
+ * call a function
+ * 
+ * put () after expression
+ * that produces function value
+ * 
+ * use the name of binding
+ * that holds function
+ * 
+ * values between parenthesis
+ * given to program
+ * inside function
+ * 
+ * prompt function 
+ * uses string as text
+ * to show in dialog box
+ * 
+ * functions uses arguements
+ * values given to function
  */
 
 
+// console.log function
+
+/**
+ * what does console.log do
+ * writes arguements to text
+ * output device. lands in 
+ * 
+ * browsers use javascript console
+ * 
+ * bindings usually don't contain
+ * period characters
+ * 
+ * console.log is an expression
+ * that retrives log prooperty
+ * from value held
+ * by console binding
+ * 
+ * 
+ */
+
+// Return Values
+
+/**
+ * functions produces values
+ * 
+ * 
+ * function Math.max
+ * takes any number of
+ * args s
+ * 
+ * gives back greatest        
+ */
+
+console.log(Math.max(2, 4) + 100);
+
+let theNumber = Number(prompt("Pick a number"));
+console.log("Your number is the square root of "+
+            theNumber * theNumber);
+
+
+
 //
+
+/**
+ * result of prompt is a string 
+ * value
+ * 
+ * String and Boolean convert
+ * values to types
+ * 
+ * straight line control flow
+ * 
+ * --------->
+ * 
+ * conditional execution created with if
+ */
+let theNumber = Number(prompt("Pick a number"));
+if(!Number.isNaN(theNumber)) {
+    console.log("Your number is square root of " + 
+                theNumber * theNumber);
+}
+
+/**
+ * if executes or skips
+ * statement depending 
+ * on value of Boolean expression
+ * 
+ * Condition translates 
+ * to unless theNumber
+ * is not a number do this
+ * 
+ * statement after if
+ * wrapped in braces ({})
+ * 
+ * {} used to group number of 
+ * statements called a block
+ */
+
+if (1 +1 == 2) console.log("It's true");
+
+/**
+ * code that handles other case
+ */
+
+let theNumber = Number(prompt("Pick a number"));
+ir(!Number.isNaN(theNumber)) {
+    console.log("Your number is the square root of" + 
+                theNumber + theNUmber);
+} else {
+    console.log("Hey. Why didn't you give me a number");
+}
+
