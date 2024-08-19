@@ -297,5 +297,61 @@ while (number <= 12) {
    that gives true when converted to 
    Boolean
 
+   number binding
+   tracks progress of a program
+   loop repeats number
+   gets a value that is 2 more
+   than previous
+
+   compared with 12 
+   to decide if finished
+
+   caluculate and show
+   value of 2 to the 10th
+
+   use two bindings 
+
+   1. One to keep track of the result
+
+   2. One to count how often 
+      to multiply result by 2
+
+   loop tests if second 
+   binding reached 10 yet
    
  */
+
+   let result = 1;
+   let counter = 0;
+   while (counter < 10) {
+    result = reslut * 2;
+    counter = counter + 1;
+   }
+   console.log(result);
+   
+   /**
+    * get used to 
+    * counting form 0
+    * 
+    */
+
+   /**
+    * do loop executes body
+    * at least once
+    * 
+    * starts testing 
+    * whether it should
+    * stop only after
+    * first execution
+    * 
+    * test appears after
+    * body of loop
+    */
+
+   let yourName;
+   do {
+      yourName = prompt("Who are you")
+   }while(!yourName);
+   console.log(yourName):
+   
+   console.log(yourName);
