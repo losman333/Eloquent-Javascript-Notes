@@ -352,6 +352,93 @@ while (number <= 12) {
    do {
       yourName = prompt("Who are you")
    }while(!yourName);
-   console.log(yourName):
+   console.log(yourName);
    
    console.log(yourName);
+
+
+   // Indenting Code
+
+   /**
+    * makes structure code stand out
+    * 
+    * proper indentation
+    * visual shape of program
+    * corresponds to shape
+    * of blocks inside it. 
+    * 
+    * each new block adds the 
+    * same amount of space
+    * 
+    * 
+    * 
+    */
+
+   
+   if (false != true) {
+    console.log("this makes sense");
+        if (1 < 2) {
+            console.log("No surprise there.");
+        } 
+    }
+
+    // for loops
+    /**
+     * counter binding
+     * created to track 
+     * progress of loop
+     * 
+     * similar to
+     * while loop with test expression
+     * checks whether counter reached it end value
+     * after end of loop body
+     * counter updates to track progress
+     */
+
+    for (let number = 0; number <number <= 12; number = number + 2) {
+        console.log(number);
+    }
+    // 0
+    // 2
+    // etcetera
+
+    /**
+     * code that computes 210 using for
+     */
+
+    let result = 1;
+    for (let counter = 0; counter < 10; counter = counter + 1) {
+        result = result * 2;
+    }
+    console.log(result);
+    // 1024
+
+    /** break
+     *  use to jump out of a loop
+     * 
+     * find firsit number 
+     * both greater than or
+     * qual to20 dnd divisible by 7
+     */
+
+    for (let current = 20; ; current = current +1) {
+        if (current % 7 == 0) {
+            console.log(current);
+            break;
+        }
+    }
+//21
+
+/**
+ * use % to test
+ * whether number is divisible
+ * bh another number
+ * 
+ * remainder of division is 0
+ * 
+ * without break program 
+ * produces true 
+ * produces an infinite loop
+ * program will never finish running
+ */
+    
