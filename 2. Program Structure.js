@@ -32,6 +32,7 @@
  * 
  * how does javascript hold values
  * to catch and hold values
+ * 
  * JS provides binding or variable
  * 
  * let caught = 5 * 5
@@ -441,4 +442,89 @@ while (number <= 12) {
  * produces an infinite loop
  * program will never finish running
  */
-    
+
+//Updating Bindings Succinctly
+
+counter = counter + 1;
+
+counter += 1;
+
+
+*= 2 // to double result
+
+counter -= to count downward
+
+for (let number = 0; number <= 12; number +=2) {
+    console.log(number);
+}
+
+/**
+ * counter++ and counter--
+ * are same as += 1 -=1
+ */
+
+// Dispatching value with switch
+
+/**
+ * construct called switch is
+ * intended to express such a 
+ * dispatch in more direct way
+ * 
+ * 
+ */
+   
+switch (prompt("what is the weather like?")) {
+    case "rainy":
+        console.log("Remember to bring an umbrella");
+        break;
+    case "sunny":
+        console.log("Dress lightly");
+        break;
+    case "cloudy":
+        console.log("Go outside");
+        break;
+    default:
+        console.log("unknown weather type!");
+        break;
+}
+
+/**
+ * any number of case labels
+ * inside block opened
+ * by switch
+ * 
+ * program will start executing
+ * at label that corresponds to 
+ * value that switch was given
+ 
+    * defaults if no matching value
+    * is found, 
+    * 
+    * continues executing
+    * even across other labels 
+    * until it reaches a break statement
+ */
+
+// Capitalization
+/**
+ * JS standard capitalize
+ * everyword except the first
+ * 
+ * number function first
+ * letter of binding is also 
+ * capatilized
+ * 
+ * marks the function as a 
+ * constructor
+ */
+
+//comments
+
+let accountBalance = calculateBalance(account);
+// its a green hollow where a rivers sings
+accountBalance.adjust();
+// Madly catching white tatters in the grass
+let report = new Report();
+
+addToReport(accountBalance, report);
+//It's a little vally foaming like light in a glass
